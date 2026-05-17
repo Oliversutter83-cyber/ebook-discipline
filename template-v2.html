@@ -2183,12 +2183,72 @@ function setScore(btn, val) {
   document.getElementById('score-feedback').textContent = scoreMsgs[val];
 }
 
-// Filter buttons
+// Filter buttons — filtrage réel des lignes
 function filterBtns(el) {
-  el.closest('.filters-bar').querySelectorAll('.filter-btn')
-    .forEach(b => b.classList.remove('active'));
+  const bar = el.closest('.filters-bar');
+  bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
+
+  const label = el.textContent.trim().toLowerCase();
+  const page = el.closest('.page');
+  const rows = page.querySelectorAll('table.nt tbody tr');
+
+  const map = {
+    'tous': null,
+    'en cours': 'b-inprog',
+    'à faire': 'b-todo',
+    'accomplis': 'b-done',
+    'lu': 'b-done',
+    'en lecture': 'b-reading',
+    'à lire': 'b-toread'
+  };
+  const target = map[label];
+
+  rows.forEach(row => {
+    if (!target) {
+      row.style.display = '';
+      return;
+    }
+    const badge = row.querySelector('.badge');
+    row.style.display = (badge && badge.classList.contains(target)) ? '' : 'none';
+  });
+
+  // Update count
+  const countEl = page.querySelector('.table-count');
+  if (countEl) {
+    const visible = [...rows].filter(r => r.style.display !== 'none').length;
+    const total = rows.length;
+    countEl.textContent = visible === total
+      ? total + (page.id === 'page-objectifs' ? ' objectifs' : ' livres')
+      : visible + ' / ' + total + ' affiché' + (visible > 1 ? 's' : '');
+  }
 }
+
+// Recherche en direct
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.table-search input').forEach(input => {
+    input.addEventListener('input', function() {
+      const q = this.value.toLowerCase().trim();
+      const page = this.closest('.page');
+      const rows = page.querySelectorAll('table.nt tbody tr');
+
+      rows.forEach(row => {
+        if (row.style.display === 'none' && q === '') return;
+        const text = row.textContent.toLowerCase();
+        row.style.display = (!q || text.includes(q)) ? '' : 'none';
+      });
+
+      const countEl = page.querySelector('.table-count');
+      if (countEl) {
+        const visible = [...rows].filter(r => r.style.display !== 'none').length;
+        const total = rows.length;
+        countEl.textContent = visible === total
+          ? total + (page.id === 'page-objectifs' ? ' objectifs' : ' livres')
+          : visible + ' / ' + total + ' affiché' + (visible > 1 ? 's' : '');
+      }
+    });
+  });
+});
 
 // Add rows
 function addObjRow() {
