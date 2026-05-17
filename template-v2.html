@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Système de l'Homme Inarrêtable — Édition Élite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #080808;
+  --bg2:       #0e0e0e;
+  --bg3:       #131313;
+  --bg4:       #181818;
+  --bg5:       #1e1e1e;
+  --gold:      #C9A84C;
+  --gold2:     #E8CB7A;
+  --gold3:     #F5DFA0;
+  --gold-dim:  #7A6330;
+  --gold-bg:   rgba(201,168,76,0.06);
+  --gold-bg2:  rgba(201,168,76,0.12);
+  --gold-line: rgba(201,168,76,0.2);
+  --gold-line2:rgba(201,168,76,0.4);
+  --text:      #DDD5C4;
+  --text2:     #A89F8C;
+  --text3:     #6A6358;
+  --white:     #F0EAE0;
+  --green:     #4E9B6A;
+  --green-bg:  rgba(78,155,106,0.12);
+  --blue:      #5B8ED4;
+  --blue-bg:   rgba(91,142,212,0.12);
+  --orange:    #D4844A;
+  --orange-bg: rgba(212,132,74,0.12);
+  --sidebar-w: 280px;
+  --radius:    2px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* GRAIN */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  pointer-events:none; z-index:9999;
+  opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:3px; height:3px; }
+::-webkit-scrollbar-track { background:var(--bg2); }
+::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+.sidebar {
+  position:fixed; top:0; left:0;
+  width:var(--sidebar-w); height:100vh;
+  background:var(--bg2);
+  border-right:1px solid var(--gold-line);
+  display:flex; flex-direction:column;
+  z-index:500;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Top brand */
+.sb-brand {
+  padding:28px 24px 24px;
+  border-bottom:1px solid var(--gold-line);
+  position:relative;
+}
+.sb-brand-mark {
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:14px;
+}
+.sb-monogram {
+  width:40px; height:40px;
+  border:1px solid var(--gold-line2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px; color:var(--gold);
+  background:var(--gold-bg);
+  flex-shrink:0;
+}
+.sb-brand-name {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:13px; letter-spacing:3px;
+  color:var(--white); line-height:1.25;
+}
+.sb-brand-sub {
+  font-size:9px; letter-spacing:2px;
+  color:var(--text3); text-transform:uppercase;
+}
+.sb-edition {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px;
+  background:var(--gold-bg2);
+  border:1px solid var(--gold-line2);
+  font-size:9px; letter-spacing:2px;
+  color:var(--gold); text-transform:uppercase;
+}
+.sb-edition-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--gold);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* Nav sections */
+.sb-nav { flex:1; overflow-y:auto; padding:20px 0; }
+
+.sb-section-label {
+  padding:0 20px 8px;
+  font-size:9px; letter-spacing:3px;
+  color:var(--text3); text-transform:uppercase;
+}
+
+.sb-item {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 20px;
+  cursor:pointer;
+  border-left:2px solid transparent;
+  transition:all .18s ease;
+  position:relative;
+}
+.sb-item:hover { background:var(--gold-bg); border-left-color:rgba(201,168,76,.4); }
+.sb-item:hover .sb-item-label { color:var(--text); }
+.sb-item.active { background:var(--gold-bg); border-left-color:var(--gold); }
+.sb-item.active .sb-item-label { color:var(--gold); }
+.sb-item.active .sb-item-emoji { opacity:1; }
+
+.sb-item-icon {
+  width:28px; height:28px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+  opacity:.7;
+  transition:opacity .18s;
+}
+.sb-item:hover .sb-item-icon,
+.sb-item.active .sb-item-icon { opacity:1; }
+
+.sb-item-label {
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px; font-weight:500;
+  color:var(--text2); letter-spacing:.3px;
+  transition:color .18s;
+}
+.sb-item-badge {
+  margin-left:auto;
+  padding:2px 7px;
+  font-size:9px; color:var(--gold);
+  background:var(--gold-bg2);
+  border:1px solid var(--gold-line);
+  letter-spacing:1px;
+}
+
+/* Sidebar footer */
+.sb-footer {
+  padding:20px 24px;
+  border-top:1px solid var(--gold-line);
+}
+.sb-footer-quote {
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px; font-style:italic;
+  color:var(--text3); line-height:1.6;
+  border-left:2px solid var(--gold-dim);
+  padding-left:12px;
+}
+.sb-footer-author {
+  font-size:9px; letter-spacing:2px;
+  color:var(--gold-dim); margin-top:6px;
+  text-transform:uppercase;
+}
+
+/* Separator */
+.sb-sep {
+  height:1px; background:var(--gold-line);
+  margin:8px 20px;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════ */
+.main { margin-left:var(--sidebar-w); min-height:100vh; }
+
+.page { display:none; animation:pageIn .35s cubic-bezier(.4,0,.2,1); }
+.page.active { display:block; }
+@keyframes pageIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════════ */
+.page-header {
+  position:relative;
+  padding:0;
+  border-bottom:1px solid var(--gold-line);
+  overflow:hidden;
+}
+
+.ph-cover {
+  height:220px;
+  position:relative;
+  display:flex; flex-direction:column;
+  justify-content:flex-end;
+  padding:0 60px 32px;
+  background: linear-gradient(135deg, #0a0805 0%, #120e06 40%, #0e0b05 70%, #080808 100%);
+}
+
+/* Decorative large letter */
+.ph-bg-letter {
+  position:absolute; right:40px; top:-20px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:240px; line-height:1;
+  color:var(--gold); opacity:.035;
+  letter-spacing:-10px; pointer-events:none;
+  user-select:none;
+}
+
+/* Gold light beam */
+.ph-beam {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  background:radial-gradient(ellipse at 20% 50%, rgba(201,168,76,.07) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+.ph-overline {
+  display:flex; align-items:center; gap:10px;
+  font-size:9px; letter-spacing:4px;
+  color:var(--gold-dim); text-transform:uppercase;
+  margin-bottom:12px;
+}
+.ph-overline-bar {
+  width:24px; height:1px;
+  background:var(--gold-dim);
+}
+
+.ph-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:54px; letter-spacing:4px;
+  color:var(--white); line-height:.95;
+  text-shadow:0 2px 40px rgba(201,168,76,.1);
+}
+.ph-title span { color:var(--gold); }
+
+.ph-desc {
+  margin-top:10px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px; font-style:italic;
+  color:var(--text2); letter-spacing:1px;
+}
+
+/* Bottom gold line on header */
+.ph-cover::after {
+  content:'';
+  position:absolute; bottom:0; left:0;
+  height:1px; width:55%;
+  background:linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* Page body */
+.page-body { padding:48px 60px; }
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY & HELPERS
+═══════════════════════════════════════════ */
+.section-intro {
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px; color:var(--text2);
+  font-style:italic; line-height:1.8;
+  margin-bottom:36px;
+  padding:20px 24px;
+  background:var(--bg3);
+  border-left:3px solid var(--gold-line2);
+  position:relative;
+}
+
+.eyebrow {
+  font-size:9px; letter-spacing:4px;
+  color:var(--gold-dim); text-transform:uppercase;
+  margin-bottom:8px;
+  display:flex; align-items:center; gap:10px;
+}
+.eyebrow::after { content:''; flex:1; height:1px; background:var(--gold-line); }
+
+.block-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px; letter-spacing:3px;
+  color:var(--gold); margin-bottom:20px;
+}
+
+.gold-divider {
+  display:flex; align-items:center; gap:16px;
+  margin:40px 0;
+}
+.gold-divider-line {
+  flex:1; height:1px;
+  background:linear-gradient(90deg, var(--gold-line), transparent);
+}
+.gold-divider-diamond {
+  width:6px; height:6px;
+  background:var(--gold-dim);
+  transform:rotate(45deg);
+  flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════════
+   KPI / STAT CARDS
+═══════════════════════════════════════════ */
+.kpi-row {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:40px;
+}
+.kpi-card {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  padding:24px 22px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .2s, box-shadow .2s;
+}
+.kpi-card:hover {
+  border-color:var(--gold-line2);
+  box-shadow:0 4px 24px rgba(201,168,76,.06);
+}
+.kpi-card::before {
+  content:'';
+  position:absolute; top:0; left:0;
+  width:100%; height:2px;
+  background:linear-gradient(90deg, var(--gold), transparent);
+  opacity:0; transition:opacity .2s;
+}
+.kpi-card:hover::before { opacity:1; }
+
+.kpi-icon { font-size:20px; margin-bottom:12px; opacity:.8; }
+.kpi-value {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:34px; color:var(--gold);
+  letter-spacing:2px; line-height:1;
+  margin-bottom:4px;
+}
+.kpi-label {
+  font-size:10px; letter-spacing:2px;
+  color:var(--text3); text-transform:uppercase;
+}
+.kpi-trend {
+  position:absolute; top:20px; right:18px;
+  font-size:11px; color:var(--green);
+  display:flex; align-items:center; gap:3px;
+}
+
+/* ═══════════════════════════════════════════
+   TABLES
+═══════════════════════════════════════════ */
+.table-wrap {
+  border:1px solid var(--gold-line);
+  overflow:hidden; margin-bottom:24px;
+}
+
+.table-header-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px;
+  background:var(--bg3);
+  border-bottom:1px solid var(--gold-line);
+}
+.table-title-text {
+  font-size:10px; letter-spacing:3px;
+  color:var(--text3); text-transform:uppercase;
+  display:flex; align-items:center; gap:8px;
+}
+.table-title-text::before {
+  content:''; width:12px; height:1px;
+  background:var(--gold);
+}
+.table-count {
+  font-size:10px; color:var(--text3);
+  padding:2px 8px; border:1px solid var(--gold-line);
+  font-family:'Bebas Neue',sans-serif; letter-spacing:1px;
+}
+
+table.nt {
+  width:100%; border-collapse:collapse;
+}
+table.nt th {
+  background:var(--bg4);
+  color:var(--text3);
+  font-size:9px; letter-spacing:2px;
+  text-transform:uppercase;
+  padding:11px 18px;
+  text-align:left;
+  border-bottom:1px solid var(--gold-line);
+  border-right:1px solid rgba(201,168,76,.07);
+  white-space:nowrap;
+  font-family:'Inter',sans-serif;
+  font-weight:500;
+}
+table.nt td {
+  padding:13px 18px;
+  border-bottom:1px solid rgba(201,168,76,.06);
+  border-right:1px solid rgba(201,168,76,.04);
+  color:var(--text);
+  vertical-align:middle;
+  transition:background .12s;
+}
+table.nt tr:last-child td { border-bottom:none; }
+table.nt tr:hover td { background:rgba(201,168,76,.025); }
+table.nt td strong { color:var(--white); font-weight:500; }
+
+/* Badges */
+.badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 10px;
+  font-size:10px; letter-spacing:.5px;
+  font-family:'Inter',sans-serif; font-weight:500;
+  border-radius:var(--radius);
+}
+.badge-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+
+.b-todo    { background:rgba(100,100,100,.1); color:#777; border:1px solid rgba(100,100,100,.2); }
+.b-todo    .badge-dot { background:#666; }
+.b-inprog  { background:var(--gold-bg2); color:var(--gold); border:1px solid var(--gold-line2); }
+.b-inprog  .badge-dot { background:var(--gold); }
+.b-done    { background:var(--green-bg); color:var(--green); border:1px solid rgba(78,155,106,.3); }
+.b-done    .badge-dot { background:var(--green); }
+.b-reading { background:var(--blue-bg); color:var(--blue); border:1px solid rgba(91,142,212,.25); }
+.b-reading .badge-dot { background:var(--blue); }
+.b-toread  { background:var(--orange-bg); color:var(--orange); border:1px solid rgba(212,132,74,.25); }
+.b-toread  .badge-dot { background:var(--orange); }
+
+/* Progress */
+.prog-wrap { display:flex; align-items:center; gap:10px; }
+.prog-bar {
+  flex:1; height:3px;
+  background:var(--bg5); border-radius:2px;
+  overflow:hidden; min-width:70px;
+}
+.prog-fill {
+  height:100%;
+  background:linear-gradient(90deg, var(--gold-dim), var(--gold));
+  border-radius:2px;
+  transition:width .6s cubic-bezier(.4,0,.2,1);
+}
+.prog-pct {
+  font-size:11px; color:var(--gold);
+  min-width:30px; text-align:right;
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:1px;
+}
+
+/* Checkbox */
+.cb {
+  width:18px; height:18px;
+  border:1px solid var(--gold-line);
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all .15s; flex-shrink:0;
+  background:transparent;
+}
+.cb:hover { border-color:var(--gold); background:var(--gold-bg); }
+.cb.on { background:var(--gold); border-color:var(--gold); }
+.cb.on::after { content:'✓'; font-size:10px; color:var(--bg); font-weight:700; }
+.cb-cell { text-align:center; }
+
+/* Stars */
+.stars { display:inline-flex; gap:2px; }
+.star { font-size:11px; }
+.star.on  { color:var(--gold); }
+.star.off { color:var(--bg5); }
+
+/* Score chip */
+.score-chip {
+  display:inline-flex;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:14px; letter-spacing:1px;
+  color:var(--gold); padding:2px 8px;
+  border:1px solid var(--gold-line);
+  background:var(--gold-bg);
+}
+
+/* Add row btn */
+.add-row {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 18px;
+  border:1px dashed var(--gold-line);
+  background:transparent; color:var(--text3);
+  font-family:'Inter',sans-serif; font-size:11px;
+  letter-spacing:1px; cursor:pointer;
+  transition:all .18s; margin-top:12px;
+}
+.add-row:hover { border-color:var(--gold-line2); color:var(--gold); background:var(--gold-bg); }
+.add-row-icon { font-size:14px; }
+
+/* ═══════════════════════════════════════════
+   HOME / DASHBOARD
+═══════════════════════════════════════════ */
+.home-cover {
+  min-height:100vh;
+  display:flex; flex-direction:column;
+}
+
+.hero {
+  height:480px;
+  position:relative;
+  background:linear-gradient(150deg, #080604 0%, #120e06 35%, #1a1408 60%, #0c0a05 80%, #080808 100%);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+/* Animated gold lines */
+.hero-lines {
+  position:absolute; inset:0;
+  pointer-events:none;
+}
+.hero-line {
+  position:absolute;
+  background:linear-gradient(90deg, transparent, rgba(201,168,76,.06), transparent);
+  height:1px; width:100%;
+}
+.hero-line:nth-child(1) { top:20%; animation:scanline 8s ease-in-out infinite; }
+.hero-line:nth-child(2) { top:50%; animation:scanline 8s ease-in-out 2s infinite; opacity:.5; }
+.hero-line:nth-child(3) { top:80%; animation:scanline 8s ease-in-out 4s infinite; opacity:.3; }
+@keyframes scanline {
+  0%,100% { transform:translateX(-100%); }
+  50%      { transform:translateX(100%); }
+}
+
+/* Radial glow */
+.hero-glow {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:600px; height:400px;
+  background:radial-gradient(ellipse, rgba(201,168,76,.08) 0%, transparent 65%);
+  pointer-events:none;
+}
+
+/* Big conic rays */
+.hero-rays {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:900px; height:900px;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg, rgba(201,168,76,.025) 4deg, transparent 8deg,
+    rgba(201,168,76,.015) 12deg, transparent 16deg,
+    rgba(201,168,76,.025) 20deg, transparent 24deg
+  );
+  animation:spin 60s linear infinite;
+  pointer-events:none;
+}
+@keyframes spin { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+/* Corner ornaments */
+.ornament {
+  position:absolute;
+  width:70px; height:70px;
+  z-index:3; pointer-events:none;
+}
+.orn-tl { top:24px; left:24px; border-top:1px solid var(--gold); border-left:1px solid var(--gold); }
+.orn-tr { top:24px; right:24px; border-top:1px solid var(--gold); border-right:1px solid var(--gold); }
+.orn-bl { bottom:24px; left:24px; border-bottom:1px solid var(--gold); border-left:1px solid var(--gold); }
+.orn-br { bottom:24px; right:24px; border-bottom:1px solid var(--gold); border-right:1px solid var(--gold); }
+
+/* Inner corner dots */
+.orn-tl::after,.orn-tr::after,.orn-bl::after,.orn-br::after {
+  content:''; position:absolute;
+  width:4px; height:4px;
+  background:var(--gold); border-radius:50%;
+}
+.orn-tl::after { top:-2px; left:-2px; }
+.orn-tr::after { top:-2px; right:-2px; }
+.orn-bl::after { bottom:-2px; left:-2px; }
+.orn-br::after { bottom:-2px; right:-2px; }
+
+.hero-content {
+  position:relative; z-index:5;
+  text-align:center; padding:0 60px;
+}
+
+.hero-overline {
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  font-size:10px; letter-spacing:6px;
+  color:var(--gold); text-transform:uppercase;
+  margin-bottom:28px; opacity:.8;
+}
+.hero-overline-bar {
+  width:40px; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold));
+}
+.hero-overline-bar.r {
+  background:linear-gradient(90deg, var(--gold), transparent);
+}
+
+.hero-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(60px,8vw,100px);
+  color:var(--white); line-height:.87;
+  letter-spacing:6px;
+  text-shadow:0 0 80px rgba(201,168,76,.15);
+}
+.hero-title .g { color:var(--gold); }
+.hero-title .dim { color:var(--text2); font-size:.85em; }
+
+.hero-divider {
+  width:120px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:28px auto;
+}
+
+.hero-sub {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px; font-style:italic;
+  color:var(--text2); letter-spacing:2px;
+}
+
+/* Welcome section */
+.home-body { padding:56px 60px; }
+
+.home-message {
+  display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  margin-bottom:48px;
+}
+
+.message-main {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  border-left:3px solid var(--gold);
+  padding:40px;
+  position:relative; overflow:hidden;
+}
+.message-main::before {
+  content:'"';
+  position:absolute; top:-10px; left:28px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:100px; color:var(--gold);
+  opacity:.08; line-height:1;
+}
+.message-main h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px; letter-spacing:3px;
+  color:var(--gold); margin-bottom:18px;
+}
+.message-main p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px; line-height:1.9;
+  color:var(--text); font-weight:300;
+}
+.message-main p strong { color:var(--gold2); font-weight:600; }
+.message-main p em { color:var(--text2); font-style:italic; }
+
+.message-stats {
+  display:flex; flex-direction:column; gap:16px;
+}
+.stat-box {
+  flex:1;
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  padding:22px 24px;
+  display:flex; flex-direction:column;
+  justify-content:space-between;
+  position:relative; overflow:hidden;
+  transition:border-color .2s;
+}
+.stat-box:hover { border-color:var(--gold-line2); }
+.stat-box::after {
+  content:'';
+  position:absolute; top:0; right:0;
+  width:60px; height:60px;
+  background:radial-gradient(circle at top right, var(--gold-bg), transparent);
+}
+.stat-box-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:42px; color:var(--gold);
+  letter-spacing:2px; line-height:1;
+}
+.stat-box-label {
+  font-size:10px; letter-spacing:2px;
+  color:var(--text3); text-transform:uppercase;
+  margin-top:4px;
+}
+.stat-box-sub {
+  font-size:11px; color:var(--text2);
+  margin-top:8px; font-style:italic;
+  font-family:'Cormorant Garamond',serif;
+}
+
+/* Nav modules */
+.modules-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:13px; letter-spacing:5px;
+  color:var(--text3); text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:14px;
+}
+.modules-title::after { content:''; flex:1; height:1px; background:var(--gold-line); }
+
+.modules-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.module-card {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  padding:26px 24px;
+  cursor:pointer;
+  position:relative; overflow:hidden;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+}
+.module-card:hover {
+  border-color:var(--gold-line2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(201,168,76,.07);
+}
+.module-card::before {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, var(--gold-bg), transparent 60%);
+  opacity:0; transition:opacity .2s;
+}
+.module-card:hover::before { opacity:1; }
+.module-card::after {
+  content:'';
+  position:absolute; bottom:0; left:0;
+  height:1px; width:0;
+  background:var(--gold);
+  transition:width .3s ease;
+}
+.module-card:hover::after { width:100%; }
+
+.mc-emoji { font-size:26px; margin-bottom:14px; display:block; }
+.mc-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:10px; letter-spacing:3px;
+  color:var(--gold-dim); margin-bottom:6px;
+  position:relative; z-index:1;
+}
+.mc-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:15px; letter-spacing:2px;
+  color:var(--gold); margin-bottom:8px;
+  position:relative; z-index:1;
+}
+.mc-desc {
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px; color:var(--text2);
+  line-height:1.6; font-style:italic;
+  position:relative; z-index:1;
+}
+.mc-arrow {
+  position:absolute; bottom:20px; right:20px;
+  color:var(--gold-dim); font-size:14px;
+  transition:all .2s; opacity:0;
+}
+.module-card:hover .mc-arrow { opacity:1; transform:translateX(3px); }
+
+/* ═══════════════════════════════════════════
+   OBJECTIFS PAGE
+═══════════════════════════════════════════ */
+
+/* Filters bar */
+.filters-bar {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+.filter-btn {
+  padding:6px 14px;
+  border:1px solid var(--gold-line);
+  background:transparent; color:var(--text3);
+  font-size:10px; letter-spacing:1.5px;
+  text-transform:uppercase; cursor:pointer;
+  transition:all .15s;
+  font-family:'Inter',sans-serif;
+}
+.filter-btn:hover, .filter-btn.active {
+  background:var(--gold-bg2);
+  border-color:var(--gold-line2);
+  color:var(--gold);
+}
+.filters-spacer { flex:1; }
+.table-search {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 14px;
+  border:1px solid var(--gold-line);
+  background:var(--bg3);
+}
+.table-search input {
+  background:none; border:none; outline:none;
+  color:var(--text); font-size:11px;
+  font-family:'Inter',sans-serif;
+  width:160px;
+}
+.table-search input::placeholder { color:var(--text3); }
+.table-search-icon { color:var(--text3); font-size:11px; }
+
+/* ═══════════════════════════════════════════
+   PLANNER
+═══════════════════════════════════════════ */
+.week-meta {
+  display:flex; align-items:center; gap:20px;
+  margin-bottom:24px;
+}
+.week-label {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:11px; letter-spacing:4px;
+  color:var(--gold); text-transform:uppercase;
+}
+.week-nav { display:flex; gap:8px; }
+.week-nav-btn {
+  width:30px; height:30px;
+  border:1px solid var(--gold-line);
+  background:transparent; color:var(--text3);
+  cursor:pointer; display:flex;
+  align-items:center; justify-content:center;
+  transition:all .15s; font-size:12px;
+}
+.week-nav-btn:hover { background:var(--gold-bg); border-color:var(--gold-line2); color:var(--gold); }
+
+.week-grid {
+  display:grid; grid-template-columns:repeat(7,1fr); gap:10px;
+}
+.day-col {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  transition:border-color .2s;
+  display:flex; flex-direction:column;
+}
+.day-col:hover { border-color:var(--gold-line2); }
+.day-col.today { border-color:var(--gold); }
+.day-col.today .day-head { background:var(--gold-bg2); }
+
+.day-head {
+  padding:10px 12px;
+  background:var(--bg4);
+  border-bottom:1px solid var(--gold-line);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.day-name {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:12px; letter-spacing:2px; color:var(--gold);
+}
+.day-date {
+  font-size:10px; color:var(--text3);
+  font-family:'Inter',sans-serif;
+}
+
+.day-body { padding:12px; flex:1; }
+
+.day-section { margin-bottom:12px; }
+.day-section-label {
+  font-size:8px; letter-spacing:2.5px;
+  color:var(--text3); text-transform:uppercase;
+  margin-bottom:5px;
+}
+.day-task-input {
+  background:transparent; border:none; outline:none;
+  color:var(--text); font-size:11px;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic; line-height:1.5;
+  width:100%; resize:none;
+  font-size:12px;
+}
+.day-task-input::placeholder { color:var(--text3); }
+
+.day-energy {
+  margin-top:10px; padding-top:10px;
+  border-top:1px solid var(--gold-line);
+}
+.energy-label {
+  font-size:8px; letter-spacing:2px;
+  color:var(--text3); text-transform:uppercase;
+  margin-bottom:6px;
+}
+.energy-dots { display:flex; gap:4px; }
+.edot {
+  width:8px; height:8px; border-radius:50%;
+  border:1px solid var(--gold-line);
+  cursor:pointer; transition:all .15s;
+}
+.edot.on { background:var(--gold); border-color:var(--gold); }
+.edot:hover { border-color:var(--gold); }
+
+/* ═══════════════════════════════════════════
+   JOURNAL
+═══════════════════════════════════════════ */
+.journal-header {
+  display:flex; align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:36px; gap:20px;
+  flex-wrap:wrap;
+}
+.journal-date-block { flex:1; }
+.journal-date-day {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px; color:var(--gold);
+  letter-spacing:4px; line-height:1;
+}
+.journal-date-full {
+  font-size:11px; letter-spacing:3px;
+  color:var(--text3); text-transform:uppercase;
+  margin-top:4px;
+}
+.journal-streak {
+  display:flex; flex-direction:column;
+  align-items:flex-end;
+}
+.journal-streak-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:60px; color:var(--gold);
+  letter-spacing:2px; line-height:1;
+}
+.journal-streak-label {
+  font-size:9px; letter-spacing:3px;
+  color:var(--text3); text-transform:uppercase;
+}
+
+.j-block { margin-bottom:28px; }
+.j-label {
+  display:flex; align-items:center; gap:12px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:12px; letter-spacing:3px;
+  color:var(--gold); margin-bottom:12px;
+}
+.j-label-num {
+  width:22px; height:22px;
+  border:1px solid var(--gold-line2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; flex-shrink:0;
+}
+.j-label::after { content:''; flex:1; height:1px; background:var(--gold-line); }
+
+.j-textarea {
+  width:100%; background:var(--bg3);
+  border:1px solid var(--gold-line);
+  color:var(--text);
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px; line-height:1.9;
+  padding:20px 24px; resize:vertical;
+  min-height:100px; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.j-textarea:focus {
+  border-color:var(--gold-line2);
+  box-shadow:0 0 0 4px rgba(201,168,76,.04);
+}
+.j-textarea::placeholder {
+  color:var(--text3); font-style:italic;
+}
+
+.score-block { }
+.score-btns {
+  display:flex; gap:6px; flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.s-btn {
+  width:42px; height:42px;
+  border:1px solid var(--gold-line);
+  background:var(--bg3); color:var(--text3);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:16px; letter-spacing:1px;
+  cursor:pointer; display:flex;
+  align-items:center; justify-content:center;
+  transition:all .15s;
+}
+.s-btn:hover { background:var(--gold-bg); border-color:var(--gold-line2); color:var(--gold); }
+.s-btn.on { background:var(--gold); border-color:var(--gold); color:var(--bg); }
+.score-feedback {
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px; font-style:italic;
+  color:var(--text2); padding:12px 16px;
+  background:var(--bg3); border-left:2px solid var(--gold-line2);
+  min-height:42px;
+}
+
+/* ═══════════════════════════════════════════
+   VISION
+═══════════════════════════════════════════ */
+.vision-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  margin-bottom:40px;
+}
+.vision-card {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  padding:32px;
+  position:relative; overflow:hidden;
+  transition:border-color .2s;
+}
+.vision-card:hover { border-color:var(--gold-line2); }
+.vision-card::before {
+  content:'';
+  position:absolute; top:0; right:0;
+  width:100px; height:100px;
+  background:radial-gradient(circle at top right, var(--gold-bg), transparent 70%);
+}
+.vc-top {
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:20px;
+}
+.vc-emoji {
+  font-size:24px;
+  width:44px; height:44px;
+  background:var(--bg4);
+  border:1px solid var(--gold-line);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.vc-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:16px; letter-spacing:2.5px;
+  color:var(--gold);
+}
+.vc-sub {
+  font-size:10px; letter-spacing:1.5px;
+  color:var(--text3); text-transform:uppercase;
+  margin-top:2px;
+}
+.vc-textarea {
+  width:100%; background:transparent;
+  border:none; border-top:1px solid var(--gold-line);
+  color:var(--text);
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px; line-height:1.85;
+  padding:16px 0 0; resize:none;
+  outline:none; min-height:110px;
+}
+.vc-textarea::placeholder { color:var(--text3); font-style:italic; }
+
+/* Citations */
+.cit-row {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+  margin-bottom:16px;
+}
+.cit-card {
+  background:var(--bg3);
+  border:1px solid var(--gold-line);
+  border-left:3px solid var(--gold);
+  padding:22px 28px;
+  position:relative; overflow:hidden;
+  transition:border-color .2s;
+}
+.cit-card:hover { border-color:var(--gold-line2); }
+.cit-card::before {
+  content:'"';
+  position:absolute; top:-8px; right:16px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:80px; color:var(--gold);
+  opacity:.05; line-height:1;
+}
+.cit-text {
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px; font-style:italic;
+  color:var(--gold2); line-height:1.65;
+  font-weight:300; position:relative; z-index:1;
+}
+.cit-author {
+  margin-top:10px;
+  font-size:9px; letter-spacing:3px;
+  color:var(--gold-dim); text-transform:uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   WATERMARK
+═══════════════════════════════════════════ */
+.watermark {
+  position:fixed; bottom:20px; right:20px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px; color:var(--gold-dim);
+  letter-spacing:3px; opacity:.35;
+  z-index:200; font-style:italic;
+  pointer-events:none;
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════════ */
+.menu-btn {
+  display:none;
+  position:fixed; top:16px; left:16px;
+  z-index:600;
+  width:38px; height:38px;
+  background:var(--bg2);
+  border:1px solid var(--gold-line);
+  color:var(--gold);
+  align-items:center; justify-content:center;
+  cursor:pointer; font-size:16px;
+}
+.overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.75); z-index:490;
+}
+
+@media(max-width:1024px) {
+  .kpi-row { grid-template-columns:repeat(2,1fr); }
+  .modules-grid { grid-template-columns:1fr 1fr; }
+  .home-message { grid-template-columns:1fr; }
+  .vision-grid { grid-template-columns:1fr; }
+  .cit-row { grid-template-columns:1fr; }
+  .week-grid { grid-template-columns:repeat(4,1fr); }
+}
+
+@media(max-width:768px) {
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.open { transform:translateX(0); }
+  .overlay.open { display:block; }
+  .main { margin-left:0; }
+  .menu-btn { display:flex; }
+  .page-body, .home-body { padding:28px 20px; }
+  .ph-cover { padding:0 20px 24px; }
+  .hero-title { font-size:52px; }
+  .modules-grid { grid-template-columns:1fr; }
+  .kpi-row { grid-template-columns:1fr 1fr; }
+  .week-grid { grid-template-columns:1fr 1fr; }
+  .filters-bar { gap:6px; }
+}
+
+@media(max-width:480px) {
+  .hero-title { font-size:40px; }
+  .kpi-row { grid-template-columns:1fr; }
+  .week-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="watermark">@forger.ou.plier</div>
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- ═══════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-brand-mark">
+      <div class="sb-monogram">SI</div>
+      <div>
+        <div class="sb-brand-name">SYSTÈME<br>INARRÊTABLE</div>
+        <div class="sb-brand-sub">Édition Élite</div>
+      </div>
+    </div>
+    <div class="sb-edition">
+      <div class="sb-edition-dot"></div>
+      Version 2.0 Premium
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section-label">Navigation</div>
+
+    <div class="sb-item active" onclick="go('home')">
+      <div class="sb-item-icon">🏛️</div>
+      <div class="sb-item-label">Tableau de bord</div>
+    </div>
+
+    <div class="sb-sep"></div>
+    <div class="sb-section-label">Modules</div>
+
+    <div class="sb-item" onclick="go('objectifs')">
+      <div class="sb-item-icon">🎯</div>
+      <div class="sb-item-label">Objectifs 90 Jours</div>
+      <div class="sb-item-badge">4</div>
+    </div>
+    <div class="sb-item" onclick="go('habitudes')">
+      <div class="sb-item-icon">⚡</div>
+      <div class="sb-item-label">Tracker d'Habitudes</div>
+    </div>
+    <div class="sb-item" onclick="go('planner')">
+      <div class="sb-item-icon">📅</div>
+      <div class="sb-item-label">Planner Hebdomadaire</div>
+    </div>
+    <div class="sb-item" onclick="go('bibliotheque')">
+      <div class="sb-item-icon">📚</div>
+      <div class="sb-item-label">Bibliothèque</div>
+      <div class="sb-item-badge">6</div>
+    </div>
+
+    <div class="sb-sep"></div>
+    <div class="sb-section-label">Réflexion</div>
+
+    <div class="sb-item" onclick="go('journal')">
+      <div class="sb-item-icon">📓</div>
+      <div class="sb-item-label">Journal de Discipline</div>
+    </div>
+    <div class="sb-item" onclick="go('vision')">
+      <div class="sb-item-icon">🏆</div>
+      <div class="sb-item-label">Vision & Ambitions</div>
+    </div>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="sb-footer-quote">
+      "Supporte et abstiens-toi. C'est tout ce qu'il faut."
+    </div>
+    <div class="sb-footer-author">— Épictète</div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     MAIN
+═══════════════════════════════════════════ -->
+<main class="main">
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <div class="home-cover">
+
+    <div class="hero">
+      <div class="ornament orn-tl"></div>
+      <div class="ornament orn-tr"></div>
+      <div class="ornament orn-bl"></div>
+      <div class="ornament orn-br"></div>
+      <div class="hero-rays"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-lines">
+        <div class="hero-line"></div>
+        <div class="hero-line"></div>
+        <div class="hero-line"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-overline">
+          <div class="hero-overline-bar"></div>
+          Système de Performance · Édition Élite
+          <div class="hero-overline-bar r"></div>
+        </div>
+        <div class="hero-title">
+          LE SYSTÈME DE<br>L'HOMME <span class="g">INARRÊTABLE</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-sub">Arrête de survivre. Commence à construire.</div>
+      </div>
+    </div>
+
+    <div class="home-body">
+
+      <!-- KPI Row -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-icon">🎯</div>
+          <div class="kpi-value">90</div>
+          <div class="kpi-label">Jours de programme</div>
+          <div class="kpi-trend">↑ En cours</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">⚡</div>
+          <div class="kpi-value">5</div>
+          <div class="kpi-label">Habitudes actives</div>
+          <div class="kpi-trend">↑ +2 ce mois</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">📚</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Livres lus</div>
+          <div class="kpi-trend">↑ Ce trimestre</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🏆</div>
+          <div class="kpi-value">7.2</div>
+          <div class="kpi-label">Score discipline moy.</div>
+          <div class="kpi-trend">↑ +0.8</div>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="home-message">
+        <div class="message-main">
+          <h2>Ce n'est pas un carnet. C'est une arme.</h2>
+          <p>
+            La plupart des hommes savent ce qu'ils devraient faire.<br>
+            Ils ne le font pas. Pas par manque d'information —<br>
+            <strong>par manque de système.</strong><br><br>
+            Ce template est ce système. Il ne te motive pas.
+            Il <strong>t'oblige à te regarder en face</strong> chaque jour,
+            à mesurer l'écart entre qui tu es et qui tu veux devenir,
+            et à décider — concrètement — ce que tu vas faire pour le combler.<br><br>
+            <em>Ouvre chaque module. Remplis-le honnêtement. Reviens sans faillir.</em><br>
+            Dans 90 jours, tu ne te reconnaîtras plus.
+          </p>
+        </div>
+        <div class="message-stats">
+          <div class="stat-box">
+            <div>
+              <div class="stat-box-num">45%</div>
+              <div class="stat-box-label">Progression objectif principal</div>
+            </div>
+            <div class="stat-box-sub">10 000€ / mois · Échéance : 14 août</div>
+          </div>
+          <div class="stat-box">
+            <div>
+              <div class="stat-box-num">27</div>
+              <div class="stat-box-label">Jours streak habitudes</div>
+            </div>
+            <div class="stat-box-sub">Douche froide — série parfaite</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modules -->
+      <div class="modules-title">Accès rapide aux modules</div>
+      <div class="modules-grid">
+        <div class="module-card" onclick="go('objectifs')">
+          <span class="mc-emoji">🎯</span>
+          <div class="mc-num">Module 01</div>
+          <div class="mc-title">Objectifs 90 Jours</div>
+          <div class="mc-desc">Un objectif sans deadline est un rêve. Donne-leur une date. Traque-les sans pitié.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+        <div class="module-card" onclick="go('habitudes')">
+          <span class="mc-emoji">⚡</span>
+          <div class="mc-num">Module 02</div>
+          <div class="mc-title">Tracker d'Habitudes</div>
+          <div class="mc-desc">Tu n'es pas ce que tu dis que tu es. Tu es ce que tu fais chaque jour, sans exception.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+        <div class="module-card" onclick="go('planner')">
+          <span class="mc-emoji">📅</span>
+          <div class="mc-num">Module 03</div>
+          <div class="mc-title">Planner Hebdomadaire</div>
+          <div class="mc-desc">Celui qui ne planifie pas sa semaine la subit. Décide le dimanche. Exécute du lundi au vendredi.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+        <div class="module-card" onclick="go('bibliotheque')">
+          <span class="mc-emoji">📚</span>
+          <div class="mc-num">Module 04</div>
+          <div class="mc-title">Bibliothèque</div>
+          <div class="mc-desc">30 minutes par jour. 12 livres par an. Dans 5 ans, tu penses différemment de 98% des gens.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+        <div class="module-card" onclick="go('journal')">
+          <span class="mc-emoji">📓</span>
+          <div class="mc-num">Module 05</div>
+          <div class="mc-title">Journal de Discipline</div>
+          <div class="mc-desc">5 minutes par soir. Pas de thérapie — un bilan brutal. Ce qui s'est passé. Ce que tu corriges. Point.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+        <div class="module-card" onclick="go('vision')">
+          <span class="mc-emoji">🏆</span>
+          <div class="mc-num">Module 06</div>
+          <div class="mc-title">Vision & Ambitions</div>
+          <div class="mc-desc">Sans cap précis, tu dérives. Écris qui tu veux être. Relis-le chaque semaine. Ajuste ta trajectoire.</div>
+          <div class="mc-arrow">→</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ OBJECTIFS ══ -->
+<div class="page" id="page-objectifs">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">90J</div>
+      <div class="ph-overline">
+        <div class="ph-overline-bar"></div>
+        Module 01
+      </div>
+      <div class="ph-title">🎯 Objectifs <span>90 Jours</span></div>
+      <div class="ph-desc">Un objectif vague produit un résultat vague. Sois précis. Sois implacable.</div>
+    </div>
+  </div>
+  <div class="page-body">
+
+    <p class="section-intro">
+      Un trimestre. Douze semaines. Quatre-vingt-dix jours.<br>
+      C'est suffisant pour changer de niveau de revenus, de corps, de mentalité — si tu travailles sur <em>une seule</em> chose à la fois avec une intensité totale.<br>
+      Définis des objectifs mesurables. Donne-leur une date ferme. Regarde ta progression chaque semaine. Ajuste. Recommence.
+    </p>
+
+    <div class="filters-bar">
+      <button class="filter-btn active" onclick="filterBtns(this)">Tous</button>
+      <button class="filter-btn" onclick="filterBtns(this)">En cours</button>
+      <button class="filter-btn" onclick="filterBtns(this)">À faire</button>
+      <button class="filter-btn" onclick="filterBtns(this)">Accomplis</button>
+      <div class="filters-spacer"></div>
+      <div class="table-search">
+        <span class="table-search-icon">⌕</span>
+        <input type="text" placeholder="Filtrer les objectifs...">
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header-bar">
+        <div class="table-title-text">Objectifs du trimestre</div>
+        <div class="table-count">4 objectifs</div>
+      </div>
+      <table class="nt" id="t-obj">
+        <thead>
+          <tr>
+            <th style="width:30%">Objectif</th>
+            <th style="width:13%">Deadline</th>
+            <th style="width:12%">Statut</th>
+            <th style="width:20%">Progression</th>
+            <th style="width:8%">Priorité</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Atteindre 10 000€ de CA mensuel</strong></td>
+            <td>14 Août 2026</td>
+            <td><span class="badge b-inprog"><span class="badge-dot"></span>En cours</span></td>
+            <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:45%"></div></div><span class="prog-pct">45%</span></div></td>
+            <td><span class="badge b-inprog">Haute</span></td>
+            <td style="color:var(--text2);font-style:italic;font-size:12px">Actuellement à 4 500€/mois</td>
+          </tr>
+          <tr>
+            <td><strong>Perdre 8 kg — 12% masse graisseuse</strong></td>
+            <td>30 Juil. 2026</td>
+            <td><span class="badge b-inprog"><span class="badge-dot"></span>En cours</span></td>
+            <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:62%"></div></div><span class="prog-pct">62%</span></div></td>
+            <td><span class="badge b-inprog">Haute</span></td>
+            <td style="color:var(--text2);font-style:italic;font-size:12px">-5 kg accomplis, 3 restants</td>
+          </tr>
+          <tr>
+            <td><strong>Lire 9 livres ce trimestre</strong></td>
+            <td>17 Août 2026</td>
+            <td><span class="badge b-todo"><span class="badge-dot"></span>À faire</span></td>
+            <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:22%"></div></div><span class="prog-pct">22%</span></div></td>
+            <td><span class="badge b-todo">Moyenne</span></td>
+            <td style="color:var(--text2);font-style:italic;font-size:12px">2 livres lus — 7 restants</td>
+          </tr>
+          <tr>
+            <td><strong>Lancer mon premier produit digital</strong></td>
+            <td>1er Juil. 2026</td>
+            <td><span class="badge b-done"><span class="badge-dot"></span>Accompli</span></td>
+            <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div><span class="prog-pct">100%</span></div></td>
+            <td><span class="badge b-done">Critique</span></td>
+            <td style="color:var(--green);font-style:italic;font-size:12px">✓ 37 ventes · 1 850€ générés</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addObjRow()"><span class="add-row-icon">+</span> Ajouter un objectif</button>
+  </div>
+</div>
+
+<!-- ══ HABITUDES ══ -->
+<div class="page" id="page-habitudes">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">H</div>
+      <div class="ph-overline"><div class="ph-overline-bar"></div>Module 02</div>
+      <div class="ph-title">⚡ Tracker <span>d'Habitudes</span></div>
+      <div class="ph-desc">La motivation passe. Les habitudes, elles, restent. Construis les bonnes.</div>
+    </div>
+  </div>
+  <div class="page-body">
+    <p class="section-intro">
+      Tes habitudes sont le reflet de tes valeurs réelles — pas celles que tu affiches, celles que tu vis.<br>
+      Une case cochée, c'est un vote pour la personne que tu veux devenir. Une case vide, c'est un vote pour la personne que tu fuis.<br>
+      Après 66 jours de répétition, l'habitude devient automatique. Tiens jusqu'à ce que tu n'aies plus à te battre.
+    </p>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+      <div class="eyebrow" style="margin:0;flex:1;min-width:200px">Semaine du 12 au 18 Mai 2026</div>
+      <div style="display:flex;gap:8px;">
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--text3)"><span style="width:10px;height:10px;background:var(--gold);display:inline-block;"></span>Accompli</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--text3)"><span style="width:10px;height:10px;border:1px solid var(--gold-line);display:inline-block;"></span>Non fait</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header-bar">
+        <div class="table-title-text">Habitudes de la semaine</div>
+        <div class="table-count" id="hab-score-total">Score semaine : 27/35</div>
+      </div>
+      <table class="nt">
+        <thead>
+          <tr>
+            <th style="width:26%">Habitude</th>
+            <th style="width:11%">Fréquence</th>
+            <th style="text-align:center">LUN</th>
+            <th style="text-align:center">MAR</th>
+            <th style="text-align:center">MER</th>
+            <th style="text-align:center">JEU</th>
+            <th style="text-align:center">VEN</th>
+            <th style="text-align:center">SAM</th>
+            <th style="text-align:center">DIM</th>
+            <th style="text-align:center;width:7%">Score</th>
+          </tr>
+        </thead>
+        <tbody id="hab-body">
+          <tr>
+            <td><strong>💪 Sport / Entraînement</strong></td>
+            <td><span class="badge b-inprog">6x / sem.</span></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td style="text-align:center"><span class="score-chip">5/7</span></td>
+          </tr>
+          <tr>
+            <td><strong>📖 Lecture 30 min minimum</strong></td>
+            <td><span class="badge b-inprog">Quotidien</span></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td style="text-align:center"><span class="score-chip">5/7</span></td>
+          </tr>
+          <tr>
+            <td><strong>🧘 Méditation 10 min</strong></td>
+            <td><span class="badge b-inprog">Quotidien</span></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td style="text-align:center"><span class="score-chip">5/7</span></td>
+          </tr>
+          <tr>
+            <td><strong>🚿 Douche froide</strong></td>
+            <td><span class="badge b-inprog">Quotidien</span></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td style="text-align:center"><span class="score-chip" style="color:var(--green);border-color:rgba(78,155,106,.4);background:var(--green-bg)">7/7</span></td>
+          </tr>
+          <tr>
+            <td><strong>📵 No Phone le matin (1h)</strong></td>
+            <td><span class="badge b-inprog">Quotidien</span></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>
+            <td class="cb-cell"><div class="cb on" onclick="tick(this)"></div></td>
+            <td style="text-align:center"><span class="score-chip">5/7</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addHabRow()"><span class="add-row-icon">+</span> Ajouter une habitude</button>
+  </div>
+</div>
+
+<!-- ══ PLANNER ══ -->
+<div class="page" id="page-planner">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">W</div>
+      <div class="ph-overline"><div class="ph-overline-bar"></div>Module 03</div>
+      <div class="ph-title">📅 Planner <span>Hebdomadaire</span></div>
+      <div class="ph-desc">Ceux qui subissent leur semaine n'ont pas de planner. Ceux qui la dominent, si.</div>
+    </div>
+  </div>
+  <div class="page-body">
+    <p class="section-intro">
+      Règle simple : une seule tâche prioritaire par jour. Celle qui déplace réellement les lignes. Pas deux — une.<br>
+      Le reste du planning se greffe autour. Si tu accomplis ta tâche prioritaire chaque jour de la semaine, la semaine est gagnée.<br>
+      <em>Planifie le dimanche soir. Exécute sans te poser de questions.</em>
+    </p>
+
+    <div class="week-meta">
+      <div class="week-label">Semaine 20 — 12 au 18 Mai 2026</div>
+      <div class="week-nav">
+        <button class="week-nav-btn">←</button>
+        <button class="week-nav-btn">→</button>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <!-- LUNDI -->
+      <div class="day-col today">
+        <div class="day-head">
+          <div class="day-name">LUN</div>
+          <div class="day-date">12/05</div>
+        </div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3" placeholder="Tâche principale...">Finaliser la page de vente du produit digital</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" placeholder="Tâches secondaires..." style="color:var(--text2);font-size:11px">— Cardio 45min
+— Répondre emails
+— Lecture 30min</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MARDI -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">MAR</div><div class="day-date">13/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Musculation — Pousser les charges</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Contenu RS (3 posts)
+— Appel mentor
+— Révision objectifs</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MERCREDI -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">MER</div><div class="day-date">14/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Créer 5 pièces de contenu vidéo</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Comptabilité mensuelle
+— Stretching + mobilité
+— Écriture journal</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- JEUDI -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">JEU</div><div class="day-date">15/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Prospection — 10 DM qualifiés envoyés</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Cours en ligne (2h)
+— HIIT 30min
+— Appels de vente</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- VENDREDI -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">VEN</div><div class="day-date">16/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Bilan semaine + Plan S+1</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Formation business 1h
+— Musculation full body
+— Temps libre stratégique</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SAMEDI -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">SAM</div><div class="day-date">17/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Entraînement intensif + Récupération active</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Lecture approfondie
+— Réseautage / Sorties
+— Meal prep</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- DIMANCHE -->
+      <div class="day-col">
+        <div class="day-head"><div class="day-name">DIM</div><div class="day-date">18/05</div></div>
+        <div class="day-body">
+          <div class="day-section">
+            <div class="day-section-label">Priorité #1</div>
+            <textarea class="day-task-input" rows="3">Planification semaine S+1 — Vision & Stratégie</textarea>
+          </div>
+          <div class="day-section">
+            <div class="day-section-label">Secondaires</div>
+            <textarea class="day-task-input" rows="4" style="color:var(--text2);font-size:11px">— Repos actif (marche)
+— Méditation longue 20min
+— Rechargement mental</textarea>
+          </div>
+          <div class="day-energy">
+            <div class="energy-label">Niveau d'énergie</div>
+            <div class="energy-dots">
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot on" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+              <div class="edot" onclick="togE(this)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BIBLIOTHÈQUE ══ -->
+<div class="page" id="page-bibliotheque">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">LIB</div>
+      <div class="ph-overline"><div class="ph-overline-bar"></div>Module 04</div>
+      <div class="ph-title">📚 <span>Bibliothèque</span> de Lecture</div>
+      <div class="ph-desc">Chaque livre est une conversation avec quelqu'un qui a réfléchi plus longtemps que toi à ce sujet.</div>
+    </div>
+  </div>
+  <div class="page-body">
+    <p class="section-intro">
+      Lire sans retenir ne sert à rien. C'est du divertissement intellectuel, pas de la formation.<br>
+      Pour chaque livre : une seule leçon clé — concrète, applicable cette semaine. Pas la plus belle citation. La plus utile pour toi maintenant.<br>
+      <em>C'est la différence entre accumuler des connaissances et accumuler des capacités.</em>
+    </p>
+
+    <div class="filters-bar">
+      <button class="filter-btn active" onclick="filterBtns(this)">Tous</button>
+      <button class="filter-btn" onclick="filterBtns(this)">Lu</button>
+      <button class="filter-btn" onclick="filterBtns(this)">En lecture</button>
+      <button class="filter-btn" onclick="filterBtns(this)">À lire</button>
+      <div class="filters-spacer"></div>
+      <div class="table-search">
+        <span class="table-search-icon">⌕</span>
+        <input type="text" placeholder="Rechercher un livre...">
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header-bar">
+        <div class="table-title-text">Bibliothèque personnelle</div>
+        <div class="table-count">6 livres</div>
+      </div>
+      <table class="nt" id="t-books">
+        <thead>
+          <tr>
+            <th style="width:22%">Titre</th>
+            <th style="width:14%">Auteur</th>
+            <th style="width:11%">Catégorie</th>
+            <th style="width:11%">Statut</th>
+            <th style="width:12%">Note /10</th>
+            <th>Leçon clé à retenir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Les 48 Lois du Pouvoir</strong></td>
+            <td>Robert Greene</td>
+            <td><span style="font-size:11px;color:var(--text2)">Stratégie</span></td>
+            <td><span class="badge b-done"><span class="badge-dot"></span>Lu ✓</span></td>
+            <td>
+              <div class="stars">
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star off">★</span>
+              </div>
+              <div style="font-size:10px;color:var(--gold);margin-top:3px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px">9.0 / 10</div>
+            </td>
+            <td style="font-style:italic;color:var(--text2);font-size:12px">Ne jamais écraser complètement un ennemi — toujours laisser une sortie honorable</td>
+          </tr>
+          <tr>
+            <td><strong>Can't Hurt Me</strong></td>
+            <td>David Goggins</td>
+            <td><span style="font-size:11px;color:var(--text2)">Mindset</span></td>
+            <td><span class="badge b-done"><span class="badge-dot"></span>Lu ✓</span></td>
+            <td>
+              <div class="stars">
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span>
+              </div>
+              <div style="font-size:10px;color:var(--gold);margin-top:3px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px">10 / 10</div>
+            </td>
+            <td style="font-style:italic;color:var(--text2);font-size:12px">La règle des 40% : quand l'esprit dit stop, le corps n'est qu'à 40% de ses capacités réelles</td>
+          </tr>
+          <tr>
+            <td><strong>Atomic Habits</strong></td>
+            <td>James Clear</td>
+            <td><span style="font-size:11px;color:var(--text2)">Habitudes</span></td>
+            <td><span class="badge b-done"><span class="badge-dot"></span>Lu ✓</span></td>
+            <td>
+              <div class="stars">
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star off">★</span>
+              </div>
+              <div style="font-size:10px;color:var(--gold);margin-top:3px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px">9.0 / 10</div>
+            </td>
+            <td style="font-style:italic;color:var(--text2);font-size:12px">Tu ne t'élèves pas au niveau de tes objectifs, tu tombes au niveau de tes systèmes</td>
+          </tr>
+          <tr>
+            <td><strong>Think and Grow Rich</strong></td>
+            <td>Napoleon Hill</td>
+            <td><span style="font-size:11px;color:var(--text2)">Business</span></td>
+            <td><span class="badge b-reading"><span class="badge-dot"></span>En lecture</span></td>
+            <td>
+              <div class="stars">
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span><span class="star on">★</span>
+                <span class="star on">★</span><span class="star on">★</span>
+                <span class="star off">★</span><span class="star off">★</span>
+              </div>
+              <div style="font-size:10px;color:var(--gold);margin-top:3px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px">8.0 / 10</div>
+            </td>
+            <td style="font-style:italic;color:var(--text2);font-size:12px">Le désir ardent est le point de départ de toute accumulation de richesse</td>
+          </tr>
+          <tr>
+            <td><strong>Way of the Superior Man</strong></td>
+            <td>David Deida</td>
+            <td><span style="font-size:11px;color:var(--text2)">Masculinité</span></td>
+            <td><span class="badge b-toread"><span class="badge-dot"></span>À lire</span></td>
+            <td style="color:var(--text3)">—</td>
+            <td style="color:var(--text3);font-style:italic;font-size:12px">—</td>
+          </tr>
+          <tr>
+            <td><strong>The Obstacle Is the Way</strong></td>
+            <td>Ryan Holiday</td>
+            <td><span style="font-size:11px;color:var(--text2)">Stoïcisme</span></td>
+            <td><span class="badge b-toread"><span class="badge-dot"></span>À lire</span></td>
+            <td style="color:var(--text3)">—</td>
+            <td style="color:var(--text3);font-style:italic;font-size:12px">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addBookRow()"><span class="add-row-icon">+</span> Ajouter un livre</button>
+  </div>
+</div>
+
+<!-- ══ JOURNAL ══ -->
+<div class="page" id="page-journal">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">J</div>
+      <div class="ph-overline"><div class="ph-overline-bar"></div>Module 05</div>
+      <div class="ph-title">📓 Journal de <span>Discipline</span></div>
+      <div class="ph-desc">5 minutes par soir. Le seul moment de la journée où tu ne peux pas te mentir.</div>
+    </div>
+  </div>
+  <div class="page-body">
+
+    <div class="journal-header">
+      <div class="journal-date-block">
+        <div class="journal-date-day" id="jday">DIMANCHE</div>
+        <div class="journal-date-full" id="jdate">17 MAI 2026</div>
+      </div>
+      <div class="journal-streak">
+        <div class="journal-streak-num">27</div>
+        <div class="journal-streak-label">Jours de streak</div>
+      </div>
+    </div>
+
+    <div class="gold-divider">
+      <div class="gold-divider-line"></div>
+      <div class="gold-divider-diamond"></div>
+      <div class="gold-divider-line" style="background:linear-gradient(90deg,transparent,var(--gold-line))"></div>
+    </div>
+
+    <div class="j-block">
+      <div class="j-label">
+        <div class="j-label-num">01</div>
+        Mes victoires du jour
+      </div>
+      <textarea class="j-textarea" placeholder="Qu'est-ce que j'ai produit aujourd'hui ? Pas ce que j'ai essayé — ce que j'ai terminé.&#10;&#10;Liste chaque action concrète, chaque habitude tenue, chaque effort réel. Même les petites victoires comptent. Elles construisent l'élan."></textarea>
+    </div>
+
+    <div class="j-block">
+      <div class="j-label">
+        <div class="j-label-num">02</div>
+        Ce que j'aurais dû faire autrement
+      </div>
+      <textarea class="j-textarea" placeholder="Pas pour te punir. Pour apprendre et corriger.&#10;&#10;Où as-tu perdu du temps ? Quelle décision était en dessous de tes standards ? Quel moment t'a fait capituler devant la version confortable de toi-même ?&#10;Sois précis — les vagues regrets ne servent à rien."></textarea>
+    </div>
+
+    <div class="j-block">
+      <div class="j-label">
+        <div class="j-label-num">03</div>
+        Mon engagement pour demain
+      </div>
+      <textarea class="j-textarea" placeholder="Une seule chose. Pas une liste. Un engagement ferme, formulé à l'avance, que tu ne négocieras pas demain matin.&#10;&#10;Ex : « Demain je me lève à 5h30 et je travaille 2h sans interruption avant d'ouvrir mon téléphone. »"></textarea>
+    </div>
+
+    <div class="j-block">
+      <div class="j-label">
+        <div class="j-label-num">04</div>
+        Mon niveau de discipline aujourd'hui
+      </div>
+      <div class="score-btns" id="score-btns">
+        <button class="s-btn" onclick="setScore(this,1)">1</button>
+        <button class="s-btn" onclick="setScore(this,2)">2</button>
+        <button class="s-btn" onclick="setScore(this,3)">3</button>
+        <button class="s-btn" onclick="setScore(this,4)">4</button>
+        <button class="s-btn" onclick="setScore(this,5)">5</button>
+        <button class="s-btn" onclick="setScore(this,6)">6</button>
+        <button class="s-btn on" onclick="setScore(this,7)">7</button>
+        <button class="s-btn" onclick="setScore(this,8)">8</button>
+        <button class="s-btn" onclick="setScore(this,9)">9</button>
+        <button class="s-btn" onclick="setScore(this,10)">10</button>
+      </div>
+      <div class="score-feedback" id="score-feedback">
+        7/10 — Tu fais bien. Mais tu peux faire mieux. Un vrai 10 n'accepte pas de 7.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ VISION ══ -->
+<div class="page" id="page-vision">
+  <div class="page-header">
+    <div class="ph-cover">
+      <div class="ph-beam"></div>
+      <div class="ph-bg-letter">V</div>
+      <div class="ph-overline"><div class="ph-overline-bar"></div>Module 06</div>
+      <div class="ph-title">🏆 Vision <span>&amp; Ambitions</span></div>
+      <div class="ph-desc">Ce que tu écris ici, tu le relis chaque semaine. C'est ton cap. Ne le laisse pas vague.</div>
+    </div>
+  </div>
+  <div class="page-body">
+    <p class="section-intro">
+      La plupart des gens ont des envies vagues. Les hommes qui réussissent ont une vision précise.<br>
+      Écris ce que tu veux devenir avec suffisamment de détails pour que tu puisses le voir, le ressentir, et savoir exactement si tu t'en rapproches ou tu t'en éloignes.<br>
+      <em>Relis cette page chaque dimanche. Si tu n'es pas un peu gêné par l'ambition de ce que tu as écrit, ce n'est pas assez grand.</em>
+    </p>
+
+    <div class="vision-grid">
+      <div class="vision-card">
+        <div class="vc-top">
+          <div class="vc-emoji">🔭</div>
+          <div>
+            <div class="vc-title">Ma Vision Dans 1 An</div>
+            <div class="vc-sub">Projection · Futur proche</div>
+          </div>
+        </div>
+        <textarea class="vc-textarea" placeholder="Dans 1 an, je suis...&#10;Ma journée type ressemble à...&#10;Mon environnement est...&#10;Je ressens...">Dans 1 an, je génère 15 000€ par mois avec mon business en ligne. Je vis dans un appartement que je choisis, pas que je subis. Je m'entraîne 5 matins par semaine et mon corps reflète ce niveau d'exigence. Je suis entouré de gens qui construisent — pas de gens qui commentent ce que les autres construisent.</textarea>
+      </div>
+      <div class="vision-card">
+        <div class="vc-top">
+          <div class="vc-emoji">💰</div>
+          <div>
+            <div class="vc-title">Mes Objectifs Financiers</div>
+            <div class="vc-sub">Richesse · Liberté · Empire</div>
+          </div>
+        </div>
+        <textarea class="vc-textarea" placeholder="Revenu mensuel cible...&#10;Patrimoine dans 3 ans...&#10;Investissements...&#10;Liberté financière définie comme...">Revenu mensuel net : 15 000€ d'ici décembre 2026.
+Patrimoine investi à 3 ans : 150 000€ minimum.
+Cash-flow passif : 2 000€/mois — revenus qui arrivent sans que je travaille.
+
+Ma définition de la liberté financière : ne jamais vérifier mon solde avant de prendre une décision. Jamais.</textarea>
+      </div>
+      <div class="vision-card">
+        <div class="vc-top">
+          <div class="vc-emoji">⚔️</div>
+          <div>
+            <div class="vc-title">L'Homme Que Je Construis</div>
+            <div class="vc-sub">Caractère · Valeurs · Identité</div>
+          </div>
+        </div>
+        <textarea class="vc-textarea" placeholder="Mes valeurs fondamentales...&#10;Mon caractère...&#10;Ce que les autres ressentent avec moi...">Je construis un homme qui fait ce qu'il dit, dit ce qu'il pense, et pense à long terme.
+
+Pas besoin d'en parler. Les résultats parlent. La posture parle. Le silence parle.
+
+Un homme dont la présence dans une pièce change l'énergie — pas parce qu'il l'impose, mais parce qu'il l'incarne.</textarea>
+      </div>
+      <div class="vision-card">
+        <div class="vc-top">
+          <div class="vc-emoji">🌍</div>
+          <div>
+            <div class="vc-title">Mon Impact & Héritage</div>
+            <div class="vc-sub">Mission · Mouvement · Legs</div>
+          </div>
+        </div>
+        <textarea class="vc-textarea" placeholder="Ce que je veux laisser...&#10;Comment je veux être connu...&#10;Les personnes que j'aide...">Aider 10 000 hommes à choisir la discipline plutôt que la dérive. À se lever tôt, à travailler dur, à tenir leurs engagements.
+
+Pas pour un like. Pour un résultat concret dans leur vie.
+
+@forger.ou.plier — tu forges ou tu plies. Il n'y a pas d'entre-deux.</textarea>
+      </div>
+    </div>
+
+    <div class="gold-divider">
+      <div class="gold-divider-line"></div>
+      <div class="gold-divider-diamond"></div>
+      <div class="gold-divider-line" style="background:linear-gradient(90deg,transparent,var(--gold-line))"></div>
+    </div>
+
+    <div class="eyebrow">Citations qui forgent le caractère</div>
+
+    <div class="cit-row">
+      <div class="cit-card">
+        <div class="cit-text">"Celui qui n'a pas de discipline n'a pas de liberté."</div>
+        <div class="cit-author">— Jocko Willink</div>
+      </div>
+      <div class="cit-card">
+        <div class="cit-text">"Le succès n'est pas final, l'échec n'est pas fatal : c'est le courage de continuer qui compte."</div>
+        <div class="cit-author">— Winston Churchill</div>
+      </div>
+    </div>
+    <div class="cit-row">
+      <div class="cit-card">
+        <div class="cit-text">"Tu ne te lèves pas pour battre la concurrence. Tu te lèves pour battre la version d'hier."</div>
+        <div class="cit-author">— David Goggins</div>
+      </div>
+      <div class="cit-card">
+        <div class="cit-text">"Un homme qui n'est pas maître de lui-même ne peut pas être maître d'autre chose."</div>
+        <div class="cit-author">— Marcus Aurelius</div>
+      </div>
+    </div>
+    <div class="cit-row">
+      <div class="cit-card">
+        <div class="cit-text">"Nous souffrons plus en imagination qu'en réalité."</div>
+        <div class="cit-author">— Sénèque</div>
+      </div>
+      <div class="cit-card">
+        <div class="cit-text">"L'homme qui déplace une montagne commence par déplacer de petites pierres."</div>
+        <div class="cit-author">— Confucius</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+const pages = ['home','objectifs','habitudes','planner','bibliotheque','journal','vision'];
+
+function go(id) {
+  pages.forEach(p => {
+    document.getElementById('page-'+p).classList.remove('active');
+  });
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(el => {
+    if (el.getAttribute('onclick') === `go('${id}')`) el.classList.add('active');
+  });
+  closeMenu();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// Checkboxes
+function tick(el) {
+  el.classList.toggle('on');
+  const row = el.closest('tr');
+  if (row) updateRowScore(row);
+}
+function updateRowScore(row) {
+  const boxes = row.querySelectorAll('.cb');
+  const sc = row.querySelector('td:last-child .score-chip');
+  if (!sc) return;
+  const done = [...boxes].filter(b => b.classList.contains('on')).length;
+  const total = boxes.length;
+  sc.textContent = done+'/'+total;
+  if (done === total) {
+    sc.style.color = 'var(--green)';
+    sc.style.borderColor = 'rgba(78,155,106,.4)';
+    sc.style.background = 'var(--green-bg)';
+  } else {
+    sc.style.color = 'var(--gold)';
+    sc.style.borderColor = 'var(--gold-line)';
+    sc.style.background = 'var(--gold-bg)';
+  }
+}
+
+// Energy dots
+function togE(el) {
+  const dots = [...el.parentNode.children];
+  const i = dots.indexOf(el);
+  dots.forEach((d,j) => j <= i ? d.classList.add('on') : d.classList.remove('on'));
+}
+
+// Score journal
+const scoreMsgs = {
+  1:'1/10 — Journée désastreuse. Analyse sans complaisance. Ne recommence pas.',
+  2:'2/10 — Tu as existé. Pas vécu. Demain tu te relèves — sans exception.',
+  3:'3/10 — En dessous de tes capacités réelles. Pourquoi tu t\'es laissé faire ?',
+  4:'4/10 — À mi-chemin, à mi-homme. Ce n\'est pas suffisant.',
+  5:'5/10 — Médiocrité confortable. Le confort est le pire ennemi.',
+  6:'6/10 — Correct. Mais correct ne construit pas un empire.',
+  7:'7/10 — Tu fais bien. Mais tu peux faire mieux. Un vrai 10 n\'accepte pas de 7.',
+  8:'8/10 — Solide. Tu es dans la bonne direction. Continue sans relâche.',
+  9:'9/10 — Quasi parfait. Quelle est la 10% manquante ? Trouve-la demain.',
+  10:'10/10 — Journée parfaite. Archive ce sentiment précis. Reproduis-le chaque jour.'
+};
+function setScore(btn, val) {
+  document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('score-feedback').textContent = scoreMsgs[val];
+}
+
+// Filter buttons — filtrage réel des lignes
+function filterBtns(el) {
+  const bar = el.closest('.filters-bar');
+  bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+
+  const label = el.textContent.trim().toLowerCase();
+  const page = el.closest('.page');
+  const rows = page.querySelectorAll('table.nt tbody tr');
+
+  const map = {
+    'tous': null,
+    'en cours': 'b-inprog',
+    'à faire': 'b-todo',
+    'accomplis': 'b-done',
+    'lu': 'b-done',
+    'en lecture': 'b-reading',
+    'à lire': 'b-toread'
+  };
+  const target = map[label];
+
+  rows.forEach(row => {
+    if (!target) {
+      row.style.display = '';
+      return;
+    }
+    const badge = row.querySelector('.badge');
+    row.style.display = (badge && badge.classList.contains(target)) ? '' : 'none';
+  });
+
+  // Update count
+  const countEl = page.querySelector('.table-count');
+  if (countEl) {
+    const visible = [...rows].filter(r => r.style.display !== 'none').length;
+    const total = rows.length;
+    countEl.textContent = visible === total
+      ? total + (page.id === 'page-objectifs' ? ' objectifs' : ' livres')
+      : visible + ' / ' + total + ' affiché' + (visible > 1 ? 's' : '');
+  }
+}
+
+// Recherche en direct
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.table-search input').forEach(input => {
+    input.addEventListener('input', function() {
+      const q = this.value.toLowerCase().trim();
+      const page = this.closest('.page');
+      const rows = page.querySelectorAll('table.nt tbody tr');
+
+      rows.forEach(row => {
+        if (row.style.display === 'none' && q === '') return;
+        const text = row.textContent.toLowerCase();
+        row.style.display = (!q || text.includes(q)) ? '' : 'none';
+      });
+
+      const countEl = page.querySelector('.table-count');
+      if (countEl) {
+        const visible = [...rows].filter(r => r.style.display !== 'none').length;
+        const total = rows.length;
+        countEl.textContent = visible === total
+          ? total + (page.id === 'page-objectifs' ? ' objectifs' : ' livres')
+          : visible + ' / ' + total + ' affiché' + (visible > 1 ? 's' : '');
+      }
+    });
+  });
+});
+
+// Add rows
+function addObjRow() {
+  const tb = document.querySelector('#t-obj tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text3);font-style:italic">Nouvel objectif...</td>
+    <td contenteditable="true" style="outline:none;color:var(--text3)">—</td>
+    <td><span class="badge b-todo"><span class="badge-dot"></span>À faire</span></td>
+    <td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div><span class="prog-pct">0%</span></div></td>
+    <td><span class="badge b-todo">Basse</span></td>
+    <td contenteditable="true" style="outline:none;color:var(--text3);font-style:italic">Notes...</td>`;
+  tb.appendChild(tr);
+  tr.querySelector('[contenteditable]').focus();
+}
+function addHabRow() {
+  const tb = document.getElementById('hab-body');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text3);font-style:italic">Nouvelle habitude...</td>
+    <td><span class="badge b-inprog">Quotidien</span></td>
+    ${Array(7).fill('<td class="cb-cell"><div class="cb" onclick="tick(this)"></div></td>').join('')}
+    <td style="text-align:center"><span class="score-chip">0/7</span></td>`;
+  tb.appendChild(tr);
+  tr.querySelector('[contenteditable]').focus();
+}
+function addBookRow() {
+  const tb = document.querySelector('#t-books tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text3);font-style:italic">Titre du livre...</td>
+    <td contenteditable="true" style="outline:none;color:var(--text3)">Auteur</td>
+    <td contenteditable="true" style="outline:none;color:var(--text3)">Catégorie</td>
+    <td><span class="badge b-toread"><span class="badge-dot"></span>À lire</span></td>
+    <td style="color:var(--text3)">—</td>
+    <td contenteditable="true" style="outline:none;color:var(--text3);font-style:italic">Leçon clé...</td>`;
+  tb.appendChild(tr);
+  tr.querySelector('[contenteditable]').focus();
+}
+
+// Date
+(function(){
+  const DAYS=['DIMANCHE','LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI'];
+  const MONTHS=['JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
+  const n=new Date();
+  const jd=document.getElementById('jday');
+  const jdt=document.getElementById('jdate');
+  if(jd) jd.textContent=DAYS[n.getDay()];
+  if(jdt) jdt.textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();
+})();
+</script>
+</body>
+</html>

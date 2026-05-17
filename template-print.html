@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Système de l'Homme Inarrêtable — Version Imprimable</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --black2: #111111;
+    --black3: #161616;
+    --black4: #1C1C1C;
+    --gold: #C9A84C;
+    --gold-light: #E2C47A;
+    --gold-dim: #8C7235;
+    --gold-border: rgba(201,168,76,0.3);
+    --gold-glow: rgba(201,168,76,0.08);
+    --text: #E8E0D0;
+    --text-dim: #9A9080;
+    --white: #F5F0E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ========================
+     PAGE BREAKS
+  ======================== */
+  .print-page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    position: relative;
+    background: var(--black);
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .print-page:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* ========================
+     GRAIN OVERLAY
+  ======================== */
+  .print-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ========================
+     CORNER ORNAMENTS
+  ======================== */
+  .corners::after,
+  .corners::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 10;
+  }
+  .corner-tl { position: absolute; top: 14px; left: 14px; width: 50px; height: 50px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.6; z-index: 10; }
+  .corner-tr { position: absolute; top: 14px; right: 14px; width: 50px; height: 50px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); opacity: 0.6; z-index: 10; }
+  .corner-bl { position: absolute; bottom: 14px; left: 14px; width: 50px; height: 50px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); opacity: 0.6; z-index: 10; }
+  .corner-br { position: absolute; bottom: 14px; right: 14px; width: 50px; height: 50px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); opacity: 0.6; z-index: 10; }
+
+  /* ========================
+     WATERMARK
+  ======================== */
+  .watermark {
+    position: absolute;
+    bottom: 20px;
+    right: 70px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    opacity: 0.35;
+    font-style: italic;
+    z-index: 20;
+  }
+
+  /* ========================
+     PAGE 1 — COVER
+  ======================== */
+  .cover-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 297mm;
+    background: linear-gradient(160deg, #0A0A0A 0%, #141005 35%, #1a1408 60%, #0A0A0A 100%);
+    text-align: center;
+    padding: 60px 50px;
+    position: relative;
+  }
+
+  .cover-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg, rgba(201,168,76,0.03) 5deg, transparent 10deg,
+      rgba(201,168,76,0.03) 15deg, transparent 20deg,
+      rgba(201,168,76,0.03) 25deg, transparent 30deg
+    );
+    border-radius: 50%;
+  }
+
+  .cover-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+  }
+
+  .cover-inner { position: relative; z-index: 5; }
+
+  .cover-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0.8;
+  }
+
+  .cover-ornament-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+    margin: 0 12px;
+    vertical-align: middle;
+    opacity: 0.6;
+  }
+
+  .cover-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 82px;
+    color: var(--white);
+    line-height: 0.88;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 80px rgba(201,168,76,0.15);
+  }
+
+  .cover-title .gold { color: var(--gold); }
+
+  .cover-divider {
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 28px auto;
+  }
+
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    margin-bottom: 60px;
+  }
+
+  .cover-welcome {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--gold);
+    padding: 28px 36px;
+    max-width: 480px;
+    text-align: left;
+    position: relative;
+  }
+
+  .cover-welcome::before {
+    content: '"';
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+  }
+
+  .cover-welcome h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .cover-welcome p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .cover-welcome p strong { color: var(--gold); font-weight: 600; }
+
+  .cover-index {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 44px;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .index-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border: 1px solid rgba(201,168,76,0.15);
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .index-item .idx-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 2px;
+    min-width: 24px;
+  }
+
+  .index-item .idx-label { color: var(--text); }
+
+  /* ========================
+     SECTION PAGES
+  ======================== */
+  .section-page {
+    padding: 0;
+  }
+
+  .section-cover {
+    height: 100px;
+    background: linear-gradient(135deg, #0f0c05, #1a1408, #0A0A0A);
+    display: flex;
+    align-items: flex-end;
+    padding: 0 50px 22px;
+    border-bottom: 1px solid var(--gold-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .sec-bg-text {
+    position: absolute;
+    right: 30px;
+    top: -10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: var(--gold);
+    opacity: 0.04;
+    line-height: 1;
+    letter-spacing: -5px;
+  }
+
+  .section-cover h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 4px;
+    color: var(--white);
+    line-height: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-cover p {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-cover-content { position: relative; z-index: 2; }
+
+  .section-body {
+    padding: 28px 50px 40px;
+  }
+
+  .section-intro {
+    font-size: 14px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 24px;
+    line-height: 1.7;
+    border-left: 2px solid var(--gold-border);
+    padding-left: 16px;
+  }
+
+  /* ========================
+     TABLES
+  ======================== */
+  .notion-table-wrap {
+    overflow: hidden;
+    border: 1px solid var(--gold-border);
+    margin-bottom: 0;
+  }
+
+  .notion-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .notion-table th {
+    background: #1a1a1a;
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--gold-border);
+    border-right: 1px solid rgba(201,168,76,0.1);
+    white-space: nowrap;
+  }
+
+  .notion-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    border-right: 1px solid rgba(201,168,76,0.04);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .notion-table tr:last-child td { border-bottom: none; }
+
+  .notion-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .badge-todo { background: rgba(120,120,120,0.12); color: #888; border: 1px solid rgba(120,120,120,0.25); }
+  .badge-progress { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+  .badge-done { background: rgba(80,180,100,0.12); color: #5bb86a; border: 1px solid rgba(80,180,100,0.35); }
+  .badge-reading { background: rgba(120,150,210,0.12); color: #8aabdf; border: 1px solid rgba(120,150,210,0.25); }
+  .badge-lu { background: rgba(80,180,100,0.12); color: #5bb86a; border: 1px solid rgba(80,180,100,0.35); }
+  .badge-alire { background: rgba(180,120,60,0.12); color: #d4924a; border: 1px solid rgba(180,120,60,0.25); }
+
+  /* PROGRESS */
+  .progress-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-bar { flex: 1; height: 3px; background: #222; border-radius: 2px; min-width: 60px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); border-radius: 2px; }
+  .progress-pct { font-size: 11px; color: var(--gold); min-width: 28px; text-align: right; }
+
+  /* CHECKBOX (visual only for print) */
+  .check-visual {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--gold-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .check-visual.checked {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: bold;
+  }
+  .check-cell { text-align: center; }
+
+  .stars { color: var(--gold); font-size: 11px; letter-spacing: 0.5px; }
+
+  /* ========================
+     PLANNER
+  ======================== */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .day-card {
+    background: #141414;
+    border: 1px solid var(--gold-border);
+  }
+
+  .day-header {
+    background: #1a1a1a;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--gold-border);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .day-body { padding: 10px; }
+
+  .day-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .day-task {
+    font-size: 10px;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .energy-bar { display: flex; gap: 2px; margin-top: 6px; }
+  .energy-dot { width: 6px; height: 6px; border-radius: 50%; background: #222; border: 1px solid rgba(201,168,76,0.2); }
+  .energy-dot.active { background: var(--gold); border-color: var(--gold); }
+
+  /* ========================
+     JOURNAL
+  ======================== */
+  .journal-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-bottom: 22px;
+  }
+
+  .journal-prompt { margin-bottom: 22px; }
+
+  .prompt-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .prompt-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-border);
+  }
+
+  .write-zone {
+    width: 100%;
+    background: #131313;
+    border: 1px solid var(--gold-border);
+    border-left: 2px solid rgba(201,168,76,0.2);
+    padding: 14px 18px;
+    min-height: 70px;
+    position: relative;
+  }
+
+  .write-zone-hint {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.7;
+    opacity: 0.6;
+  }
+
+  .write-lines {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .write-line {
+    height: 1px;
+    background: rgba(201,168,76,0.07);
+    width: 100%;
+  }
+
+  .score-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .score-box {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* ========================
+     VISION
+  ======================== */
+  .vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .vision-block {
+    background: #131313;
+    border: 1px solid var(--gold-border);
+    padding: 22px;
+  }
+
+  .vision-emoji { font-size: 22px; margin-bottom: 10px; display: block; }
+
+  .vision-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gold-border);
+  }
+
+  .vision-text {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  .vision-write-lines { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+  .vision-write-line { height: 1px; background: rgba(201,168,76,0.06); }
+
+  /* CITATIONS */
+  .citations-section { margin-top: 24px; }
+
+  .cit-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .citation-block {
+    border-left: 3px solid var(--gold);
+    padding: 14px 22px;
+    margin-bottom: 12px;
+    background: #131313;
+  }
+
+  .citation-text {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .citation-author {
+    margin-top: 6px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* GOLD LINE */
+  .gold-line {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 18px 0;
+  }
+
+  /* ========================
+     PRINT RULES
+  ======================== */
+  @media print {
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    body {
+      background: #0A0A0A !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    .print-page {
+      width: 210mm;
+      min-height: 297mm;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .print-page:last-child {
+      page-break-after: avoid;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
+  /* SCREEN PREVIEW */
+  @media screen {
+    body {
+      background: #333;
+      padding: 20px;
+    }
+    .print-page {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+      margin-bottom: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1 : COVER ==================== -->
+<div class="print-page">
+  <div class="corner-tl"></div>
+  <div class="corner-tr"></div>
+  <div class="corner-bl"></div>
+  <div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="cover-page">
+    <div class="cover-rays"></div>
+    <div class="cover-glow"></div>
+
+    <div class="cover-inner">
+      <div class="cover-eyebrow">
+        <span class="cover-ornament-line"></span>
+        Système de Performance · Édition Premium
+        <span class="cover-ornament-line"></span>
+      </div>
+
+      <div class="cover-title">
+        LE SYSTÈME DE<br>L'HOMME <span class="gold">INARRÊTABLE</span>
+      </div>
+
+      <div class="cover-divider"></div>
+
+      <div class="cover-subtitle">Ton système pour dominer chaque jour</div>
+
+      <div class="cover-welcome">
+        <h3>Bienvenue, Soldat.</h3>
+        <p>
+          Ce système n'est pas fait pour les faibles.<br>
+          Il est conçu pour ceux qui ont décidé — une fois pour toutes —
+          de <strong>ne plus se mentir</strong>.<br><br>
+          <strong>Pas de motivation. Pas d'excuses. Juste du système.</strong>
+        </p>
+      </div>
+
+      <div class="cover-index">
+        <div class="index-item"><span class="idx-num">01</span><span class="idx-label">🎯 Objectifs 90 Jours</span></div>
+        <div class="index-item"><span class="idx-num">02</span><span class="idx-label">⚡ Tracker d'Habitudes</span></div>
+        <div class="index-item"><span class="idx-num">03</span><span class="idx-label">📅 Planner Hebdomadaire</span></div>
+        <div class="index-item"><span class="idx-num">04</span><span class="idx-label">📚 Bibliothèque de Lecture</span></div>
+        <div class="index-item"><span class="idx-num">05</span><span class="idx-label">📓 Journal de Discipline</span></div>
+        <div class="index-item"><span class="idx-num">06</span><span class="idx-label">🏆 Vision & Ambitions</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 2 : OBJECTIFS ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">90J</div>
+    <div class="section-cover-content">
+      <h1>🎯 Objectifs 90 Jours</h1>
+      <p>Ce qui se mesure, s'accomplit. Ce qui ne se mesure pas, disparaît.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <p class="section-intro">
+      90 jours suffisent pour transformer un domaine de ta vie. Pas en douceur — brutalement.
+      Choisis tes objectifs avec précision, définis une deadline réelle, et traque ta progression chaque semaine.
+    </p>
+
+    <div class="notion-table-wrap">
+      <table class="notion-table">
+        <thead>
+          <tr>
+            <th style="width:32%">🎯 Objectif</th>
+            <th style="width:14%">📆 Deadline</th>
+            <th style="width:12%">🔰 Statut</th>
+            <th style="width:18%">📊 Progression</th>
+            <th>📝 Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Atteindre 10 000€ de chiffre d'affaires mensuel</strong></td>
+            <td>14 Août 2026</td>
+            <td><span class="badge badge-progress">En cours</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div><span class="progress-pct">45%</span></div></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">Actuellement à 4 500€/mois</td>
+          </tr>
+          <tr>
+            <td><strong>Perdre 8 kg — atteindre 12% de masse graisseuse</strong></td>
+            <td>30 Juillet 2026</td>
+            <td><span class="badge badge-progress">En cours</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div><span class="progress-pct">60%</span></div></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">-5 kg accomplis, 3 restants</td>
+          </tr>
+          <tr>
+            <td><strong>Lire 9 livres de développement personnel</strong></td>
+            <td>17 Août 2026</td>
+            <td><span class="badge badge-todo">À faire</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:22%"></div></div><span class="progress-pct">22%</span></div></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">2 livres lus ce trimestre</td>
+          </tr>
+          <tr>
+            <td><strong>Lancer et vendre mon premier produit digital</strong></td>
+            <td>1er Juillet 2026</td>
+            <td><span class="badge badge-done">Accompli ✓</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div><span class="progress-pct">100%</span></div></td>
+            <td style="font-style:italic;color:#5bb86a;font-size:11px">37 ventes en 2 semaines</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim);font-style:italic">Nouvel objectif...</td>
+            <td style="color:var(--text-dim)">—</td>
+            <td><span class="badge badge-todo">À faire</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><span class="progress-pct">0%</span></div></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim);font-style:italic">Nouvel objectif...</td>
+            <td style="color:var(--text-dim)">—</td>
+            <td><span class="badge badge-todo">À faire</span></td>
+            <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><span class="progress-pct">0%</span></div></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 3 : HABITUDES ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">H</div>
+    <div class="section-cover-content">
+      <h1>⚡ Tracker d'Habitudes</h1>
+      <p>Les champions ne se motivent pas. Ils exécutent.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <p class="section-intro">
+      Chaque case cochée est une victoire contre la version faible de toi-même.
+      Coche. Sans exception. Sans négociation.
+    </p>
+
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold-dim);margin-bottom:12px;">
+      SEMAINE DU _________ AU _________
+    </div>
+
+    <div class="notion-table-wrap">
+      <table class="notion-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Habitude</th>
+            <th style="width:12%">Fréquence</th>
+            <th style="width:7%;text-align:center">LUN</th>
+            <th style="width:7%;text-align:center">MAR</th>
+            <th style="width:7%;text-align:center">MER</th>
+            <th style="width:7%;text-align:center">JEU</th>
+            <th style="width:7%;text-align:center">VEN</th>
+            <th style="width:7%;text-align:center">SAM</th>
+            <th style="width:7%;text-align:center">DIM</th>
+            <th style="text-align:center">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>💪 Sport / Entraînement</strong></td>
+            <td><span class="badge badge-progress">6x / sem.</span></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td style="text-align:center;color:var(--gold);font-weight:600">5/7</td>
+          </tr>
+          <tr>
+            <td><strong>📖 Lecture 30 min min.</strong></td>
+            <td><span class="badge badge-progress">Quotidien</span></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td style="text-align:center;color:var(--gold);font-weight:600">5/7</td>
+          </tr>
+          <tr>
+            <td><strong>🧘 Méditation 10 min</strong></td>
+            <td><span class="badge badge-progress">Quotidien</span></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td style="text-align:center;color:var(--gold);font-weight:600">5/7</td>
+          </tr>
+          <tr>
+            <td><strong>🚿 Douche froide</strong></td>
+            <td><span class="badge badge-progress">Quotidien</span></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td style="text-align:center;color:#5bb86a;font-weight:600">7/7</td>
+          </tr>
+          <tr>
+            <td><strong>📵 No Phone le matin (1h)</strong></td>
+            <td><span class="badge badge-progress">Quotidien</span></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual checked">✓</div></td>
+            <td style="text-align:center;color:var(--gold);font-weight:600">5/7</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim);font-style:italic">Nouvelle habitude...</td>
+            <td></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td class="check-cell"><div class="check-visual"></div></td>
+            <td style="text-align:center;color:var(--text-dim)">0/7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 4 : PLANNER ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">W</div>
+    <div class="section-cover-content">
+      <h1>📅 Planner Hebdomadaire</h1>
+      <p>Planifie ta semaine le dimanche. Une priorité par jour. Pas deux.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold-dim);margin-bottom:16px;">
+      SEMAINE ______ — DU _________________ AU _________________
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-header">LUNDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Finaliser la page de vente</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Cardio 45min<br>— Emails clients<br>— Lecture 30min</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot active"></div><div class="energy-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">MARDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Musculation — Pousser les charges</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Contenu RS (3 posts)<br>— Appel mentor<br>— Révision objectifs</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot active"></div><div class="energy-dot active"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">MERCREDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Créer 5 pièces de contenu vidéo</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Comptabilité<br>— Stretching<br>— Journal</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot"></div><div class="energy-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">JEUDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Prospection — 10 DM qualifiés</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Cours en ligne 2h<br>— HIIT<br>— Appels vente</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot active"></div><div class="energy-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">VENDREDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Bilan semaine + Plan S+1</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Formation 1h<br>— Full body<br>— Temps libre</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot active"></div><div class="energy-dot active"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">SAMEDI</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Entraînement intensif</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Lecture<br>— Réseautage<br>— Meal prep</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot active"></div><div class="energy-dot"></div><div class="energy-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">DIMANCHE</div>
+        <div class="day-body">
+          <div class="day-label">Priorité #1</div>
+          <div class="day-task">Planification semaine S+1</div>
+          <div class="day-label">Secondaires</div>
+          <div class="day-task" style="font-size:9px;color:var(--text-dim)">— Repos actif<br>— Méditation 20min<br>— Recharge</div>
+          <div class="day-label">Énergie</div>
+          <div class="energy-bar">
+            <div class="energy-dot active"></div><div class="energy-dot active"></div>
+            <div class="energy-dot"></div><div class="energy-dot"></div><div class="energy-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 5 : BIBLIOTHÈQUE ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">LIB</div>
+    <div class="section-cover-content">
+      <h1>📚 Bibliothèque de Lecture</h1>
+      <p>Un homme qui lit domine un homme qui ne lit pas. Toujours.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <p class="section-intro">
+      Lis avec intention. Note la leçon que tu vas appliquer immédiatement — pas celle qui t'a impressionné. Celle qui te transforme.
+    </p>
+
+    <div class="notion-table-wrap">
+      <table class="notion-table">
+        <thead>
+          <tr>
+            <th style="width:24%">📖 Titre</th>
+            <th style="width:16%">✍️ Auteur</th>
+            <th style="width:12%">🔰 Statut</th>
+            <th style="width:12%">⭐ Note</th>
+            <th>💡 Leçon Clé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Les 48 Lois du Pouvoir</strong></td>
+            <td>Robert Greene</td>
+            <td><span class="badge badge-lu">Lu ✓</span></td>
+            <td><span class="stars">★★★★★★★★★</span> <span style="color:var(--gold)">9/10</span></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">Ne jamais écraser complètement un ennemi — toujours laisser une sortie</td>
+          </tr>
+          <tr>
+            <td><strong>Can't Hurt Me</strong></td>
+            <td>David Goggins</td>
+            <td><span class="badge badge-lu">Lu ✓</span></td>
+            <td><span class="stars">★★★★★★★★★★</span> <span style="color:var(--gold)">10/10</span></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">La règle des 40% : quand l'esprit dit stop, le corps n'est qu'à 40% de ses capacités</td>
+          </tr>
+          <tr>
+            <td><strong>Atomic Habits</strong></td>
+            <td>James Clear</td>
+            <td><span class="badge badge-lu">Lu ✓</span></td>
+            <td><span class="stars">★★★★★★★★★</span> <span style="color:var(--gold)">9/10</span></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">Tu ne t'élèves pas au niveau de tes objectifs, tu tombes au niveau de tes systèmes</td>
+          </tr>
+          <tr>
+            <td><strong>Think and Grow Rich</strong></td>
+            <td>Napoleon Hill</td>
+            <td><span class="badge badge-reading">En lecture</span></td>
+            <td><span class="stars">★★★★★★★★</span> <span style="color:var(--gold)">8/10</span></td>
+            <td style="font-style:italic;color:var(--text-dim);font-size:11px">Le désir ardent est le point de départ de toute accumulation de richesse</td>
+          </tr>
+          <tr>
+            <td><strong>The Way of the Superior Man</strong></td>
+            <td>David Deida</td>
+            <td><span class="badge badge-alire">À lire</span></td>
+            <td style="color:var(--text-dim)">—</td>
+            <td style="color:var(--text-dim)">—</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim);font-style:italic">Titre du livre...</td>
+            <td style="color:var(--text-dim)">Auteur</td>
+            <td><span class="badge badge-alire">À lire</span></td>
+            <td style="color:var(--text-dim)">—</td>
+            <td style="color:var(--text-dim);font-style:italic">Leçon clé...</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim);font-style:italic">Titre du livre...</td>
+            <td style="color:var(--text-dim)">Auteur</td>
+            <td><span class="badge badge-alire">À lire</span></td>
+            <td style="color:var(--text-dim)">—</td>
+            <td style="color:var(--text-dim);font-style:italic">Leçon clé...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 6 : JOURNAL ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">J</div>
+    <div class="section-cover-content">
+      <h1>📓 Journal de Discipline</h1>
+      <p>L'honnêteté radicale envers toi-même est la seule voie.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="journal-date">_______________ — _______ / _______ / _______</div>
+
+    <div class="journal-prompt">
+      <div class="prompt-label">01 — Qu'est-ce que j'ai accompli aujourd'hui ?</div>
+      <div class="write-zone">
+        <div class="write-zone-hint">Liste tes victoires du jour — même les petites. Sois précis. Pas de vague.</div>
+        <div class="write-lines">
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="write-line"></div><div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="journal-prompt">
+      <div class="prompt-label">02 — Qu'est-ce que j'aurais pu mieux faire ?</div>
+      <div class="write-zone">
+        <div class="write-zone-hint">Pas pour te culpabiliser. Pour apprendre. Quelle décision était médiocre ?</div>
+        <div class="write-lines">
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="write-line"></div><div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="journal-prompt">
+      <div class="prompt-label">03 — Quelle est ma décision pour demain ?</div>
+      <div class="write-zone">
+        <div class="write-zone-hint">Une seule décision concrète. Pas un vœu — un engagement.</div>
+        <div class="write-lines">
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="journal-prompt">
+      <div class="prompt-label">04 — Mon niveau de discipline aujourd'hui /10</div>
+      <div class="score-row">
+        <div class="score-box">1</div><div class="score-box">2</div><div class="score-box">3</div>
+        <div class="score-box">4</div><div class="score-box">5</div><div class="score-box">6</div>
+        <div class="score-box">7</div><div class="score-box">8</div><div class="score-box">9</div>
+        <div class="score-box" style="border-color:var(--gold);color:var(--gold)">10</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 7 : VISION ==================== -->
+<div class="print-page section-page">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="watermark">@forger.ou.plier</div>
+
+  <div class="section-cover">
+    <div class="sec-bg-text">V</div>
+    <div class="section-cover-content">
+      <h1>🏆 Vision & Ambitions</h1>
+      <p>Si ta vision ne te fait pas peur, elle n'est pas assez grande.</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="vision-grid">
+      <div class="vision-block">
+        <span class="vision-emoji">🔭</span>
+        <h3>Ma Vision Dans 1 An</h3>
+        <div class="vision-text">Dans 1 an, je génère 15 000€ par mois avec mon business en ligne. Je vis dans un appartement premium. Je m'entraîne 5 fois par semaine et je suis en meilleure forme qu'à 20 ans.</div>
+        <div class="vision-write-lines"><div class="vision-write-line"></div><div class="vision-write-line"></div><div class="vision-write-line"></div></div>
+      </div>
+      <div class="vision-block">
+        <span class="vision-emoji">💰</span>
+        <h3>Mes Objectifs Financiers</h3>
+        <div class="vision-text">Revenu mensuel : 15 000€ nets d'ici décembre 2026. Patrimoine 3 ans : 150 000€ investis. Cash-flow passif : 2 000€/mois.</div>
+        <div class="vision-write-lines"><div class="vision-write-line"></div><div class="vision-write-line"></div><div class="vision-write-line"></div></div>
+      </div>
+      <div class="vision-block">
+        <span class="vision-emoji">⚔️</span>
+        <h3>L'Homme Que Je Construis</h3>
+        <div class="vision-text">Discipliné, silencieux, redoutable. Qui n'a besoin de personne pour avancer. Qui tient sa parole. Un homme dont la présence inspire. Pas par les mots — par les actes.</div>
+        <div class="vision-write-lines"><div class="vision-write-line"></div><div class="vision-write-line"></div><div class="vision-write-line"></div></div>
+      </div>
+      <div class="vision-block">
+        <span class="vision-emoji">🌍</span>
+        <h3>Mon Impact & Héritage</h3>
+        <div class="vision-text">Avoir aidé 10 000 hommes à reprendre le contrôle. Mon héritage : un mouvement de 100 000 hommes qui ont décidé de forger plutôt que de plier.</div>
+        <div class="vision-write-lines"><div class="vision-write-line"></div><div class="vision-write-line"></div><div class="vision-write-line"></div></div>
+      </div>
+    </div>
+
+    <div class="citations-section">
+      <div class="cit-title">Citations qui forgent</div>
+      <div class="citation-block">
+        <div class="citation-text">"Celui qui n'a pas de discipline n'a pas de liberté."</div>
+        <div class="citation-author">— Jocko Willink</div>
+      </div>
+      <div class="citation-block">
+        <div class="citation-text">"Tu ne te lèves pas pour battre la concurrence. Tu te lèves pour battre la version d'hier."</div>
+        <div class="citation-author">— David Goggins</div>
+      </div>
+      <div class="citation-block">
+        <div class="citation-text">"Un homme qui n'est pas maître de lui-même ne peut pas être maître d'autre chose."</div>
+        <div class="citation-author">— Marcus Aurelius</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
