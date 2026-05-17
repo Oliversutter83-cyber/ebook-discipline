@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Système de l'Homme Inarrêtable</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --black2: #111111;
+    --black3: #161616;
+    --black4: #1C1C1C;
+    --black5: #222222;
+    --gold: #C9A84C;
+    --gold-light: #E2C47A;
+    --gold-dim: #8C7235;
+    --gold-glow: rgba(201,168,76,0.15);
+    --gold-border: rgba(201,168,76,0.3);
+    --text: #E8E0D0;
+    --text-dim: #9A9080;
+    --white: #F5F0E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black2); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+  /* CORNER DECORATIONS */
+  .corner-deco {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.5;
+  }
+  .corner-deco.tl { top: 16px; left: 16px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-deco.tr { top: 16px; right: 16px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .corner-deco.bl { bottom: 16px; left: 16px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-deco.br { bottom: 16px; right: 16px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  /* WATERMARK */
+  .watermark {
+    position: fixed;
+    bottom: 22px;
+    right: 80px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 3px;
+    opacity: 0.4;
+    z-index: 200;
+    font-style: italic;
+  }
+
+  /* SIDEBAR NAV */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--black2);
+    border-right: 1px solid var(--gold-border);
+    display: flex;
+    flex-direction: column;
+    z-index: 500;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--gold-border);
+  }
+
+  .sidebar-logo h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    line-height: 1.3;
+  }
+
+  .sidebar-logo p {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 0;
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+
+  .nav-item:hover {
+    background: var(--gold-glow);
+    color: var(--text);
+    border-left-color: var(--gold);
+  }
+
+  .nav-item.active {
+    background: var(--gold-glow);
+    color: var(--gold);
+    border-left-color: var(--gold);
+  }
+
+  .nav-item .nav-emoji { font-size: 16px; }
+  .nav-item .nav-label { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 500; }
+
+  .sidebar-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--gold-border);
+    font-size: 11px;
+    color: var(--gold-dim);
+    text-align: center;
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* PAGES */
+  .page {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========================
+     COVER PAGE
+  ======================== */
+  .cover-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cover-hero {
+    position: relative;
+    height: 420px;
+    background: linear-gradient(135deg, #0A0A0A 0%, #1a1408 40%, #0f0c05 70%, #0A0A0A 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  /* Gold rays background */
+  .cover-hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(201,168,76,0.04) 5deg,
+      transparent 10deg,
+      rgba(201,168,76,0.04) 15deg,
+      transparent 20deg,
+      rgba(201,168,76,0.04) 25deg,
+      transparent 30deg
+    );
+    animation: rotate 40s linear infinite;
+  }
+
+  @keyframes rotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  .cover-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  .cover-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 40px;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  .cover-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 88px);
+    color: var(--white);
+    line-height: 0.9;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    text-shadow: 0 0 60px rgba(201,168,76,0.2);
+  }
+
+  .cover-title span { color: var(--gold); }
+
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-top: 16px;
+  }
+
+  .cover-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 24px auto;
+  }
+
+  /* Corner ornaments on cover */
+  .cover-ornament {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: 3;
+  }
+  .cover-ornament.tl { top: 24px; left: 24px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .cover-ornament.tr { top: 24px; right: 24px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .cover-ornament.bl { bottom: 24px; left: 24px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .cover-ornament.br { bottom: 24px; right: 24px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  /* Welcome section */
+  .cover-body {
+    padding: 60px 80px;
+    max-width: 900px;
+  }
+
+  .welcome-block {
+    background: var(--black3);
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--gold);
+    padding: 36px 40px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .welcome-block::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+  }
+
+  .welcome-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .welcome-block p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .welcome-block p strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* Quick nav cards */
+  .nav-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .nav-card {
+    background: var(--black3);
+    border: 1px solid var(--gold-border);
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold-glow), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .nav-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.1);
+  }
+
+  .nav-card:hover::after { opacity: 1; }
+
+  .nav-card .card-emoji { font-size: 28px; margin-bottom: 12px; display: block; }
+
+  .nav-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .nav-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ========================
+     SECTION PAGES
+  ======================== */
+  .section-cover {
+    height: 180px;
+    background: linear-gradient(135deg, #0f0c05, #1a1408, #0A0A0A);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 80px 32px;
+    border-bottom: 1px solid var(--gold-border);
+    overflow: hidden;
+  }
+
+  .section-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent 70%);
+  }
+
+  .section-cover-bg {
+    position: absolute;
+    top: 0; right: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: var(--gold);
+    opacity: 0.03;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -10px;
+  }
+
+  .section-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 4px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .section-header p {
+    font-size: 15px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .section-body {
+    padding: 48px 80px;
+  }
+
+  /* ========================
+     TABLES
+  ======================== */
+  .notion-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 32px;
+    border: 1px solid var(--gold-border);
+  }
+
+  .notion-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .notion-table th {
+    background: var(--black3);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--gold-border);
+    border-right: 1px solid rgba(201,168,76,0.1);
+    white-space: nowrap;
+  }
+
+  .notion-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    border-right: 1px solid rgba(201,168,76,0.05);
+    color: var(--text);
+    vertical-align: middle;
+    transition: background 0.15s ease;
+  }
+
+  .notion-table tr:hover td {
+    background: rgba(201,168,76,0.03);
+  }
+
+  .notion-table tr:last-child td { border-bottom: none; }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .badge-todo { background: rgba(120,120,120,0.15); color: #888; border: 1px solid rgba(120,120,120,0.3); }
+  .badge-progress { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+  .badge-done { background: rgba(80,180,100,0.15); color: #5bb86a; border: 1px solid rgba(80,180,100,0.4); }
+  .badge-reading { background: rgba(120,150,210,0.15); color: #8aabdf; border: 1px solid rgba(120,150,210,0.3); }
+  .badge-lu { background: rgba(80,180,100,0.15); color: #5bb86a; border: 1px solid rgba(80,180,100,0.4); }
+  .badge-alire { background: rgba(180,120,60,0.15); color: #d4924a; border: 1px solid rgba(180,120,60,0.3); }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--black4);
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 80px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  .progress-pct {
+    font-size: 12px;
+    color: var(--gold);
+    min-width: 34px;
+    text-align: right;
+  }
+
+  /* CHECKBOX */
+  .check-cell {
+    text-align: center;
+  }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--gold-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+  }
+
+  .check-box:hover { border-color: var(--gold); background: var(--gold-glow); }
+
+  .check-box.checked {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .check-box.checked::after {
+    content: '✓';
+    font-size: 11px;
+    color: var(--black);
+    font-weight: bold;
+  }
+
+  /* STAR RATING */
+  .stars { color: var(--gold); font-size: 13px; letter-spacing: 1px; }
+
+  /* ========================
+     PLANNER
+  ======================== */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .day-card {
+    background: var(--black3);
+    border: 1px solid var(--gold-border);
+    transition: all 0.2s ease;
+  }
+
+  .day-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.08);
+  }
+
+  .day-header {
+    background: var(--black4);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gold-border);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .day-body { padding: 14px; }
+
+  .day-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .day-task {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  .energy-bar {
+    display: flex;
+    gap: 3px;
+    margin-top: 8px;
+  }
+
+  .energy-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--black4);
+    border: 1px solid var(--gold-border);
+  }
+
+  .energy-dot.active { background: var(--gold); border-color: var(--gold); }
+
+  /* ========================
+     JOURNAL
+  ======================== */
+  .journal-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-bottom: 32px;
+  }
+
+  .journal-prompt {
+    margin-bottom: 32px;
+  }
+
+  .prompt-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .prompt-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-border);
+  }
+
+  .journal-textarea {
+    width: 100%;
+    background: var(--black3);
+    border: 1px solid var(--gold-border);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    padding: 20px 24px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .journal-textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.05);
+  }
+
+  .journal-textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+  .score-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .score-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gold-border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-btn:hover, .score-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--black);
+  }
+
+  /* ========================
+     VISION
+  ======================== */
+  .vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .vision-block {
+    background: var(--black3);
+    border: 1px solid var(--gold-border);
+    padding: 32px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .vision-block:hover {
+    border-color: var(--gold);
+  }
+
+  .vision-block-emoji {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .vision-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .vision-block textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--gold-border);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    padding: 16px 0 0;
+    resize: none;
+    outline: none;
+    min-height: 100px;
+  }
+
+  .vision-block textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+  .citations-section { margin-top: 40px; }
+
+  .citation-block {
+    border-left: 3px solid var(--gold);
+    padding: 20px 32px;
+    margin-bottom: 20px;
+    background: var(--black3);
+    position: relative;
+  }
+
+  .citation-text {
+    font-size: 20px;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .citation-author {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* ========================
+     UTILITY
+  ======================== */
+  .section-intro {
+    font-size: 16px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 32px;
+    line-height: 1.7;
+    border-left: 2px solid var(--gold-border);
+    padding-left: 20px;
+  }
+
+  .gold-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 24px 0;
+  }
+
+  .add-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 8px 20px;
+    border: 1px dashed var(--gold-border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+  }
+
+  .add-row-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+  }
+
+  /* MOBILE MENU BTN */
+  .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+    background: var(--black2);
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 400;
+  }
+
+  /* ========================
+     RESPONSIVE
+  ======================== */
+  @media (max-width: 900px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .sidebar-overlay.open { display: block; }
+    .main { margin-left: 0; }
+    .menu-toggle { display: flex; }
+    .cover-body, .section-body { padding: 32px 24px; }
+    .section-cover { padding: 0 24px 24px; }
+    .nav-cards { grid-template-columns: 1fr 1fr; }
+    .week-grid { grid-template-columns: 1fr 1fr; }
+    .vision-grid { grid-template-columns: 1fr; }
+    .corner-deco { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .cover-title { font-size: 40px; }
+    .nav-cards { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CORNER DECORATIONS -->
+<div class="corner-deco tl"></div>
+<div class="corner-deco tr"></div>
+<div class="corner-deco bl"></div>
+<div class="corner-deco br"></div>
+
+<!-- WATERMARK -->
+<div class="watermark">@forger.ou.plier</div>
+
+<!-- MOBILE MENU -->
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h2>LE SYSTÈME DE<br>L'HOMME INARRÊTABLE</h2>
+    <p>Version 1.0 — Premium</p>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-item active" onclick="showPage('home')">
+      <span class="nav-emoji">🏠</span>
+      <span class="nav-label">Accueil</span>
+    </div>
+    <div class="nav-item" onclick="showPage('objectifs')">
+      <span class="nav-emoji">🎯</span>
+      <span class="nav-label">Objectifs 90 Jours</span>
+    </div>
+    <div class="nav-item" onclick="showPage('habitudes')">
+      <span class="nav-emoji">⚡</span>
+      <span class="nav-label">Tracker d'Habitudes</span>
+    </div>
+    <div class="nav-item" onclick="showPage('planner')">
+      <span class="nav-emoji">📅</span>
+      <span class="nav-label">Planner Hebdomadaire</span>
+    </div>
+    <div class="nav-item" onclick="showPage('bibliotheque')">
+      <span class="nav-emoji">📚</span>
+      <span class="nav-label">Bibliothèque</span>
+    </div>
+    <div class="nav-item" onclick="showPage('journal')">
+      <span class="nav-emoji">📓</span>
+      <span class="nav-label">Journal de Discipline</span>
+    </div>
+    <div class="nav-item" onclick="showPage('vision')">
+      <span class="nav-emoji">🏆</span>
+      <span class="nav-label">Vision & Ambitions</span>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    Discipline · Excellence · Conquête
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ==================== HOME ==================== -->
+  <div class="page active" id="page-home">
+    <div class="cover-page">
+      <div class="cover-hero">
+        <div class="cover-ornament tl"></div>
+        <div class="cover-ornament tr"></div>
+        <div class="cover-ornament bl"></div>
+        <div class="cover-ornament br"></div>
+        <div class="cover-content">
+          <div class="cover-eyebrow">Système de Performance · Edition Premium</div>
+          <div class="cover-title">LE SYSTÈME DE<br>L'HOMME <span>INARRÊTABLE</span></div>
+          <div class="cover-line"></div>
+          <div class="cover-subtitle">Ton système pour dominer chaque jour</div>
+        </div>
+      </div>
+
+      <div class="cover-body">
+        <div class="welcome-block">
+          <h3>Bienvenue, Soldat.</h3>
+          <p>
+            Ce système n'est pas fait pour les faibles.<br><br>
+            Il est conçu pour ceux qui ont décidé — une fois pour toutes — de <strong>ne plus se mentir</strong>.<br><br>
+            Tu as entre les mains un outil forgé pour transformer chaque journée en une brique de ton empire personnel.
+            <strong>Pas de motivation. Pas d'excuses. Juste du système.</strong><br><br>
+            Ouvre chaque section. Remplis-la. Reviens chaque jour. Dans 90 jours, tu ne te reconnaîtras plus.
+          </p>
+        </div>
+
+        <div class="gold-line"></div>
+
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:4px; color:var(--gold); margin-bottom:24px;">ACCÈS RAPIDE</div>
+
+        <div class="nav-cards">
+          <div class="nav-card" onclick="showPage('objectifs')">
+            <span class="card-emoji">🎯</span>
+            <h4>Objectifs 90 Jours</h4>
+            <p>Tes cibles, tes deadlines, ta progression. L'obsession se planifie.</p>
+          </div>
+          <div class="nav-card" onclick="showPage('habitudes')">
+            <span class="card-emoji">⚡</span>
+            <h4>Tracker d'Habitudes</h4>
+            <p>Les habitudes construisent les empires. Trace chaque répétition.</p>
+          </div>
+          <div class="nav-card" onclick="showPage('planner')">
+            <span class="card-emoji">📅</span>
+            <h4>Planner Hebdomadaire</h4>
+            <p>Chaque semaine est une guerre. Planifie tes batailles à l'avance.</p>
+          </div>
+          <div class="nav-card" onclick="showPage('bibliotheque')">
+            <span class="card-emoji">📚</span>
+            <h4>Bibliothèque</h4>
+            <p>Les hommes qui lisent dominent ceux qui ne lisent pas.</p>
+          </div>
+          <div class="nav-card" onclick="showPage('journal')">
+            <span class="card-emoji">📓</span>
+            <h4>Journal de Discipline</h4>
+            <p>Le compte-rendu quotidien de ta guerre intérieure.</p>
+          </div>
+          <div class="nav-card" onclick="showPage('vision')">
+            <span class="card-emoji">🏆</span>
+            <h4>Vision & Ambitions</h4>
+            <p>L'homme que tu construis mérite une vision à la hauteur.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== OBJECTIFS ==================== -->
+  <div class="page" id="page-objectifs">
+    <div class="section-cover">
+      <div class="section-cover-bg">90J</div>
+      <div class="section-header">
+        <h1>🎯 Objectifs 90 Jours</h1>
+        <p>Ce qui se mesure, s'accomplit. Ce qui ne se mesure pas, disparaît.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        90 jours. C'est suffisant pour transformer un domaine de ta vie. Pas en douceur — brutalement.
+        Choisis tes objectifs avec précision, définis une deadline réelle, et traque ta progression chaque semaine.
+      </p>
+
+      <div class="notion-table-wrap">
+        <table class="notion-table" id="table-objectifs">
+          <thead>
+            <tr>
+              <th>🎯 Objectif</th>
+              <th>📆 Deadline</th>
+              <th>🔰 Statut</th>
+              <th>📊 Progression</th>
+              <th>📝 Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Atteindre 10 000€ de chiffre d'affaires mensuel</strong></td>
+              <td>14 Août 2026</td>
+              <td><span class="badge badge-progress">En cours</span></td>
+              <td>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+                  <span class="progress-pct">45%</span>
+                </div>
+              </td>
+              <td style="color:var(--text-dim);font-style:italic">Actuellement à 4 500€/mois</td>
+            </tr>
+            <tr>
+              <td><strong>Perdre 8 kg et atteindre 12% de masse graisseuse</strong></td>
+              <td>30 Juillet 2026</td>
+              <td><span class="badge badge-progress">En cours</span></td>
+              <td>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+                  <span class="progress-pct">60%</span>
+                </div>
+              </td>
+              <td style="color:var(--text-dim);font-style:italic">-5 kg accomplis, 3 restants</td>
+            </tr>
+            <tr>
+              <td><strong>Lire 9 livres de développement personnel/business</strong></td>
+              <td>17 Août 2026</td>
+              <td><span class="badge badge-todo">À faire</span></td>
+              <td>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:22%"></div></div>
+                  <span class="progress-pct">22%</span>
+                </div>
+              </td>
+              <td style="color:var(--text-dim);font-style:italic">2 livres lus ce trimestre</td>
+            </tr>
+            <tr>
+              <td><strong>Lancer et vendre mon premier produit digital</strong></td>
+              <td>1er Juillet 2026</td>
+              <td><span class="badge badge-done">Accompli</span></td>
+              <td>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                  <span class="progress-pct">100%</span>
+                </div>
+              </td>
+              <td style="color:#5bb86a;font-style:italic">✓ 37 ventes en 2 semaines</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addObjectifRow()">+ Ajouter un objectif</button>
+    </div>
+  </div>
+
+  <!-- ==================== HABITUDES ==================== -->
+  <div class="page" id="page-habitudes">
+    <div class="section-cover">
+      <div class="section-cover-bg">H</div>
+      <div class="section-header">
+        <h1>⚡ Tracker d'Habitudes</h1>
+        <p>Les champions ne se motivent pas. Ils exécutent.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        Chaque case cochée est une victoire. Chaque case vide est une défaite contre toi-même.
+        Ton futur est construit case par case, jour après jour. Coche. Sans exception.
+      </p>
+
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--gold-dim); margin-bottom:16px;">
+        SEMAINE DU 12 MAI AU 18 MAI 2026
+      </div>
+
+      <div class="notion-table-wrap">
+        <table class="notion-table">
+          <thead>
+            <tr>
+              <th>Habitude</th>
+              <th>Fréquence</th>
+              <th style="text-align:center">LUN</th>
+              <th style="text-align:center">MAR</th>
+              <th style="text-align:center">MER</th>
+              <th style="text-align:center">JEU</th>
+              <th style="text-align:center">VEN</th>
+              <th style="text-align:center">SAM</th>
+              <th style="text-align:center">DIM</th>
+              <th style="text-align:center">Score</th>
+            </tr>
+          </thead>
+          <tbody id="habitudes-body">
+            <tr data-habit="0">
+              <td><strong>💪 Sport / Entraînement</strong></td>
+              <td><span class="badge badge-progress">6x / semaine</span></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td><span style="color:var(--gold);font-weight:600">5/7</span></td>
+            </tr>
+            <tr data-habit="1">
+              <td><strong>📖 Lecture 30 min min.</strong></td>
+              <td><span class="badge badge-progress">Quotidien</span></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td><span style="color:var(--gold);font-weight:600">5/7</span></td>
+            </tr>
+            <tr data-habit="2">
+              <td><strong>🧘 Méditation 10 min</strong></td>
+              <td><span class="badge badge-progress">Quotidien</span></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td><span style="color:var(--gold);font-weight:600">5/7</span></td>
+            </tr>
+            <tr data-habit="3">
+              <td><strong>🚿 Douche froide</strong></td>
+              <td><span class="badge badge-progress">Quotidien</span></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td><span style="color:#5bb86a;font-weight:600">7/7</span></td>
+            </tr>
+            <tr data-habit="4">
+              <td><strong>📵 No Phone le matin (1h)</strong></td>
+              <td><span class="badge badge-progress">Quotidien</span></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>
+              <td class="check-cell"><div class="check-box checked" onclick="toggleCheck(this)"></div></td>
+              <td><span style="color:var(--gold);font-weight:600">5/7</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addHabitRow()">+ Ajouter une habitude</button>
+    </div>
+  </div>
+
+  <!-- ==================== PLANNER ==================== -->
+  <div class="page" id="page-planner">
+    <div class="section-cover">
+      <div class="section-cover-bg">W</div>
+      <div class="section-header">
+        <h1>📅 Planner Hebdomadaire</h1>
+        <p>Chaque semaine gagnée est une semaine de plus vers ta version ultime.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        Planifie ta semaine le dimanche soir. Une tâche prioritaire par jour — une seule.
+        Le reste est secondaire. Focus sur ce qui déplace les lignes.
+      </p>
+
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--gold-dim); margin-bottom:24px;">
+        SEMAINE 20 — 12 AU 18 MAI 2026
+      </div>
+
+      <div class="week-grid">
+        <div class="day-card">
+          <div class="day-header">LUNDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Finaliser la page de vente du produit digital</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Session cardio 45min<br>— Répondre emails clients<br>— Lecture 30min</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">MARDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Session de musculation — Pousser les charges</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Contenu réseaux sociaux (3 posts)<br>— Appel mentor<br>— Révision objectifs</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">MERCREDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Créer 5 pièces de contenu vidéo</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Comptabilité mensuelle<br>— Stretching + mobilité<br>— Écriture journal</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot"></div>
+              <div class="energy-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">JEUDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Prospection — 10 DM qualifiés envoyés</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Cours en ligne (2h)<br>— Session cardio HIIT<br>— Appels de vente</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">VENDREDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Bilan semaine + Plan de la semaine suivante</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Formation business 1h<br>— Musculation full body<br>— Temps libre stratégique</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">SAMEDI</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Entraînement intensif + Récupération active</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Lecture approfondie<br>— Réseautage / Sorties sociales<br>— Préparation repas</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot"></div>
+              <div class="energy-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">DIMANCHE</div>
+          <div class="day-body">
+            <div class="day-label">Priorité #1</div>
+            <div class="day-task" contenteditable="true">Planification semaine S+1 — Vision & Stratégie</div>
+            <div class="day-label">Tâches secondaires</div>
+            <div class="day-task" contenteditable="true" style="font-size:12px;color:var(--text-dim)">— Repos actif (marche, nature)<br>— Méditation longue 20min<br>— Rechargement mental</div>
+            <div class="day-label">Énergie</div>
+            <div class="energy-bar">
+              <div class="energy-dot active"></div>
+              <div class="energy-dot active"></div>
+              <div class="energy-dot"></div>
+              <div class="energy-dot"></div>
+              <div class="energy-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BIBLIOTHÈQUE ==================== -->
+  <div class="page" id="page-bibliotheque">
+    <div class="section-cover">
+      <div class="section-cover-bg">LIB</div>
+      <div class="section-header">
+        <h1>📚 Bibliothèque de Lecture</h1>
+        <p>Un homme qui lit domine un homme qui ne lit pas. Toujours.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        Lis avec intention. Chaque livre est un investissement dans ton cerveau.
+        Note la leçon clé — celle que tu vas appliquer immédiatement. Pas celle qui t'a impressionné. Celle qui te transforme.
+      </p>
+
+      <div class="notion-table-wrap">
+        <table class="notion-table">
+          <thead>
+            <tr>
+              <th>📖 Titre</th>
+              <th>✍️ Auteur</th>
+              <th>🔰 Statut</th>
+              <th>⭐ Note /10</th>
+              <th>💡 Leçon Clé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Les 48 Lois du Pouvoir</strong></td>
+              <td>Robert Greene</td>
+              <td><span class="badge badge-lu">Lu ✓</span></td>
+              <td><span class="stars">★★★★★★★★★</span><span style="color:var(--black4)">★</span> <span style="color:var(--gold)">9/10</span></td>
+              <td style="font-style:italic;color:var(--text-dim)">Ne jamais écraser complètement un ennemi — toujours laisser une sortie</td>
+            </tr>
+            <tr>
+              <td><strong>Can't Hurt Me</strong></td>
+              <td>David Goggins</td>
+              <td><span class="badge badge-lu">Lu ✓</span></td>
+              <td><span class="stars">★★★★★★★★★★</span> <span style="color:var(--gold)">10/10</span></td>
+              <td style="font-style:italic;color:var(--text-dim)">La règle des 40% — quand ton esprit dit stop, ton corps n'est qu'à 40% de ses capacités</td>
+            </tr>
+            <tr>
+              <td><strong>Atomic Habits</strong></td>
+              <td>James Clear</td>
+              <td><span class="badge badge-lu">Lu ✓</span></td>
+              <td><span class="stars">★★★★★★★★★</span><span style="color:var(--black4)">★</span> <span style="color:var(--gold)">9/10</span></td>
+              <td style="font-style:italic;color:var(--text-dim)">Tu ne t'élèves pas au niveau de tes objectifs, tu tombes au niveau de tes systèmes</td>
+            </tr>
+            <tr>
+              <td><strong>Think and Grow Rich</strong></td>
+              <td>Napoleon Hill</td>
+              <td><span class="badge badge-reading">En lecture</span></td>
+              <td><span class="stars">★★★★★★★★</span><span style="color:var(--black4)">★★</span> <span style="color:var(--gold)">8/10</span></td>
+              <td style="font-style:italic;color:var(--text-dim)">Le désir ardent est le point de départ de toute accumulation de richesse</td>
+            </tr>
+            <tr>
+              <td><strong>The Way of the Superior Man</strong></td>
+              <td>David Deida</td>
+              <td><span class="badge badge-alire">À lire</span></td>
+              <td style="color:var(--text-dim);font-style:italic">—</td>
+              <td style="color:var(--text-dim);font-style:italic">—</td>
+            </tr>
+            <tr>
+              <td><strong>48 Hours to a Better Brain</strong></td>
+              <td>Andrew Huberman</td>
+              <td><span class="badge badge-alire">À lire</span></td>
+              <td style="color:var(--text-dim);font-style:italic">—</td>
+              <td style="color:var(--text-dim);font-style:italic">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addBookRow()">+ Ajouter un livre</button>
+    </div>
+  </div>
+
+  <!-- ==================== JOURNAL ==================== -->
+  <div class="page" id="page-journal">
+    <div class="section-cover">
+      <div class="section-cover-bg">J</div>
+      <div class="section-header">
+        <h1>📓 Journal de Discipline</h1>
+        <p>L'honnêteté radicale envers toi-même est la seule voie.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        Ce journal n'est pas pour tes sentiments. Il est pour ton compte-rendu de guerre quotidien.
+        Réponds avec brutalité et précision. Pas de victimisation. Que des faits et des décisions.
+      </p>
+
+      <div class="journal-date" id="journal-date">DIMANCHE — 17 MAI 2026</div>
+
+      <div class="journal-prompt">
+        <div class="prompt-label">01 — Qu'est-ce que j'ai accompli aujourd'hui ?</div>
+        <textarea class="journal-textarea" placeholder="Liste tes victoires du jour — même les petites. Sois précis. Pas de vague.&#10;&#10;Ex: J'ai terminé la page de vente, j'ai fait 5 séries de 20 pompes, j'ai lu 40 pages de Goggins..."></textarea>
+      </div>
+
+      <div class="journal-prompt">
+        <div class="prompt-label">02 — Qu'est-ce que j'aurais pu mieux faire ?</div>
+        <textarea class="journal-textarea" placeholder="Pas pour te culpabiliser. Pour apprendre. Quelle décision était médiocre ? Quel moment t'as fait reculer ?&#10;&#10;Ex: J'ai perdu 2h sur les réseaux. J'ai cédé à la flemme à 15h. Je n'ai pas fait ma séance..."></textarea>
+      </div>
+
+      <div class="journal-prompt">
+        <div class="prompt-label">03 — Quelle est ma décision pour demain ?</div>
+        <textarea class="journal-textarea" placeholder="Une seule décision concrète que tu t'engages à prendre demain. Pas un vœu — une décision.&#10;&#10;Ex: Demain je me lève à 5h30 sans négociation. Demain je contacte 10 prospects avant 10h..."></textarea>
+      </div>
+
+      <div class="journal-prompt">
+        <div class="prompt-label">04 — Mon niveau de discipline aujourd'hui</div>
+        <div class="score-selector" id="discipline-score">
+          <button class="score-btn" onclick="setScore(this, 1)">1</button>
+          <button class="score-btn" onclick="setScore(this, 2)">2</button>
+          <button class="score-btn" onclick="setScore(this, 3)">3</button>
+          <button class="score-btn" onclick="setScore(this, 4)">4</button>
+          <button class="score-btn" onclick="setScore(this, 5)">5</button>
+          <button class="score-btn" onclick="setScore(this, 6)">6</button>
+          <button class="score-btn active" onclick="setScore(this, 7)">7</button>
+          <button class="score-btn" onclick="setScore(this, 8)">8</button>
+          <button class="score-btn" onclick="setScore(this, 9)">9</button>
+          <button class="score-btn" onclick="setScore(this, 10)">10</button>
+        </div>
+        <div style="margin-top:12px;font-size:13px;color:var(--text-dim);font-style:italic">
+          7/10 — Tu fais bien. Mais tu peux faire mieux. Un vrai 10 n'accepte pas de 7.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VISION ==================== -->
+  <div class="page" id="page-vision">
+    <div class="section-cover">
+      <div class="section-cover-bg">V</div>
+      <div class="section-header">
+        <h1>🏆 Vision & Ambitions</h1>
+        <p>Si ta vision ne te fait pas peur, elle n'est pas assez grande.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="section-intro">
+        Écris. Sans filtre. Comme si personne ne lisait. La version de toi dans 1 an,
+        dans 5 ans — dessine-la avec précision. L'ambiguïté est l'ennemie de l'action.
+      </p>
+
+      <div class="vision-grid">
+        <div class="vision-block">
+          <span class="vision-block-emoji">🔭</span>
+          <h3>Ma Vision Dans 1 An</h3>
+          <textarea placeholder="Dans 1 an, je suis...&#10;&#10;Ma journée type ressemble à...&#10;&#10;Mon environnement est...&#10;&#10;Je ressens...">Dans 1 an, je génère 15 000€ par mois avec mon business en ligne. Je vis dans un appartement premium dans une grande ville. Je m'entraîne 5 fois par semaine et je suis en meilleure forme physique qu'à 20 ans. Je suis entouré de personnes qui construisent, pas qui commentent.</textarea>
+        </div>
+
+        <div class="vision-block">
+          <span class="vision-block-emoji">💰</span>
+          <h3>Mes Objectifs Financiers</h3>
+          <textarea placeholder="Revenu mensuel cible...&#10;Patrimoine dans 3 ans...&#10;Investissements...&#10;Liberté financière définie comme...">Revenu mensuel : 15 000€ nets d'ici décembre 2026.&#10;&#10;Patrimoine cible 3 ans : 150 000€ investis.&#10;&#10;Cash-flow passif : 2 000€/mois via immobilier et produits digitaux.&#10;&#10;Liberté financière = ne jamais regarder les prix. Jamais.</textarea>
+        </div>
+
+        <div class="vision-block">
+          <span class="vision-block-emoji">⚔️</span>
+          <h3>L'Homme Que Je Construis</h3>
+          <textarea placeholder="Mes valeurs fondamentales...&#10;Mon caractère...&#10;Ce que les autres ressentent quand ils sont avec moi...&#10;Mon héritage...">Je construis un homme discipliné, silencieux et redoutable. Qui n'a besoin de personne pour avancer. Qui tient sa parole. Qui ne se plaint pas. Qui produit des résultats, pas des excuses. Un homme dont la présence inspire. Pas par les mots — par les actes.</textarea>
+        </div>
+
+        <div class="vision-block">
+          <span class="vision-block-emoji">🌍</span>
+          <h3>Mon Impact & Héritage</h3>
+          <textarea placeholder="Ce que je veux laisser...&#10;Comment je veux être connu...&#10;Les personnes que j'aide...&#10;Mon mouvement...">Je veux avoir aidé 10 000 hommes à reprendre le contrôle de leur vie. À se lever. À construire. À arrêter de subir. Mon héritage : un mouvement de 100 000 hommes qui ont décidé de forger plutôt que de plier.</textarea>
+        </div>
+      </div>
+
+      <div class="citations-section">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:4px; color:var(--gold); margin-bottom:24px;">CITATIONS QUI FORGENT</div>
+
+        <div class="citation-block">
+          <div class="citation-text">"Le succès n'est pas final, l'échec n'est pas fatal : c'est le courage de continuer qui compte."</div>
+          <div class="citation-author">— Winston Churchill</div>
+        </div>
+
+        <div class="citation-block">
+          <div class="citation-text">"Celui qui n'a pas de discipline n'a pas de liberté."</div>
+          <div class="citation-author">— Jocko Willink</div>
+        </div>
+
+        <div class="citation-block">
+          <div class="citation-text">"Nous souffrons plus en imagination qu'en réalité."</div>
+          <div class="citation-author">— Sénèque</div>
+        </div>
+
+        <div class="citation-block">
+          <div class="citation-text">"Tu ne te lèves pas le matin pour battre la concurrence. Tu te lèves pour battre la version d'hier."</div>
+          <div class="citation-author">— David Goggins</div>
+        </div>
+
+        <div class="citation-block">
+          <div class="citation-text">"Un homme qui n'est pas maître de lui-même ne peut pas être maître d'autre chose."</div>
+          <div class="citation-author">— Marcus Aurelius</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// PAGE NAVIGATION
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  document.getElementById('page-' + id).classList.add('active');
+
+  // find matching nav item
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const label = n.querySelector('.nav-label');
+    const map = {
+      home: 'Accueil',
+      objectifs: 'Objectifs 90 Jours',
+      habitudes: 'Tracker d\'Habitudes',
+      planner: 'Planner Hebdomadaire',
+      bibliotheque: 'Bibliothèque',
+      journal: 'Journal de Discipline',
+      vision: 'Vision & Ambitions'
+    };
+    if (label && label.textContent === map[id]) {
+      n.classList.add('active');
+    }
+  });
+
+  closeSidebar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// SIDEBAR MOBILE
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// CHECKBOX TOGGLE
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateHabitScore(el.closest('tr'));
+}
+
+function updateHabitScore(row) {
+  if (!row) return;
+  const checks = row.querySelectorAll('.check-box');
+  const scored = row.querySelector('td:last-child');
+  if (!scored) return;
+  const total = checks.length;
+  const done = [...checks].filter(c => c.classList.contains('checked')).length;
+  scored.innerHTML = `<span style="color:${done===total?'#5bb86a':'var(--gold)'};font-weight:600">${done}/${total}</span>`;
+}
+
+// SCORE SELECTOR
+function setScore(btn, val) {
+  document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const msgs = {
+    1: '1/10 — Journée désastreuse. Analyse. Ne recommence pas.',
+    2: '2/10 — Tu as existé. Pas vécu. Demain tu te relèves.',
+    3: '3/10 — En dessous de tes capacités réelles. Pourquoi ?',
+    4: '4/10 — Moitié de chemin. Moitié d\'homme. Pas assez.',
+    5: '5/10 — Médiocrité confortable. Refuse ça.',
+    6: '6/10 — Correct. Mais correct n\'est pas suffisant.',
+    7: '7/10 — Tu fais bien. Mais tu peux faire mieux. Un vrai 10 n\'accepte pas de 7.',
+    8: '8/10 — Solide. Tu es dans la bonne direction. Continue.',
+    9: '9/10 — Quasi parfait. Quelle est la 10% manquante ?',
+    10: '10/10 — Journée parfaite de discipline. Archive ce sentiment. Reproduis-le.'
+  };
+  const desc = btn.closest('.journal-prompt').querySelector('div[style]') ||
+               document.createElement('div');
+  desc.style.cssText = 'margin-top:12px;font-size:13px;color:var(--text-dim);font-style:italic';
+  desc.textContent = msgs[val];
+  if (!desc.parentNode) btn.closest('.journal-prompt').appendChild(desc);
+}
+
+// ADD ROWS
+function addObjectifRow() {
+  const tbody = document.querySelector('#table-objectifs tbody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text-dim);font-style:italic">Nouvel objectif...</td>
+    <td contenteditable="true" style="outline:none;color:var(--text-dim)">—</td>
+    <td><span class="badge badge-todo">À faire</span></td>
+    <td><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><span class="progress-pct">0%</span></div></td>
+    <td contenteditable="true" style="outline:none;color:var(--text-dim);font-style:italic">Notes...</td>
+  `;
+  tbody.appendChild(row);
+  row.querySelector('[contenteditable]').focus();
+}
+
+function addHabitRow() {
+  const tbody = document.getElementById('habitudes-body');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text-dim);font-style:italic">Nouvelle habitude...</td>
+    <td><span class="badge badge-todo">Quotidien</span></td>
+    ${Array(7).fill('<td class="check-cell"><div class="check-box" onclick="toggleCheck(this)"></div></td>').join('')}
+    <td><span style="color:var(--text-dim)">0/7</span></td>
+  `;
+  tbody.appendChild(row);
+  row.querySelector('[contenteditable]').focus();
+}
+
+function addBookRow() {
+  const tbody = document.querySelector('.notion-table tbody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td contenteditable="true" style="outline:none;color:var(--text-dim);font-style:italic">Titre du livre...</td>
+    <td contenteditable="true" style="outline:none;color:var(--text-dim)">Auteur</td>
+    <td><span class="badge badge-alire">À lire</span></td>
+    <td style="color:var(--text-dim);font-style:italic">—</td>
+    <td contenteditable="true" style="outline:none;color:var(--text-dim);font-style:italic">Leçon clé...</td>
+  `;
+  tbody.appendChild(row);
+  row.querySelector('[contenteditable]').focus();
+}
+
+// SET DATE
+(function() {
+  const days = ['DIMANCHE','LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI'];
+  const months = ['JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
+  const now = new Date();
+  const el = document.getElementById('journal-date');
+  if (el) {
+    el.textContent = `${days[now.getDay()]} — ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+})();
+</script>
+</body>
+</html>
