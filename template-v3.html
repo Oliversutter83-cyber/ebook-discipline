@@ -25,7 +25,7 @@
   --sidebar-w: 280px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow:hidden;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
 
 /* GRAIN OVERLAY */
 .grain-overlay{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.03;}
@@ -69,7 +69,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .sidebar-handle{font-size:10px;color:var(--gold-dim);letter-spacing:2px;}
 
 /* MAIN */
-.main{margin-left:var(--sidebar-w);height:100vh;overflow-y:auto;position:relative;}
+.main{margin-left:var(--sidebar-w);height:100vh;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch;}
 .main::-webkit-scrollbar{width:4px;}
 .main::-webkit-scrollbar-track{background:var(--bg);}
 .main::-webkit-scrollbar-thumb{background:var(--gold-dim);}
@@ -294,20 +294,31 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 /* MOBILE */
 @media(max-width:768px){
   :root{--sidebar-w:0px;}
-  .sidebar{transform:translateX(-280px);transition:transform 0.3s;width:280px;}
+  .sidebar{transform:translateX(-280px);transition:transform 0.3s;width:280px;z-index:999;}
   .sidebar.open{transform:translateX(0);}
-  .main{margin-left:0;}
-  .burger{display:flex;}
+  .main{margin-left:0;height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .burger{display:flex;z-index:998;}
   .corner-tl,.corner-bl{left:0;}
+  .corner-tr,.corner-br{display:none;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
   .welcome-grid{grid-template-columns:1fr;}
   .steps-grid{grid-template-columns:1fr;}
   .module-grid{grid-template-columns:repeat(2,1fr);}
-  .planner-grid{grid-template-columns:repeat(2,1fr);}
+  .planner-grid{grid-template-columns:1fr;}
   .vision-grid{grid-template-columns:1fr;}
   .fin-grid{grid-template-columns:1fr;}
   .quotes-grid{grid-template-columns:1fr;}
-  .hero-title{font-size:42px;}
+  .hero-title{font-size:38px;letter-spacing:3px;}
+  #page1 .hero{height:auto;min-height:100vh;padding:80px 24px;}
+  .page-body{padding:20px 16px;}
+  .section-cover{padding:20px 16px;height:auto;min-height:120px;}
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{min-width:500px;}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .module-grid{grid-template-columns:1fr;}
+  .hero-title{font-size:32px;}
 }
 </style>
 </head>
@@ -326,6 +337,7 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 <div class="corner corner-br"><svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 0 L40 40" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.6"/><path d="M0 40 L40 40" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.6"/><rect x="26" y="26" width="8" height="8" fill="none" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/></svg></div>
 
 <!-- BURGER -->
+<div id="sb-overlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:997;"></div>
 <button class="burger" onclick="toggleBurger()" aria-label="Menu"><span></span><span></span><span></span></button>
 
 <!-- SIDEBAR -->
@@ -983,12 +995,18 @@ function showPage(id, navEl) {
   document.getElementById('main').scrollTop = 0;
   if (window.innerWidth <= 768) {
     document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sb-overlay').style.display = 'none';
   }
 }
 
 // ===================== BURGER =====================
 function toggleBurger() {
-  document.getElementById('sidebar').classList.toggle('open');
+  const open = document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sb-overlay').style.display = open ? 'block' : 'none';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').style.display = 'none';
 }
 
 // ===================== TICK CHECKBOX =====================
