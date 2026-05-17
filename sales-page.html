@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Système de l'Homme Inarrêtable — Édition Élite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #080808;
+  --bg2:   #0e0e0e;
+  --bg3:   #131313;
+  --bg4:   #181818;
+  --gold:  #C9A84C;
+  --gold2: #E8CB7A;
+  --goldd: #7A6330;
+  --gl:    rgba(201,168,76,.2);
+  --gl2:   rgba(201,168,76,.4);
+  --gbg:   rgba(201,168,76,.06);
+  --gbg2:  rgba(201,168,76,.12);
+  --text:  #DDD5C4;
+  --text2: #A89F8C;
+  --text3: #6A6358;
+  --green: #4E9B6A;
+  --white: #F0EAE0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--goldd);border-radius:2px}
+
+/* CORNERS */
+.corner{position:fixed;width:56px;height:56px;z-index:100;pointer-events:none;opacity:.5;}
+.c-tl{top:16px;left:16px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+.c-tr{top:16px;right:16px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
+.c-bl{bottom:16px;left:16px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
+.c-br{bottom:16px;right:16px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#080604 0%,#110d05 35%,#1a1408 60%,#080808 100%);
+  padding:80px 24px;
+}
+.hero-rays{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:1000px;height:1000px;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(201,168,76,.025) 4deg,transparent 8deg,rgba(201,168,76,.015) 12deg,transparent 16deg,rgba(201,168,76,.025) 20deg,transparent 24deg);
+  animation:spin 60s linear infinite;pointer-events:none;
+}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.hero-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(201,168,76,.09) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;max-width:860px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;
+  border:1px solid var(--gl2);
+  background:var(--gbg2);
+  font-size:10px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:36px;
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.hero-overline{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  font-size:10px;letter-spacing:6px;color:var(--goldd);
+  text-transform:uppercase;margin-bottom:24px;opacity:.8;
+}
+.overline-bar{width:40px;height:1px;background:var(--goldd);}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,10vw,110px);
+  color:var(--white);line-height:.87;letter-spacing:6px;
+  text-shadow:0 0 100px rgba(201,168,76,.12);
+  margin-bottom:12px;
+}
+.hero-title .g{color:var(--gold);}
+.hero-divider{
+  width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:28px auto;
+}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(20px,3vw,28px);
+  font-style:italic;color:var(--text2);
+  letter-spacing:1px;margin-bottom:16px;
+}
+.hero-tagline{
+  font-size:14px;color:var(--text3);
+  letter-spacing:2px;margin-bottom:48px;
+  text-transform:uppercase;
+}
+.hero-cta-group{
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:18px 48px;
+  background:linear-gradient(135deg,var(--goldd),var(--gold));
+  color:var(--bg);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:4px;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  opacity:0;transition:opacity .25s;
+}
+.btn-primary:hover::before{opacity:1;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(201,168,76,.25);}
+.btn-primary span{position:relative;z-index:1;}
+.hero-price{
+  display:flex;align-items:baseline;gap:8px;
+}
+.hero-price-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:42px;color:var(--gold);letter-spacing:2px;
+}
+.hero-price-label{font-size:12px;color:var(--text3);letter-spacing:2px;}
+.hero-guarantee{
+  font-size:12px;color:var(--text3);
+  display:flex;align-items:center;gap:6px;
+}
+.hero-guarantee::before{content:'🔒';font-size:12px;}
+
+/* SECTIONS GÉNÉRALES */
+section{padding:100px 24px;}
+.container{max-width:1100px;margin:0 auto;}
+.container-sm{max-width:760px;margin:0 auto;}
+
+.section-eyebrow{
+  font-size:9px;letter-spacing:5px;color:var(--goldd);
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:16px;
+}
+.section-eyebrow::before,.section-eyebrow::after{
+  content:'';flex:1;height:1px;background:var(--gl);
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,5vw,60px);
+  color:var(--white);letter-spacing:4px;
+  text-align:center;line-height:1;
+  margin-bottom:16px;
+}
+.section-title .g{color:var(--gold);}
+.section-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-style:italic;
+  color:var(--text2);text-align:center;
+  max-width:600px;margin:0 auto 60px;
+  line-height:1.7;
+}
+
+/* PAIN SECTION */
+.pain-section{
+  background:var(--bg2);
+  border-top:1px solid var(--gl);
+  border-bottom:1px solid var(--gl);
+}
+.pain-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:24px;margin-top:56px;
+}
+.pain-card{
+  padding:32px 28px;
+  background:var(--bg3);
+  border:1px solid var(--gl);
+  border-top:2px solid rgba(200,80,80,.3);
+  position:relative;
+}
+.pain-card-icon{font-size:28px;margin-bottom:16px;opacity:.7;}
+.pain-card-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:2px;
+  color:rgba(220,100,100,.8);margin-bottom:10px;
+}
+.pain-card-text{
+  font-size:14px;color:var(--text2);line-height:1.7;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+}
+.pain-arrow{
+  text-align:center;margin:48px 0;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:16px;letter-spacing:4px;
+  color:var(--gold);
+  display:flex;align-items:center;justify-content:center;gap:16px;
+}
+.pain-arrow::before,.pain-arrow::after{content:'';flex:1;height:1px;background:var(--gl);}
+
+/* PRODUCT PREVIEW */
+.preview-section{}
+.preview-mockup{
+  max-width:900px;margin:0 auto 80px;
+  background:var(--bg3);
+  border:1px solid var(--gl2);
+  box-shadow:0 40px 120px rgba(201,168,76,.08),0 0 0 1px var(--gl);
+  overflow:hidden;
+  position:relative;
+}
+.preview-mockup::before{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.preview-bar{
+  background:var(--bg4);
+  padding:12px 20px;
+  border-bottom:1px solid var(--gl);
+  display:flex;align-items:center;gap:8px;
+}
+.preview-dot{width:10px;height:10px;border-radius:50%;}
+.preview-dot:nth-child(1){background:#ff5f57;}
+.preview-dot:nth-child(2){background:#febc2e;}
+.preview-dot:nth-child(3){background:#28c840;}
+.preview-bar-title{
+  flex:1;text-align:center;
+  font-size:11px;color:var(--text3);letter-spacing:2px;
+}
+.preview-content{
+  display:grid;grid-template-columns:200px 1fr;
+  min-height:340px;
+}
+.preview-sidebar{
+  background:var(--bg2);
+  border-right:1px solid var(--gl);
+  padding:20px 0;
+}
+.preview-sb-brand{
+  padding:0 16px 16px;
+  border-bottom:1px solid var(--gl);
+  margin-bottom:12px;
+}
+.preview-sb-mono{
+  width:32px;height:32px;
+  background:var(--gbg2);
+  border:1px solid var(--gl2);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold);
+  margin-bottom:8px;
+}
+.preview-sb-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:11px;letter-spacing:2px;color:var(--text3);
+}
+.preview-sb-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 16px;
+  font-size:11px;color:var(--text3);
+  border-left:2px solid transparent;
+}
+.preview-sb-item.act{
+  color:var(--gold);
+  background:var(--gbg);
+  border-left-color:var(--gold);
+}
+.preview-main{padding:24px 28px;}
+.preview-ph{
+  height:60px;
+  background:linear-gradient(135deg,#100d05,#1a1408);
+  border:1px solid var(--gl);
+  display:flex;align-items:flex-end;
+  padding:12px 16px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.preview-ph-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:24px;letter-spacing:3px;color:var(--white);
+}
+.preview-ph-title span{color:var(--gold);}
+.preview-table{width:100%;border-collapse:collapse;font-size:11px;}
+.preview-table th{
+  background:var(--bg4);color:var(--text3);
+  padding:8px 12px;text-align:left;
+  border-bottom:1px solid var(--gl);
+  font-family:'Inter',sans-serif;font-weight:500;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+}
+.preview-table td{
+  padding:9px 12px;
+  border-bottom:1px solid rgba(201,168,76,.05);
+  color:var(--text);
+}
+.preview-badge{
+  display:inline-block;padding:2px 8px;
+  font-size:9px;font-weight:500;
+}
+.pb-g{background:var(--gbg2);color:var(--gold);border:1px solid var(--gl2);}
+.pb-v{background:rgba(78,155,106,.12);color:#4E9B6A;border:1px solid rgba(78,155,106,.3);}
+.preview-prog{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;width:80px;display:inline-block;vertical-align:middle;margin-right:6px;}
+.preview-prog-fill{height:100%;background:linear-gradient(90deg,var(--goldd),var(--gold));border-radius:2px;}
+
+/* MODULES */
+.modules-section{background:var(--bg2);border-top:1px solid var(--gl);border-bottom:1px solid var(--gl);}
+.modules-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2px;background:var(--gl);
+  border:1px solid var(--gl);
+}
+.module-item{
+  background:var(--bg2);
+  padding:32px 28px;
+  position:relative;overflow:hidden;
+  transition:background .2s;
+}
+.module-item:hover{background:var(--bg3);}
+.module-item::before{
+  content:'';position:absolute;
+  bottom:0;left:0;height:1px;width:0;
+  background:var(--gold);
+  transition:width .35s ease;
+}
+.module-item:hover::before{width:100%;}
+.mi-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:11px;letter-spacing:3px;
+  color:var(--goldd);margin-bottom:10px;
+}
+.mi-icon{font-size:28px;margin-bottom:12px;display:block;}
+.mi-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:2px;
+  color:var(--gold);margin-bottom:8px;
+}
+.mi-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;color:var(--text2);
+  line-height:1.65;font-style:italic;
+}
+.mi-new{
+  position:absolute;top:16px;right:16px;
+  padding:2px 8px;
+  background:var(--gbg2);
+  border:1px solid var(--gl2);
+  font-size:8px;letter-spacing:2px;color:var(--gold);
+  text-transform:uppercase;
+}
+
+/* FEATURES */
+.features-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;margin-top:56px;
+}
+.feature-card{
+  background:var(--bg3);
+  border:1px solid var(--gl);
+  padding:28px 32px;
+  display:flex;gap:20px;
+  transition:border-color .2s;
+}
+.feature-card:hover{border-color:var(--gl2);}
+.feature-icon{
+  font-size:24px;flex-shrink:0;
+  width:48px;height:48px;
+  background:var(--gbg2);border:1px solid var(--gl);
+  display:flex;align-items:center;justify-content:center;
+}
+.feature-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:16px;letter-spacing:2px;
+  color:var(--gold);margin-bottom:8px;
+}
+.feature-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;color:var(--text2);
+  line-height:1.65;font-style:italic;
+}
+
+/* TESTIMONIALS */
+.testi-section{background:var(--bg2);border-top:1px solid var(--gl);border-bottom:1px solid var(--gl);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;}
+.testi-card{
+  background:var(--bg3);border:1px solid var(--gl);
+  border-top:3px solid var(--gold);
+  padding:28px 24px;
+  position:relative;
+}
+.testi-stars{color:var(--gold);font-size:12px;margin-bottom:16px;letter-spacing:2px;}
+.testi-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-style:italic;
+  color:var(--text);line-height:1.7;
+  margin-bottom:20px;
+}
+.testi-author{
+  display:flex;align-items:center;gap:12px;
+}
+.testi-avatar{
+  width:36px;height:36px;
+  background:var(--gbg2);border:1px solid var(--gl2);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold);
+  flex-shrink:0;
+}
+.testi-name{
+  font-size:13px;font-weight:600;color:var(--white);
+}
+.testi-role{font-size:11px;color:var(--text3);}
+
+/* PRICING */
+.pricing-section{}
+.pricing-card{
+  max-width:560px;margin:0 auto;
+  background:var(--bg3);
+  border:1px solid var(--gl2);
+  box-shadow:0 0 0 1px var(--gl),0 40px 80px rgba(201,168,76,.06);
+  position:relative;overflow:hidden;
+}
+.pricing-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.pricing-top{
+  padding:40px 48px 32px;
+  border-bottom:1px solid var(--gl);
+  text-align:center;
+}
+.pricing-badge{
+  display:inline-block;
+  padding:4px 16px;
+  background:var(--gbg2);border:1px solid var(--gl2);
+  font-size:9px;letter-spacing:3px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:20px;
+}
+.pricing-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:4px;color:var(--white);
+  margin-bottom:8px;
+}
+.pricing-price-block{
+  display:flex;align-items:flex-start;justify-content:center;
+  gap:4px;margin:20px 0 8px;
+}
+.pricing-currency{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;color:var(--gold);
+  margin-top:8px;
+}
+.pricing-amount{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:80px;color:var(--gold);line-height:1;letter-spacing:-2px;
+}
+.pricing-period{
+  font-size:12px;color:var(--text3);
+  letter-spacing:2px;margin-top:8px;
+  align-self:flex-end;margin-bottom:12px;
+}
+.pricing-oldprice{
+  font-size:13px;color:var(--text3);
+  text-decoration:line-through;margin-bottom:4px;
+}
+.pricing-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;
+  color:var(--text2);
+}
+.pricing-list{padding:32px 48px;}
+.pricing-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(201,168,76,.06);
+  font-size:14px;color:var(--text);
+}
+.pricing-item:last-child{border-bottom:none;}
+.pricing-check{
+  width:18px;height:18px;flex-shrink:0;
+  background:var(--green);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:white;font-weight:700;
+  margin-top:2px;
+}
+.pricing-item-text strong{color:var(--white);}
+.pricing-cta{padding:8px 48px 40px;text-align:center;}
+.pricing-cta .btn-primary{width:100%;justify-content:center;font-size:20px;padding:20px;}
+.pricing-note{
+  margin-top:16px;font-size:12px;color:var(--text3);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.pricing-note::before{content:'🔒';}
+
+/* FAQ */
+.faq-section{background:var(--bg2);border-top:1px solid var(--gl);border-bottom:1px solid var(--gl);}
+.faq-list{max-width:760px;margin:56px auto 0;}
+.faq-item{border-bottom:1px solid var(--gl);}
+.faq-q{
+  padding:20px 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:16px;letter-spacing:1.5px;
+  color:var(--text);transition:color .18s;
+  user-select:none;
+}
+.faq-q:hover{color:var(--gold);}
+.faq-icon{
+  width:22px;height:22px;flex-shrink:0;
+  border:1px solid var(--gl);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--gold);
+  transition:transform .25s,background .18s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--gbg2);}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease,padding .35s ease;
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-style:italic;
+  color:var(--text2);line-height:1.8;
+}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
+
+/* FINAL CTA */
+.final-cta{
+  text-align:center;padding:120px 24px;
+  background:linear-gradient(160deg,#080604,#120e06 40%,#080808);
+  position:relative;overflow:hidden;
+}
+.final-cta-rays{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:800px;height:800px;
+  background:radial-gradient(ellipse,rgba(201,168,76,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.final-cta-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,7vw,80px);
+  color:var(--white);letter-spacing:4px;line-height:.9;
+  margin-bottom:24px;position:relative;z-index:1;
+}
+.final-cta-title .g{color:var(--gold);}
+.final-cta-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-style:italic;
+  color:var(--text2);margin-bottom:48px;
+  position:relative;z-index:1;
+}
+.final-cta .btn-primary{position:relative;z-index:1;}
+
+/* FOOTER */
+footer{
+  padding:40px 24px;
+  border-top:1px solid var(--gl);
+  text-align:center;
+}
+.footer-brand{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:14px;letter-spacing:4px;
+  color:var(--goldd);margin-bottom:8px;
+}
+.footer-note{font-size:11px;color:var(--text3);letter-spacing:1px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .pain-grid{grid-template-columns:1fr;}
+  .modules-grid{grid-template-columns:1fr 1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .preview-content{grid-template-columns:1fr;}
+  .preview-sidebar{display:none;}
+  .pricing-top,.pricing-list,.pricing-cta{padding-left:24px;padding-right:24px;}
+}
+@media(max-width:600px){
+  section{padding:64px 20px;}
+  .modules-grid{grid-template-columns:1fr;}
+  .hero-title{font-size:52px;}
+}
+</style>
+</head>
+<body>
+
+<div class="corner c-tl"></div>
+<div class="corner c-tr"></div>
+<div class="corner c-bl"></div>
+<div class="corner c-br"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-rays"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Nouveau · Édition Élite 2026
+    </div>
+    <div class="hero-overline">
+      <div class="overline-bar"></div>
+      Système de Performance Premium
+      <div class="overline-bar"></div>
+    </div>
+    <div class="hero-title">
+      LE SYSTÈME DE<br>L'HOMME <span class="g">INARRÊTABLE</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-sub">Le seul outil dont tu as besoin pour dominer chaque jour.</div>
+    <div class="hero-tagline">10 modules · Design premium · Données sauvegardées · Prêt en 5 minutes</div>
+    <div class="hero-cta-group">
+      <a href="#pricing" class="btn-primary">
+        <span>Obtenir le système maintenant</span>
+        <span>→</span>
+      </a>
+      <div class="hero-price">
+        <div class="hero-price-num">97€</div>
+        <div class="hero-price-label">· paiement unique · accès à vie</div>
+      </div>
+      <div class="hero-guarantee">Satisfait ou remboursé 30 jours</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DOULEUR ══════════ -->
+<section class="pain-section">
+  <div class="container">
+    <div class="section-eyebrow">Le problème</div>
+    <div class="section-title">Tu sais exactement ce que tu <span class="g">devrais faire.</span></div>
+    <div class="section-sub">Le problème n'est pas le manque d'information. C'est le manque de système pour passer à l'action — chaque jour, sans exception.</div>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-card-icon">😤</div>
+        <div class="pain-card-title">Tu te couches le soir déçu</div>
+        <div class="pain-card-text">Encore une journée à réagir aux urgences des autres plutôt que d'avancer sur ce qui compte vraiment. Tu t'es laissé distraire. Encore.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-icon">📉</div>
+        <div class="pain-card-title">Tes objectifs restent des intentions</div>
+        <div class="pain-card-text">Tu les as écrits en janvier. En mars, tu ne les regardes plus. Pas de suivi, pas de progression, pas de résultats. La boucle recommence.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-icon">🌀</div>
+        <div class="pain-card-title">Tu te motives, tu rechutes, tu recommences</div>
+        <div class="pain-card-text">5 applications de productivité. 3 méthodes différentes. Des bullet journals à moitié remplis. La motivation ne suffit pas — il te faut un système.</div>
+      </div>
+    </div>
+
+    <div class="pain-arrow">La solution n'est pas de travailler plus dur — c'est de travailler avec le bon système</div>
+  </div>
+</section>
+
+<!-- ══════════ APERÇU PRODUIT ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">Le produit</div>
+    <div class="section-title">Un template <span class="g">Notion-like</span> premium</div>
+    <div class="section-sub">Design noir/gold niveau agence. Fonctionne directement dans ton navigateur. Aucun compte, aucun abonnement. Tes données sont sauvegardées automatiquement.</div>
+
+    <div class="preview-mockup">
+      <div class="preview-bar">
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <div class="preview-bar-title">Le Système de l'Homme Inarrêtable — Édition Élite</div>
+      </div>
+      <div class="preview-content">
+        <div class="preview-sidebar">
+          <div class="preview-sb-brand">
+            <div class="preview-sb-mono">SI</div>
+            <div class="preview-sb-name">SYSTÈME INARRÊTABLE</div>
+          </div>
+          <div class="preview-sb-item act">🏛️ &nbsp;Tableau de bord</div>
+          <div class="preview-sb-item">🎯 &nbsp;Objectifs 90 Jours</div>
+          <div class="preview-sb-item">⚡ &nbsp;Tracker Habitudes</div>
+          <div class="preview-sb-item">🌅 &nbsp;Routine Matinale</div>
+          <div class="preview-sb-item">📅 &nbsp;Planner</div>
+          <div class="preview-sb-item">💰 &nbsp;Finance</div>
+          <div class="preview-sb-item">📚 &nbsp;Bibliothèque</div>
+          <div class="preview-sb-item">📓 &nbsp;Journal</div>
+          <div class="preview-sb-item">🏆 &nbsp;Vision</div>
+          <div class="preview-sb-item">⚔️ &nbsp;Manifeste</div>
+        </div>
+        <div class="preview-main">
+          <div class="preview-ph">
+            <div class="preview-ph-title">🎯 Objectifs <span>90 Jours</span></div>
+          </div>
+          <table class="preview-table">
+            <thead>
+              <tr>
+                <th>Objectif</th><th>Deadline</th><th>Statut</th><th>Progression</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Atteindre 10 000€ de CA mensuel</strong></td>
+                <td>14 Août 2026</td>
+                <td><span class="preview-badge pb-g">En cours</span></td>
+                <td><div class="preview-prog"><div class="preview-prog-fill" style="width:45%"></div></div>45%</td>
+              </tr>
+              <tr>
+                <td><strong>Perdre 8 kg · 12% masse graisseuse</strong></td>
+                <td>30 Juil. 2026</td>
+                <td><span class="preview-badge pb-g">En cours</span></td>
+                <td><div class="preview-prog"><div class="preview-prog-fill" style="width:62%"></div></div>62%</td>
+              </tr>
+              <tr>
+                <td><strong>Lancer mon premier produit digital</strong></td>
+                <td>1er Juil. 2026</td>
+                <td><span class="preview-badge pb-v">Accompli ✓</span></td>
+                <td><div class="preview-prog"><div class="preview-prog-fill" style="width:100%"></div></div>100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MODULES ══════════ -->
+<section class="modules-section">
+  <div class="container">
+    <div class="section-eyebrow">Les 10 modules</div>
+    <div class="section-title">Tout ce dont tu as <span class="g">besoin.</span></div>
+    <div class="section-sub">Chaque module est conçu pour une seule chose : t'obliger à agir. Pas à réfléchir à agir. À agir.</div>
+
+    <div class="modules-grid">
+      <div class="module-item">
+        <span class="mi-icon">🏛️</span>
+        <div class="mi-num">Module 01</div>
+        <div class="mi-title">Tableau de bord</div>
+        <div class="mi-desc">Vue d'ensemble de ta progression. KPIs, stats, accès rapide à tout le système en un clin d'œil.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">🎯</span>
+        <div class="mi-num">Module 02</div>
+        <div class="mi-title">Objectifs 90 Jours</div>
+        <div class="mi-desc">Un objectif sans deadline est un rêve. Donne-leur une date. Traque-les sans pitié.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">⚡</span>
+        <div class="mi-num">Module 03</div>
+        <div class="mi-title">Tracker d'Habitudes</div>
+        <div class="mi-desc">Tu n'es pas ce que tu dis. Tu es ce que tu fais chaque jour, sans exception. Trace chaque répétition.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">🌅</span>
+        <div class="mi-num">Module 04</div>
+        <div class="mi-title">Routine Matinale</div>
+        <div class="mi-desc">Gagne la matinée. Gagne la journée. Timeline 05h00→07h20 pré-remplie et adaptable.</div>
+        <div class="mi-new">Nouveau</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">📅</span>
+        <div class="mi-num">Module 05</div>
+        <div class="mi-title">Planner Hebdomadaire</div>
+        <div class="mi-desc">Planifie le dimanche. Une priorité par jour — celle qui déplace vraiment les lignes.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">💰</span>
+        <div class="mi-num">Module 06</div>
+        <div class="mi-title">Finance & Revenus</div>
+        <div class="mi-desc">Tu ne peux pas optimiser ce que tu ne mesures pas. Revenus, dépenses, taux d'épargne.</div>
+        <div class="mi-new">Nouveau</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">📚</span>
+        <div class="mi-num">Module 07</div>
+        <div class="mi-title">Bibliothèque</div>
+        <div class="mi-desc">30 minutes par jour. 12 livres par an. Dans 5 ans, tu penses différemment de 98% des gens.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">📓</span>
+        <div class="mi-num">Module 08</div>
+        <div class="mi-title">Journal de Discipline</div>
+        <div class="mi-desc">5 minutes par soir. Le seul moment où tu ne peux pas te mentir à toi-même. Bilan brutal.</div>
+      </div>
+      <div class="module-item">
+        <span class="mi-icon">🏆</span>
+        <div class="mi-num">Module 09</div>
+        <div class="mi-title">Vision & Ambitions</div>
+        <div class="mi-desc">Si ta vision ne te fait pas peur, elle n'est pas assez grande. Écris celle qui te fait peur.</div>
+      </div>
+      <div class="module-item" style="grid-column:span 3;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:24px;padding:28px 32px;">
+        <span class="mi-icon" style="margin:0;font-size:40px">⚔️</span>
+        <div>
+          <div class="mi-num">Module 10 — Exclusif Édition Élite</div>
+          <div class="mi-title" style="font-size:22px">Manifeste Personnel</div>
+          <div class="mi-desc" style="font-size:15px;max-width:600px">Tes 10 lois. Ta raison d'être. Ce que tu refuses de devenir. Le document que tu relis quand tu es sur le point de capituler. C'est ici que le système devient une identité.</div>
+        </div>
+        <div class="mi-new">Nouveau</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">Pourquoi c'est différent</div>
+    <div class="section-title">Pas une app. <span class="g">Un système.</span></div>
+    <div class="section-sub">Conçu pour durer. Simple à utiliser. Impossible d'ignorer.</div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💾</div>
+        <div>
+          <div class="feature-title">Données sauvegardées automatiquement</div>
+          <div class="feature-text">Tout ce que tu écris est sauvegardé dans ton navigateur via localStorage. Ferme, rouvre — tes données sont là. Aucun compte, aucune synchronisation cloud à configurer.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div>
+          <div class="feature-title">Zéro friction, zéro abonnement</div>
+          <div class="feature-text">Un seul fichier HTML. Double-clic pour ouvrir. Fonctionne sur PC, Mac, téléphone. Pas de compte Notion. Pas de 20€/mois. Achat unique, accès à vie.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div>
+          <div class="feature-title">Design niveau agence</div>
+          <div class="feature-text">Noir/gold premium. Animations subtiles. Typography Bebas Neue + Cormorant Garamond. Un outil qui te donne envie de l'ouvrir chaque matin — pas de le fermer.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✏️</div>
+        <div>
+          <div class="feature-title">100% personnalisable</div>
+          <div class="feature-text">Chaque cellule de texte est éditable. Ajoute des lignes à toutes les tables. Adapte les habitudes, les objectifs, les lois du manifeste à ta réalité exacte.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div>
+          <div class="feature-title">Responsive — fonctionne sur mobile</div>
+          <div class="feature-text">Sidebar rétractable, layout adapté. Tu peux cocher tes habitudes depuis ton téléphone, remplir ton journal depuis n'importe où.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖨️</div>
+        <div>
+          <div class="feature-title">Version PDF incluse</div>
+          <div class="feature-text">Une version print-ready pour imprimer le tracker, le planner ou le manifeste. Noir/gold qui s'imprime parfaitement. Pour ceux qui préfèrent le papier.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TESTIMONIALS ══════════ -->
+<section class="testi-section">
+  <div class="container">
+    <div class="section-eyebrow">Ils l'utilisent déjà</div>
+    <div class="section-title">Résultats <span class="g">concrets.</span></div>
+    <div class="section-sub">Des hommes qui ont arrêté de procrastiner et qui utilisent le système chaque jour.</div>
+
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"J'ai essayé Notion, Obsidian, des carnets papier. Rien n'a tenu plus de 2 semaines. Là je suis à 40 jours de streak. Le design noir/gold me donne envie de l'ouvrir tous les matins."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">KA</div>
+          <div>
+            <div class="testi-name">Karim A.</div>
+            <div class="testi-role">Entrepreneur · Lyon</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Le module Finance & Manifeste c'est ce qui m'a le plus marqué. J'ai écrit mes 10 lois en 20 minutes et je les relis chaque dimanche. Ça change vraiment quelque chose dans la tête."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">TR</div>
+          <div>
+            <div class="testi-name">Thomas R.</div>
+            <div class="testi-role">Freelance · Paris</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"97€ que j'ai rentabilisés en 3 semaines. J'ai structuré mon offre de coaching avec le module Objectifs, lancé ma page de vente, et doublé mes revenus mensuels. Le ROI est dingue."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">ML</div>
+          <div>
+            <div class="testi-name">Malik L.</div>
+            <div class="testi-role">Coach business · Bordeaux</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Tarif</div>
+    <div class="section-title">Un investissement. <span class="g">Une fois.</span></div>
+    <div class="section-sub">Pas d'abonnement. Pas de version "premium" cachée. Tout est inclus dès le premier jour.</div>
+
+    <div class="pricing-card">
+      <div class="pricing-top">
+        <div class="pricing-badge">Édition Élite · Version 3.0</div>
+        <div class="pricing-name">Le Système de l'Homme Inarrêtable</div>
+        <div class="pricing-price-block">
+          <div class="pricing-currency">€</div>
+          <div class="pricing-amount">97</div>
+          <div class="pricing-period">paiement<br>unique</div>
+        </div>
+        <div class="pricing-oldprice">Valeur réelle : 197€</div>
+        <div class="pricing-desc">Accès à vie · Mises à jour incluses · Téléchargement immédiat</div>
+      </div>
+      <div class="pricing-list">
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>10 modules complets</strong> — Objectifs, Habitudes, Routine, Planner, Finance, Bibliothèque, Journal, Vision, Manifeste</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Sauvegarde automatique</strong> via localStorage — tes données restent entre les sessions</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Design premium noir/gold</strong> — Bebas Neue · Cormorant Garamond · Inter</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Manifeste Personnel</strong> avec 10 lois éditables + Raison d'Être</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Tracker Finance</strong> — revenus par source, dépenses vs budget, taux d'épargne</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Version PDF print-ready</strong> pour imprimer le tracker et le planner</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Aucun abonnement</strong> — un fichier HTML, fonctionne pour toujours, hors ligne</div></div>
+        <div class="pricing-item"><div class="pricing-check">✓</div><div class="pricing-item-text"><strong>Responsive mobile</strong> — accessible depuis n'importe quel appareil</div></div>
+      </div>
+      <div class="pricing-cta">
+        <a href="#" class="btn-primary"><span>Télécharger maintenant — 97€</span><span>→</span></a>
+        <div class="pricing-note">Paiement sécurisé · Accès immédiat · Remboursé si insatisfait sous 30 jours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-eyebrow">Questions fréquentes</div>
+    <div class="section-title">Tout ce que <span class="g">tu veux savoir.</span></div>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          C'est quoi exactement ce que je reçois ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Tu reçois un fichier HTML unique que tu télécharges et ouvres dans ton navigateur (Chrome, Edge, Safari). Aucune installation, aucun compte requis. Tu accèdes aux 10 modules directement. Tout ce que tu remplis est sauvegardé automatiquement dans ton navigateur.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Est-ce que j'ai besoin de Notion pour l'utiliser ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Non. Absolument aucun compte Notion. Aucun abonnement. C'est un fichier HTML autonome qui simule l'expérience Notion — mais qui fonctionne entièrement hors ligne, gratuitement, pour toujours.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Mes données sont-elles sauvegardées si je ferme le navigateur ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Oui. Tout ce que tu écris — objectifs, journal, vision, habitudes cochées — est sauvegardé via localStorage dans ton navigateur. Quand tu rouvres le fichier, tout est là exactement comme tu l'as laissé.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Ça fonctionne sur téléphone ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Oui, le template est entièrement responsive. La sidebar se cache sur mobile avec un menu burger. Tu peux cocher tes habitudes, remplir ton journal et consulter ton planner depuis ton téléphone sans problème.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Pourquoi 97€ pour un fichier HTML ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Tu ne paies pas pour un fichier. Tu paies pour un système qui a été conçu, structuré et copywrité pour produire des résultats. Si tu utilises ce template sérieusement pendant 90 jours, il te rapportera infiniment plus que 97€ — en revenus, en clarté, en discipline. C'est un investissement, pas une dépense.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Et si ça ne me convient pas ?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Remboursement intégral sous 30 jours, sans question. Envoie un message et tu es remboursé dans les 24h. Mais pour être honnête : si tu l'utilises vraiment, tu ne demanderas pas de remboursement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="final-cta">
+  <div class="final-cta-rays"></div>
+  <div class="final-cta-title">
+    Dans 90 jours,<br>tu ne te <span class="g">reconnaîtras plus.</span>
+  </div>
+  <div class="final-cta-sub">La question n'est pas si tu peux te le permettre.<br>La question est si tu peux te permettre de ne pas l'avoir.</div>
+  <a href="#pricing" class="btn-primary">
+    <span>Commencer maintenant — 97€</span>
+    <span>→</span>
+  </a>
+</section>
+
+<footer>
+  <div class="footer-brand">@FORGER.OU.PLIER</div>
+  <div class="footer-note">Le Système de l'Homme Inarrêtable · Édition Élite · 2026</div>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Smooth scroll pour les liens #pricing
+document.querySelectorAll('a[href="#pricing"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('pricing').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// Counter animation pour les KPIs (si présents)
+function animateValue(el, start, end, duration) {
+  let startTime = null;
+  const step = (timestamp) => {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    el.textContent = Math.floor(progress * (end - start) + start);
+    if (progress < 1) window.requestAnimationFrame(step);
+  };
+  window.requestAnimationFrame(step);
+}
+
+// Intersection observer pour animer à l'entrée
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, {threshold: 0.1});
+
+document.querySelectorAll('.module-item, .feature-card, .testi-card, .pain-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .4s ease, transform .4s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
