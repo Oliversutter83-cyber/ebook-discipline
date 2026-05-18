@@ -252,7 +252,7 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 .raison-textarea::placeholder{color:rgba(168,159,140,0.3);}
 .refuses-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;overflow:hidden;width:100%;}
 .refuse-block{background:var(--bg2);border:1px solid rgba(192,57,43,0.2);border-left:3px solid #C0392B;padding:16px 20px;min-width:0;overflow:hidden;}
-.refuse-input{width:100%;max-width:100%;min-width:0;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;display:block;}
+.refuse-input{width:100%;max-width:100%;min-width:0;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;display:block;resize:none;line-height:1.5;}
 .refuse-input::placeholder{color:rgba(168,159,140,0.3);}
 
 /* PAGE 1 HERO */
@@ -974,11 +974,11 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 
     <div class="section-label">Ce que je refuse — Absolument</div>
     <div class="refuses-grid">
-      <div class="refuse-block"><input class="refuse-input" type="text" data-save="refuse" value="Je refuse de laisser la peur décider à ma place."></div>
-      <div class="refuse-block"><input class="refuse-input" type="text" data-save="refuse" value="Je refuse de me contenter de ce que j'ai si je sais que je peux mieux."></div>
-      <div class="refuse-block"><input class="refuse-input" type="text" data-save="refuse" value="Je refuse de me plaindre sans agir. Une plainte sans action est une lâcheté."></div>
-      <div class="refuse-block"><input class="refuse-input" type="text" data-save="refuse" value="Je refuse de fréquenter longtemps ceux qui me tirent vers le bas."></div>
-      <div class="refuse-block"><input class="refuse-input" type="text" data-save="refuse" value="Je refuse de mourir sans avoir construit quelque chose qui me survit."></div>
+      <div class="refuse-block"><textarea class="refuse-input" data-save="refuse" rows="2">Je refuse de laisser la peur décider à ma place.</textarea></div>
+      <div class="refuse-block"><textarea class="refuse-input" data-save="refuse" rows="2">Je refuse de me contenter de ce que j'ai si je sais que je peux mieux.</textarea></div>
+      <div class="refuse-block"><textarea class="refuse-input" data-save="refuse" rows="2">Je refuse de me plaindre sans agir. Une plainte sans action est une lâcheté.</textarea></div>
+      <div class="refuse-block"><textarea class="refuse-input" data-save="refuse" rows="2">Je refuse de fréquenter longtemps ceux qui me tirent vers le bas.</textarea></div>
+      <div class="refuse-block"><textarea class="refuse-input" data-save="refuse" rows="2">Je refuse de mourir sans avoir construit quelque chose qui me survit.</textarea></div>
     </div>
   </div>
 </section>
