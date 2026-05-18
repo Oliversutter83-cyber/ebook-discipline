@@ -89,7 +89,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .cover-sub{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--text2);margin-top:6px;font-style:italic;}
 
 /* PAGE CONTENT WRAPPER */
-.page-body{padding:36px;}
+.page-body{padding:36px;overflow-x:hidden;}
 
 /* KPI CARDS */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
@@ -251,8 +251,8 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 .raison-textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.7;resize:vertical;outline:none;min-height:120px;}
 .raison-textarea::placeholder{color:rgba(168,159,140,0.3);}
 .refuses-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;}
-.refuse-block{background:var(--bg2);border:1px solid rgba(192,57,43,0.2);border-left:3px solid #C0392B;padding:16px 20px;}
-.refuse-input{width:100%;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;}
+.refuse-block{background:var(--bg2);border:1px solid rgba(192,57,43,0.2);border-left:3px solid #C0392B;padding:16px 20px;min-width:0;overflow:hidden;}
+.refuse-input{width:100%;max-width:100%;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;}
 .refuse-input::placeholder{color:rgba(168,159,140,0.3);}
 
 /* PAGE 1 HERO */
