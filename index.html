@@ -69,7 +69,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .sidebar-handle{font-size:10px;color:var(--gold-dim);letter-spacing:2px;}
 
 /* MAIN */
-.main{margin-left:var(--sidebar-w);height:100vh;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch;}
+.main{margin-left:var(--sidebar-w);height:100vh;overflow-y:auto;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch;}
 .main::-webkit-scrollbar{width:4px;}
 .main::-webkit-scrollbar-track{background:var(--bg);}
 .main::-webkit-scrollbar-thumb{background:var(--gold-dim);}
@@ -250,9 +250,9 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 .raison-label{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold);letter-spacing:2px;margin-bottom:16px;}
 .raison-textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.7;resize:vertical;outline:none;min-height:120px;}
 .raison-textarea::placeholder{color:rgba(168,159,140,0.3);}
-.refuses-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;}
+.refuses-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;overflow:hidden;width:100%;}
 .refuse-block{background:var(--bg2);border:1px solid rgba(192,57,43,0.2);border-left:3px solid #C0392B;padding:16px 20px;min-width:0;overflow:hidden;}
-.refuse-input{width:100%;max-width:100%;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;}
+.refuse-input{width:100%;max-width:100%;min-width:0;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;display:block;}
 .refuse-input::placeholder{color:rgba(168,159,140,0.3);}
 
 /* PAGE 1 HERO */
