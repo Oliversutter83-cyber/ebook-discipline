@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Code de l'Homme Inarrêtable — Discipline. Clarté. Résultats.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E2C47A;
+      --gold-dark: #A07830;
+      --bg: #080808;
+      --bg-card: #111111;
+      --bg-card-hover: #161616;
+      --white: #FFFFFF;
+      --muted: #888888;
+      --border: #1E1E1E;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGold {
+      0%, 100% { box-shadow: 0 0 20px rgba(201, 168, 76, 0.3); }
+      50%       { box-shadow: 0 0 50px rgba(201, 168, 76, 0.7); }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes rotateStar {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes floatArrow {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
+    @keyframes barGrow {
+      from { width: 0; }
+      to   { width: var(--bar-width); }
+    }
+
+    /* ── TYPOGRAPHY ─────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    .gold { color: var(--gold); }
+    .muted { color: var(--muted); }
+
+    /* ── LAYOUT UTILS ───────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 100px 0;
+    }
+
+    /* ── GOLD BUTTON ────────────────────────────────────────── */
+    .btn-gold {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+      background-size: 200% auto;
+      color: #0a0a0a;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      padding: 16px 40px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      animation: pulseGold 3s ease-in-out infinite;
+    }
+
+    .btn-gold:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201, 168, 76, 0.5);
+    }
+
+    .btn-gold:active {
+      transform: translateY(0);
+    }
+
+    .btn-gold--large {
+      font-size: 1.35rem;
+      padding: 20px 56px;
+    }
+
+    /* ── DIVIDER ────────────────────────────────────────────── */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+      margin: 20px auto 0;
+      border-radius: 2px;
+    }
+
+    .divider--left {
+      margin-left: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 20px 80px;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero__eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero__title {
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 1.02;
+      margin-bottom: 12px;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+
+    .hero__subtitle-line {
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      color: var(--gold);
+      margin-bottom: 32px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      animation: fadeUp 0.7s ease 0.2s both;
+    }
+
+    .hero__desc {
+      max-width: 620px;
+      margin: 0 auto 48px;
+      font-size: 1.1rem;
+      color: #b0b0b0;
+      font-weight: 300;
+      animation: fadeUp 0.7s ease 0.3s both;
+    }
+
+    .hero__cta {
+      animation: fadeUp 0.7s ease 0.4s both;
+    }
+
+    .hero__cta-sub {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Floating decoration */
+    .hero__deco {
+      position: absolute;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .hero__deco--tl {
+      top: 8%;
+      left: 4%;
+      width: 180px;
+    }
+    .hero__deco--br {
+      bottom: 10%;
+      right: 3%;
+      width: 220px;
+      transform: rotate(180deg);
+    }
+
+    /* ── SCROLL ARROW ───────────────────────────────────────── */
+    .scroll-arrow {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: floatArrow 2s ease-in-out infinite;
+      opacity: 0.5;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       PROBLEM
+    ══════════════════════════════════════════════════════════ */
+    #problem {
+      background: linear-gradient(180deg, #0e0e0e 0%, #080808 100%);
+      border-top: 1px solid var(--border);
+    }
+
+    .section__label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .section__title {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      margin-bottom: 16px;
+    }
+
+    .section__intro {
+      font-size: 1.05rem;
+      color: #999;
+      max-width: 600px;
+      margin: 0 auto 64px;
+    }
+
+    .problems__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .problem-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .problem-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-4px);
+    }
+
+    .problem-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .problem-card:hover::after {
+      opacity: 1;
+    }
+
+    .problem-card__icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .problem-card__title {
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    .problem-card__text {
+      font-size: 0.93rem;
+      color: #888;
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       PRODUCTS
+    ══════════════════════════════════════════════════════════ */
+    #products {
+      text-align: center;
+    }
+
+    .products__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+      align-items: start;
+      margin-top: 64px;
+    }
+
+    /* Pricing card base */
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 40px 32px;
+      position: relative;
+      text-align: left;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      border-color: rgba(201,168,76,0.25);
+      transform: translateY(-4px);
+    }
+
+    /* Bundle — featured card */
+    .pricing-card--featured {
+      border-color: var(--gold);
+      background: linear-gradient(145deg, #131008 0%, #111111 60%);
+      animation: pulseGold 4s ease-in-out infinite;
+      padding: 48px 36px;
+    }
+
+    .pricing-card--featured:hover {
+      transform: translateY(-6px);
+    }
+
+    /* Badge */
+    .badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+      color: #0a0a0a;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      padding: 5px 20px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .pricing-card__tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .pricing-card__name {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .pricing-card__subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .pricing-card__price-block {
+      margin-bottom: 28px;
+    }
+
+    .pricing-card__old-price {
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-decoration: line-through;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .pricing-card__price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .pricing-card__price sup {
+      font-size: 1.4rem;
+      vertical-align: super;
+    }
+
+    .pricing-card__savings {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .pricing-card__divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .pricing-card__features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .pricing-card__features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: #c0c0c0;
+      padding: 8px 0;
+      border-bottom: 1px solid #161616;
+    }
+
+    .pricing-card__features li:last-child {
+      border-bottom: none;
+    }
+
+    .feat-check {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pricing-card__cta {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SOCIAL PROOF
+    ══════════════════════════════════════════════════════════ */
+    #proof {
+      background: #0c0c0c;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .proof__stat-row {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+
+    .proof__stat {
+      text-align: center;
+    }
+
+    .proof__stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .proof__stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    .testimonials__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      text-align: left;
+    }
+
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(201,168,76,0.2);
+    }
+
+    .testimonial-card__quote {
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 0.6;
+      margin-bottom: 20px;
+      font-family: Georgia, serif;
+      opacity: 0.6;
+    }
+
+    .testimonial-card__stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-card__text {
+      font-size: 0.93rem;
+      color: #c0c0c0;
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-card__author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: #0a0a0a;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .author-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .author-role {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       CLOSING CTA
+    ══════════════════════════════════════════════════════════ */
+    #closing {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #closing::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .closing__eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .closing__title {
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      margin-bottom: 16px;
+    }
+
+    .closing__subtitle {
+      font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+      color: var(--gold);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.04em;
+      margin-bottom: 32px;
+    }
+
+    .closing__desc {
+      max-width: 560px;
+      margin: 0 auto 48px;
+      font-size: 1rem;
+      color: #999;
+    }
+
+    .closing__guarantee {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 20px;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════ */
+    footer {
+      background: #060606;
+      border-top: 1px solid #131313;
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    .footer__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+
+    .footer__copy {
+      font-size: 0.78rem;
+      color: #444;
+    }
+
+    .footer__links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .footer__links a {
+      font-size: 0.75rem;
+      color: #444;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer__links a:hover {
+      color: var(--gold);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      section {
+        padding: 72px 0;
+      }
+
+      .products__grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 64px auto 0;
+      }
+
+      .pricing-card--featured {
+        order: -1;
+      }
+
+      .proof__stat-row {
+        gap: 36px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-gold--large {
+        font-size: 1.15rem;
+        padding: 18px 32px;
+      }
+
+      .pricing-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
+  <section id="hero">
+
+    <!-- Decorative SVG elements -->
+    <svg class="hero__deco hero__deco--tl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="100" r="90" stroke="#C9A84C" stroke-width="1" stroke-dasharray="4 8"/>
+      <circle cx="100" cy="100" r="60" stroke="#C9A84C" stroke-width="0.5"/>
+      <line x1="100" y1="10" x2="100" y2="190" stroke="#C9A84C" stroke-width="0.5"/>
+      <line x1="10" y1="100" x2="190" y2="100" stroke="#C9A84C" stroke-width="0.5"/>
+    </svg>
+
+    <svg class="hero__deco hero__deco--br" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polygon points="100,10 190,190 10,190" stroke="#C9A84C" stroke-width="1" fill="none"/>
+      <polygon points="100,40 165,170 35,170" stroke="#C9A84C" stroke-width="0.5" fill="none"/>
+    </svg>
+
+    <div class="container">
+      <p class="hero__eyebrow">
+        <!-- inline star SVG -->
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="#C9A84C" style="display:inline;vertical-align:middle;margin-right:8px" aria-hidden="true">
+          <path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/>
+        </svg>
+        Pour les hommes qui refusent la médiocrité
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="#C9A84C" style="display:inline;vertical-align:middle;margin-left:8px" aria-hidden="true">
+          <path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/>
+        </svg>
+      </p>
+
+      <h1 class="hero__title">
+        Tu travailles dur.<br />
+        Mais sans système,<br />
+        <span class="gold">tu tournes en rond.</span>
+      </h1>
+
+      <p class="hero__subtitle-line">Il est temps de changer ça — pour de bon.</p>
+
+      <p class="hero__desc">
+        Des milliers d'heures d'effort perdues faute de méthode. La discipline ne s'improvise pas —
+        elle se construit. Voici le système complet pour transformer ta routine en machine à résultats.
+      </p>
+
+      <div class="hero__cta">
+        <a href="#gumroad-bundle" class="btn-gold btn-gold--large">
+          Obtenir le Bundle Complet — 57€
+          <!-- arrow SVG inline -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:10px" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <span class="hero__cta-sub">Accès immédiat · Téléchargement instantané · Paiement sécurisé</span>
+      </div>
+    </div>
+
+    <div class="scroll-arrow">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       PROBLEM
+  ══════════════════════════════════════════════════════ -->
+  <section id="problem">
+    <div class="container" style="text-align:center;">
+      <span class="section__label">Le vrai problème</span>
+      <h2 class="section__title">
+        Ce n'est pas la motivation qui te manque.<br />
+        <span class="gold">C'est la structure.</span>
+      </h2>
+      <p class="section__intro">
+        Tu connais déjà les bonnes habitudes. Tu sais ce que tu devrais faire. Mais chaque semaine
+        ressemble à la précédente — et les objectifs restent là où tu les as laissés.
+      </p>
+
+      <div class="problems__grid">
+
+        <!-- Pain 1 -->
+        <div class="problem-card">
+          <div class="problem-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">La procrastination te dévore</h3>
+          <p class="problem-card__text">
+            Tu repousses les tâches importantes au profit de l'instant facile. Le soir, tu te couches
+            avec la même liste qu'au réveil — et la culpabilité qui va avec. Demain, c'est toujours
+            trop loin pour commencer.
+          </p>
+        </div>
+
+        <!-- Pain 2 -->
+        <div class="problem-card">
+          <div class="problem-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">Zéro clarté sur tes priorités</h3>
+          <p class="problem-card__text">
+            Trop d'objectifs, pas de hiérarchie. Tu passes ta journée à réagir au lieu d'agir. Les
+            vraies priorités se noient dans le bruit — et à la fin, tu as l'impression d'avoir tout
+            fait sans rien avoir accompli.
+          </p>
+        </div>
+
+        <!-- Pain 3 -->
+        <div class="problem-card">
+          <div class="problem-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">Aucune routine qui tient</h3>
+          <p class="problem-card__text">
+            Tu commences fort pendant trois jours, puis la vie reprend le dessus. Sans cadre solide,
+            chaque nouvelle tentative finit au même endroit : à plat. Il ne manque pas de volonté —
+            il manque un système.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       PRODUCTS
+  ══════════════════════════════════════════════════════ -->
+  <section id="products">
+    <div class="container">
+      <span class="section__label" style="display:block;text-align:center;">La solution</span>
+      <h2 class="section__title" style="text-align:center;">
+        Deux outils. Un système.<br />
+        <span class="gold">Des résultats durables.</span>
+      </h2>
+      <p class="section__intro" style="text-align:center;">
+        Choisis le produit qui correspond à ton niveau d'engagement — ou prends les deux
+        et économise 17€ sur le bundle.
+      </p>
+
+      <div class="products__grid">
+
+        <!-- Card 1 — Ebook -->
+        <div class="pricing-card">
+          <span class="pricing-card__tag">Ebook</span>
+          <h3 class="pricing-card__name">Le Code de l'Homme Inarrêtable</h3>
+          <p class="pricing-card__subtitle">"La bible de la discipline masculine"</p>
+
+          <div class="pricing-card__price-block">
+            <span class="pricing-card__price"><sup>€</sup>47</span>
+          </div>
+
+          <hr class="pricing-card__divider" />
+
+          <ul class="pricing-card__features">
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              180+ pages de méthode exclusive
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Le protocole "Zero Excuses" en 5 étapes
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Reprogrammation des croyances limitantes
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Morning & night routines haute performance
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Exercices pratiques à appliquer dès ce soir
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Format PDF — lisible partout, pour toujours
+            </li>
+          </ul>
+
+          <a href="#gumroad-ebook" class="btn-gold pricing-card__cta">Obtenir l'Ebook — 47€</a>
+        </div>
+
+        <!-- Card 2 — Bundle FEATURED -->
+        <div class="pricing-card pricing-card--featured">
+          <span class="badge">⭐ MEILLEURE OFFRE</span>
+          <span class="pricing-card__tag">Bundle Complet</span>
+          <h3 class="pricing-card__name">Ebook + Template Notion</h3>
+          <p class="pricing-card__subtitle">"L'arsenal complet de l'homme qui avance"</p>
+
+          <div class="pricing-card__price-block">
+            <span class="pricing-card__old-price">Valeur réelle : 74€</span>
+            <span class="pricing-card__price"><sup>€</sup>57</span>
+            <span class="pricing-card__savings">Tu économises 17€ — soit -23%</span>
+          </div>
+
+          <hr class="pricing-card__divider" />
+
+          <ul class="pricing-card__features">
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <strong style="color:#fff;">Tout l'ebook</strong> (180+ pages)
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <strong style="color:#fff;">Tout le Template Notion</strong> prêt à l'emploi
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Tracker de discipline quotidien intégré
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Planificateur hebdo + mensuel complet
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Système de revue de performance
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Mises à jour gratuites à vie
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Accès immédiat après paiement
+            </li>
+          </ul>
+
+          <a href="#gumroad-bundle" class="btn-gold pricing-card__cta" style="font-size:1.05rem;padding:18px 24px;">
+            Obtenir le Bundle — 57€
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:8px" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 3 — Template -->
+        <div class="pricing-card">
+          <span class="pricing-card__tag">Template Notion</span>
+          <h3 class="pricing-card__name">Système de Discipline Totale</h3>
+          <p class="pricing-card__subtitle">"Ton cockpit personnel de performance"</p>
+
+          <div class="pricing-card__price-block">
+            <span class="pricing-card__price"><sup>€</sup>27</span>
+          </div>
+
+          <hr class="pricing-card__divider" />
+
+          <ul class="pricing-card__features">
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Dashboard principal tout-en-un
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Tracker d'habitudes quotidien automatisé
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Blocs de planification hebdomadaire
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Vision board & objectifs trimestriels
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Journal de performance intégré
+            </li>
+            <li>
+              <svg class="feat-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Compatible Notion gratuit — aucun abonnement requis
+            </li>
+          </ul>
+
+          <a href="#gumroad-template" class="btn-gold pricing-card__cta">Obtenir le Template — 27€</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       SOCIAL PROOF
+  ══════════════════════════════════════════════════════ -->
+  <section id="proof">
+    <div class="container">
+      <span class="section__label">Ils sont passés à l'action</span>
+      <h2 class="section__title" style="margin-bottom:48px;">
+        Des hommes qui ont arrêté<br />
+        <span class="gold">de tourner en rond.</span>
+      </h2>
+
+      <!-- Stats row -->
+      <div class="proof__stat-row">
+        <div class="proof__stat">
+          <p class="proof__stat-number">1 200+</p>
+          <p class="proof__stat-label">Exemplaires vendus</p>
+        </div>
+        <div class="proof__stat">
+          <p class="proof__stat-number">4.9</p>
+          <p class="proof__stat-label">Note moyenne</p>
+        </div>
+        <div class="proof__stat">
+          <p class="proof__stat-number">96%</p>
+          <p class="proof__stat-label">Recommandent le produit</p>
+        </div>
+      </div>
+
+      <div class="testimonials__grid">
+
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+          <div class="testimonial-card__quote">"</div>
+          <div class="testimonial-card__stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            J'ai lu une centaine de livres sur la productivité. Aucun n'a changé ma façon de vivre
+            mes journées comme ce bouquin. Le protocole "Zero Excuses" m'a remis en mode action en
+            moins d'une semaine. Le template Notion, c'est maintenant mon cerveau externe.
+            Je recommande le bundle les yeux fermés.
+          </p>
+          <div class="testimonial-card__author">
+            <div class="author-avatar">TM</div>
+            <div>
+              <p class="author-name">Thomas M.</p>
+              <p class="author-role">Entrepreneur, 26 ans · Lyon</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div class="testimonial-card__quote">"</div>
+          <div class="testimonial-card__stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            Franchement hésitant au début — encore un ebook sur la discipline, j'en avais vu des
+            dizaines. Mais là c'est différent : c'est concret, direct, sans blabla. Le chapitre sur
+            la clarté des priorités m'a fait réaliser que je faisais exactement tout à l'envers depuis
+            des années. En 3 semaines, ma productivité a explosé.
+          </p>
+          <div class="testimonial-card__author">
+            <div class="author-avatar">KD</div>
+            <div>
+              <p class="author-name">Kévin D.</p>
+              <p class="author-role">Étudiant en master, 23 ans · Paris</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div class="testimonial-card__quote">"</div>
+          <div class="testimonial-card__stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true"><path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            Le template Notion seul vaut largement les 57€ du bundle. Tout est pensé dans les moindres
+            détails — les trackers, la revue hebdo, le journal. En un mois j'ai développé 4 nouvelles
+            habitudes solides et mes revenus freelance ont augmenté de 30%. Ce n'est pas un hasard,
+            c'est le système qui travaille pour moi.
+          </p>
+          <div class="testimonial-card__author">
+            <div class="author-avatar">AR</div>
+            <div>
+              <p class="author-name">Axel R.</p>
+              <p class="author-role">Freelance développeur, 29 ans · Bordeaux</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       CLOSING CTA
+  ══════════════════════════════════════════════════════ -->
+  <section id="closing">
+    <div class="container">
+
+      <!-- decorative separator -->
+      <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:60px;opacity:0.3;">
+        <div style="flex:1;max-width:200px;height:1px;background:linear-gradient(90deg,transparent,#C9A84C);"></div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#C9A84C" aria-hidden="true" style="flex-shrink:0;">
+          <path d="M12 2l2.9 8.9H23l-7.5 5.5 2.9 8.9L12 19.8l-7.4 5.5 2.9-8.9L0 10.9h8.1z"/>
+        </svg>
+        <div style="flex:1;max-width:200px;height:1px;background:linear-gradient(90deg,#C9A84C,transparent);"></div>
+      </div>
+
+      <span class="closing__eyebrow">Le moment, c'est maintenant</span>
+
+      <h2 class="closing__title">
+        Ne reste pas bloqué.<br />
+        <span class="gold">Passe à l'action</span> maintenant.
+      </h2>
+
+      <p class="closing__subtitle">La discipline se construit aujourd'hui — pas demain.</p>
+
+      <p class="closing__desc">
+        Chaque jour qui passe sans système est un jour offert à la médiocrité. Tu mérites mieux que ça.
+        Le bundle complet te donne tout ce qu'il faut pour commencer ce soir même.
+      </p>
+
+      <a href="#gumroad-bundle" class="btn-gold btn-gold--large">
+        Oui, je veux le Bundle — 57€
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:10px" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+
+      <div style="margin-top:20px;">
+        <span class="closing__guarantee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Paiement 100% sécurisé via Gumroad · Accès instantané · PDF + lien Notion envoyés immédiatement
+        </span>
+      </div>
+
+      <!-- Micro FAQ -->
+      <div style="margin-top:72px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;text-align:left;">
+        <div style="background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;padding:24px;">
+          <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--gold);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            C'est pour moi si…
+          </h4>
+          <p style="font-size:0.85rem;color:#888;line-height:1.7;">Tu veux arrêter de procrastiner et construire une routine solide — peu importe ton point de départ.</p>
+        </div>
+        <div style="background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;padding:24px;">
+          <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--gold);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Quand je reçois le produit ?
+          </h4>
+          <p style="font-size:0.85rem;color:#888;line-height:1.7;">Immédiatement après paiement. Le PDF et le lien Notion t'arrivent dans ta boîte mail en moins de 2 minutes.</p>
+        </div>
+        <div style="background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;padding:24px;">
+          <h4 style="font-size:0.95rem;margin-bottom:8px;color:var(--gold);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Et si ça ne me convient pas ?
+          </h4>
+          <p style="font-size:0.85rem;color:#888;line-height:1.7;">Applique le contenu 14 jours. S'il ne transforme pas ta routine, écris-moi — je rembourse sans questions.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p class="footer__logo">L'HOMME INARRÊTABLE</p>
+      <p class="footer__copy">&copy; 2025 L'Homme Inarrêtable — Tous droits réservés.</p>
+      <div class="footer__links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
