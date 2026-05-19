@@ -287,6 +287,145 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
 .rule-title{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
 .rule-text{font-size:12px;color:var(--text2);line-height:1.5;}
 
+/* ===== VISUAL ENHANCEMENTS ===== */
+
+/* CHAPTER ICON HEADER */
+.chapter-icon-header{display:flex;align-items:center;gap:20px;margin-bottom:28px;padding:20px 24px;background:var(--bg2);border:1px solid var(--gold-border);position:relative;overflow:hidden;}
+.chapter-icon-header::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.04) 0%,transparent 60%);}
+.chapter-icon-svg{flex-shrink:0;width:56px;height:56px;}
+.chapter-icon-text h3{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);letter-spacing:2px;margin-bottom:4px;}
+.chapter-icon-text p{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* GIANT CHAPTER NUMBER BG */
+.chap-num-bg{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:220px;color:rgba(201,168,76,0.03);line-height:1;user-select:none;pointer-events:none;z-index:0;}
+
+/* ANIMATED SEPARATORS */
+.sep-animated{position:relative;height:40px;display:flex;align-items:center;margin:32px 0;overflow:hidden;}
+.sep-animated::before{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold),var(--gold-dim),transparent);animation:shimmer 3s ease-in-out infinite;}
+.sep-diamond-row{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;}
+.sep-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);animation:sep-pulse 2s ease-in-out infinite;}
+.sep-diamond:nth-child(2){animation-delay:0.3s;background:var(--gold-dim);}
+.sep-diamond:nth-child(3){animation-delay:0.6s;}
+@keyframes shimmer{0%,100%{opacity:0.4;}50%{opacity:1;}}
+@keyframes sep-pulse{0%,100%{transform:rotate(45deg) scale(1);opacity:1;}50%{transform:rotate(45deg) scale(0.6);opacity:0.4;}}
+
+/* DECORATIVE PROGRESS BARS */
+.deco-progress-wrap{margin:24px 0;}
+.deco-progress-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.deco-progress-label{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;width:130px;flex-shrink:0;}
+.deco-progress-track{flex:1;height:6px;background:rgba(201,168,76,0.08);border-radius:1px;overflow:hidden;position:relative;}
+.deco-progress-fill{height:100%;border-radius:1px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));position:relative;transition:width 1.2s cubic-bezier(0.22,1,0.36,1);}
+.deco-progress-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:rgba(255,255,255,0.3);filter:blur(4px);}
+.deco-progress-val{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);width:40px;text-align:right;flex-shrink:0;}
+
+/* POSTER QUOTE */
+.poster-quote{position:relative;padding:48px 40px;margin:32px 0;background:linear-gradient(135deg,#0c0c0c 0%,#0f0f0a 50%,#0a0a0a 100%);border:1px solid var(--gold-border);overflow:hidden;text-align:center;}
+.poster-quote::before{content:'"';position:absolute;top:-20px;left:20px;font-family:'Cormorant Garamond',serif;font-size:200px;color:rgba(201,168,76,0.04);line-height:1;font-style:italic;}
+.poster-quote::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.poster-quote-bg-num{position:absolute;right:-20px;bottom:-30px;font-family:'Bebas Neue',sans-serif;font-size:300px;color:rgba(201,168,76,0.02);line-height:1;user-select:none;}
+.poster-quote-text{position:relative;z-index:2;font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,32px);font-style:italic;color:var(--text);line-height:1.4;letter-spacing:0.5px;margin-bottom:20px;}
+.poster-quote-text em{color:var(--gold);font-style:normal;}
+.poster-quote-author{position:relative;z-index:2;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:4px;text-transform:uppercase;}
+.poster-quote-line{width:60px;height:1px;background:var(--gold);margin:0 auto 14px;}
+
+/* STAT BLOCKS */
+.stat-blocks-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0;}
+.stat-block{background:var(--bg2);border:1px solid var(--gold-border);padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
+.stat-block::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-block-gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.stat-block-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.stat-block-red::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.stat-block-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.stat-block-bg-icon{position:absolute;right:-5px;bottom:-10px;font-size:80px;opacity:0.04;user-select:none;}
+.stat-block-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;margin-bottom:6px;}
+.stat-block-gold .stat-block-num{color:var(--gold);}
+.stat-block-green .stat-block-num{color:var(--green);}
+.stat-block-red .stat-block-num{color:var(--red);}
+.stat-block-blue .stat-block-num{color:var(--blue);}
+.stat-block-label{font-size:10px;font-weight:600;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.stat-block-sub{font-size:11px;color:var(--gold-dim);font-style:italic;}
+
+/* GRADIENT CARDS */
+.grad-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+.grad-card{padding:28px 24px;position:relative;overflow:hidden;border:1px solid transparent;}
+.grad-card-1{background:linear-gradient(135deg,#0f0e07 0%,#1a1606 100%);border-color:rgba(201,168,76,0.25);}
+.grad-card-2{background:linear-gradient(135deg,#0a100e 0%,#071410 100%);border-color:rgba(78,155,106,0.25);}
+.grad-card-3{background:linear-gradient(135deg,#0f0a0a 0%,#180808 100%);border-color:rgba(192,57,43,0.25);}
+.grad-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;}
+.grad-card-1::after{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.grad-card-2::after{background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.grad-card-3::after{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.grad-card-icon{margin-bottom:16px;}
+.grad-card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;margin-bottom:10px;}
+.grad-card-1 .grad-card-title{color:var(--gold);}
+.grad-card-2 .grad-card-title{color:var(--green);}
+.grad-card-3 .grad-card-title{color:var(--red);}
+.grad-card-text{font-size:12.5px;color:var(--text2);line-height:1.6;}
+.grad-card-num{position:absolute;right:16px;top:16px;font-family:'Bebas Neue',sans-serif;font-size:64px;opacity:0.06;line-height:1;}
+.grad-card-1 .grad-card-num{color:var(--gold);}
+.grad-card-2 .grad-card-num{color:var(--green);}
+.grad-card-3 .grad-card-num{color:var(--red);}
+
+/* HABIT VISUAL TIMELINE */
+.hab-timeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:28px 0;padding:24px;background:var(--bg2);border:1px solid var(--gold-border);}
+.hab-tl-day{text-align:center;}
+.hab-tl-day-label{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--text2);letter-spacing:1px;margin-bottom:12px;}
+.hab-tl-bar-wrap{display:flex;flex-direction:column;gap:4px;align-items:center;}
+.hab-tl-segment{width:20px;height:20px;border:1px solid var(--gold-border);position:relative;}
+.hab-tl-segment.done{background:var(--gold);border-color:var(--gold);}
+.hab-tl-segment.done::after{content:'';position:absolute;inset:4px;background:rgba(0,0,0,0.3);}
+.hab-tl-score{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold);margin-top:8px;}
+.hab-timeline-label{font-size:10px;font-weight:600;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;text-align:center;}
+
+/* CSS BAR CHART */
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:120px;padding:0 0 8px;margin:24px 0;border-bottom:1px solid var(--gold-border);}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;}
+.bar-col-inner{width:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;}
+.bar-fill{width:100%;background:linear-gradient(0deg,var(--gold-dim),var(--gold));border-radius:1px 1px 0 0;min-height:4px;transition:height 1s;}
+.bar-label{font-size:10px;color:var(--text2);letter-spacing:1px;font-weight:600;margin-top:4px;}
+.bar-val{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--gold);}
+
+/* RING CHART */
+.ring-chart-wrap{display:flex;align-items:center;gap:28px;padding:24px;background:var(--bg2);border:1px solid var(--gold-border);margin:24px 0;}
+.ring-svg{flex-shrink:0;}
+.ring-labels{display:flex;flex-direction:column;gap:10px;}
+.ring-label-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text2);}
+.ring-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* PAGE NUMBER BG (section covers) */
+.cover-num-giant{position:absolute;right:-20px;bottom:-40px;font-family:'Bebas Neue',sans-serif;font-size:280px;color:rgba(201,168,76,0.025);line-height:1;user-select:none;z-index:1;}
+
+/* ANIMATED SEPARATOR v2 */
+.sep-v2{display:flex;align-items:center;gap:16px;margin:36px 0;}
+.sep-v2-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-border));}
+.sep-v2-line-r{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-border),transparent);}
+.sep-v2-center{display:flex;align-items:center;gap:6px;}
+.sep-v2-svg{animation:rot-slow 8s linear infinite;}
+@keyframes rot-slow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* HIGHLIGHT BOX */
+.highlight-box{padding:24px 28px;background:linear-gradient(135deg,rgba(201,168,76,0.06) 0%,rgba(201,168,76,0.02) 100%);border:1px solid var(--gold-border);border-left:3px solid var(--gold);margin:24px 0;position:relative;overflow:hidden;}
+.highlight-box-num{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:100px;color:rgba(201,168,76,0.04);line-height:1;user-select:none;}
+.highlight-box h4{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;}
+.highlight-box p{font-size:13px;color:var(--text2);line-height:1.7;position:relative;z-index:1;}
+
+/* MINI STAT ROW */
+.mini-stat-row{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0;}
+.mini-stat{flex:1;min-width:120px;padding:16px;background:var(--bg2);border:1px solid var(--gold-border);text-align:center;position:relative;}
+.mini-stat-val{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);line-height:1;}
+.mini-stat-lbl{font-size:9px;font-weight:600;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+
+@media(max-width:768px){
+  .stat-blocks-grid{grid-template-columns:repeat(2,1fr);}
+  .grad-cards-grid{grid-template-columns:1fr;}
+  .hab-timeline{grid-template-columns:repeat(7,1fr);gap:4px;padding:16px 8px;}
+  .hab-tl-segment{width:16px;height:16px;}
+  .poster-quote{padding:32px 24px;}
+  .poster-quote-text{font-size:18px;}
+  .ring-chart-wrap{flex-direction:column;}
+  .bar-chart{height:80px;}
+}
+
 /* BURGER */
 .burger{display:none;position:fixed;top:16px;left:16px;z-index:200;width:36px;height:36px;background:var(--bg2);border:1px solid var(--gold-border);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
 .burger span{display:block;width:18px;height:1.5px;background:var(--gold);}
@@ -435,6 +574,7 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
   <div class="section-cover">
     <div class="cover-bg"></div>
     <div class="cover-letter">O</div>
+    <div class="cover-num-giant">02</div>
     <div class="cover-line"></div>
     <div class="cover-content">
       <p class="cover-tag">Module 02</p>
@@ -443,6 +583,51 @@ tbody tr:hover td{background:rgba(201,168,76,0.025);}
     </div>
   </div>
   <div class="page-body">
+
+    <!-- CHAPTER ICON HEADER -->
+    <div class="chapter-icon-header">
+      <svg class="chapter-icon-svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="26" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.4"/>
+        <circle cx="28" cy="28" r="20" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.2"/>
+        <!-- Target crosshair -->
+        <circle cx="28" cy="28" r="8" stroke="#C9A84C" stroke-width="2"/>
+        <circle cx="28" cy="28" r="3" fill="#C9A84C"/>
+        <line x1="28" y1="6" x2="28" y2="18" stroke="#C9A84C" stroke-width="1.5"/>
+        <line x1="28" y1="38" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/>
+        <line x1="6" y1="28" x2="18" y2="28" stroke="#C9A84C" stroke-width="1.5"/>
+        <line x1="38" y1="28" x2="50" y2="28" stroke="#C9A84C" stroke-width="1.5"/>
+        <!-- Corner ticks -->
+        <path d="M12 12 L16 12 L16 16" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+        <path d="M44 12 L40 12 L40 16" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+        <path d="M12 44 L16 44 L16 40" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+        <path d="M44 44 L40 44 L40 40" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+      </svg>
+      <div class="chapter-icon-text">
+        <h3>OBJECTIFS 90 JOURS</h3>
+        <p>Transforme tes ambitions en plans d'action concrets avec deadlines et indicateurs de progression. La précision crée la réalité.</p>
+      </div>
+      <div class="chap-num-bg">02</div>
+    </div>
+
+    <!-- STAT BLOCKS -->
+    <div class="stat-blocks-grid">
+      <div class="stat-block stat-block-gold"><div class="stat-block-bg-icon">🎯</div><div class="stat-block-num">4</div><div class="stat-block-label">Objectifs actifs</div><div class="stat-block-sub">Ce trimestre</div></div>
+      <div class="stat-block stat-block-green"><div class="stat-block-bg-icon">✓</div><div class="stat-block-num">1</div><div class="stat-block-label">Accomplis</div><div class="stat-block-sub">Ce trimestre</div></div>
+      <div class="stat-block stat-block-blue"><div class="stat-block-bg-icon">📈</div><div class="stat-block-num">65%</div><div class="stat-block-label">Progression moy.</div><div class="stat-block-sub">Sur tous objectifs</div></div>
+      <div class="stat-block stat-block-gold"><div class="stat-block-bg-icon">⏰</div><div class="stat-block-num">42J</div><div class="stat-block-label">Prochain deadline</div><div class="stat-block-sub">15 Juin 2026</div></div>
+    </div>
+
+    <!-- DECORATIVE PROGRESS BARS -->
+    <div class="section-label">Progression par objectif</div>
+    <div class="deco-progress-wrap">
+      <div class="deco-progress-row"><span class="deco-progress-label">Offre digitale</span><div class="deco-progress-track"><div class="deco-progress-fill" style="width:65%"></div></div><span class="deco-progress-val">65%</span></div>
+      <div class="deco-progress-row"><span class="deco-progress-label">Revenus 4500€</span><div class="deco-progress-track"><div class="deco-progress-fill" style="width:100%;background:linear-gradient(90deg,var(--green),#6fcf97)"></div></div><span class="deco-progress-val" style="color:var(--green)">100%</span></div>
+      <div class="deco-progress-row"><span class="deco-progress-label">Lecture 12 livres</span><div class="deco-progress-track"><div class="deco-progress-fill" style="width:40%"></div></div><span class="deco-progress-val">40%</span></div>
+      <div class="deco-progress-row"><span class="deco-progress-label">Audience 10K</span><div class="deco-progress-track"><div class="deco-progress-fill" style="width:12%"></div></div><span class="deco-progress-val">12%</span></div>
+    </div>
+
+    <!-- ANIMATED SEPARATOR -->
+    <div class="sep-animated"><div class="sep-diamond-row"><div class="sep-diamond"></div><div class="sep-diamond"></div><div class="sep-diamond"></div></div></div>
     <div class="search-wrap"><input class="search-input" type="text" placeholder="Rechercher un objectif..." oninput="searchTable(this,'obj-table')"></div>
     <div class="filters">
       <button class="filter-btn active" onclick="filterBtns(this,'obj-table','all')">Tous</button>
