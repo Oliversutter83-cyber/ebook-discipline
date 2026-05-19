@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code de l'Homme Inarrêtable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --bg2: #0e0e0e;
+  --bg3: #131313;
+  --gold: #C9A84C;
+  --gold-dim: #7A6330;
+  --gold-light: #E8CC7A;
+  --gold-glow: rgba(201,168,76,0.15);
+  --gold-border: rgba(201,168,76,0.3);
+  --text: #DDD5C4;
+  --text2: #A89F8C;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* GRAIN TEXTURE */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* PRINT */
+@media print {
+  body::before { display: none; }
+  .chapter, .transition-page, .cover-page, .manifeste-page { page-break-after: always; }
+  .no-print { display: none !important; }
+}
+
+/* CORNER ORNAMENT SVG REUSABLE */
+.corner-ornament {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+}
+.corner-ornament.tl { top: 0; left: 0; }
+.corner-ornament.tr { top: 0; right: 0; transform: scaleX(-1); }
+.corner-ornament.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.corner-ornament.br { bottom: 0; right: 0; transform: scale(-1); }
+
+/* =====================
+   COVER PAGE
+   ===================== */
+.cover-page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 60px;
+}
+.cover-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cover-line-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.cover-line-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.cover-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+}
+.cover-edition-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.cover-edition-tag::before,
+.cover-edition-tag::after {
+  content: '';
+  width: 60px;
+  height: 1px;
+  background: var(--gold-border);
+}
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 10vw, 110px);
+  color: var(--text);
+  letter-spacing: 4px;
+  line-height: 0.95;
+  margin-bottom: 8px;
+}
+.cover-title span {
+  color: var(--gold);
+  display: block;
+}
+.cover-divider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 30px auto;
+}
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-style: italic;
+  color: var(--text2);
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto 50px;
+}
+.cover-author {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.cover-bg-text {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22vw;
+  color: rgba(201,168,76,0.025);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -5px;
+  line-height: 1;
+}
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--gold-border);
+  padding: 10px 24px;
+  margin-bottom: 50px;
+  background: rgba(201,168,76,0.04);
+}
+.cover-badge span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+
+/* =====================
+   MANIFESTE PAGE
+   ===================== */
+.manifeste-page {
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.manifeste-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 100px 60px;
+  position: relative;
+  z-index: 2;
+}
+.manifeste-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.manifeste-tag::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-border);
+}
+.manifeste-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 64px;
+  color: var(--text);
+  letter-spacing: 3px;
+  line-height: 1;
+  margin-bottom: 40px;
+}
+.manifeste-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.9;
+}
+.manifeste-body p {
+  margin-bottom: 28px;
+}
+.manifeste-body strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+.manifeste-body em {
+  font-style: italic;
+  color: var(--text2);
+}
+.manifeste-signature {
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.manifeste-signature-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* =====================
+   TRANSITION PAGE
+   ===================== */
+.transition-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0b06 0%, #1a1508 40%, #0d0b06 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 80px 60px;
+}
+.transition-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.transition-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.transition-line-b {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.transition-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 200px;
+  color: rgba(201,168,76,0.08);
+  line-height: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  pointer-events: none;
+}
+.transition-content {
+  position: relative;
+  z-index: 2;
+}
+.transition-chapter-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.6);
+  margin-bottom: 20px;
+}
+.transition-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  color: var(--gold);
+  letter-spacing: 3px;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.transition-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: rgba(201,168,76,0.7);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =====================
+   CHAPTER PAGE
+   ===================== */
+.chapter {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 80px 60px 100px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.chapter-header {
+  margin-bottom: 64px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--gold-border);
+  position: relative;
+}
+.chapter-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 140px;
+  color: rgba(201,168,76,0.06);
+  line-height: 1;
+  position: absolute;
+  right: 0;
+  top: -20px;
+  user-select: none;
+  pointer-events: none;
+}
+.chapter-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.chapter-label::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold-border);
+}
+.chapter-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 58px);
+  color: var(--text);
+  letter-spacing: 2px;
+  line-height: 1.05;
+  max-width: 700px;
+  position: relative;
+  z-index: 2;
+}
+.chapter-intro-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1.6;
+  padding: 40px 0 40px 30px;
+  border-left: 3px solid var(--gold);
+  margin-bottom: 48px;
+  position: relative;
+}
+.chapter-intro-quote::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 100px;
+  color: rgba(201,168,76,0.1);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  line-height: 1;
+}
+.quote-author {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-top: 16px;
+  font-style: normal;
+}
+
+/* SECTION */
+.section {
+  margin-bottom: 56px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-border);
+  max-width: 80px;
+}
+.section p {
+  font-size: 15.5px;
+  color: var(--text);
+  line-height: 1.85;
+  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif;
+}
+.section p strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* SEPARATOR */
+.gold-separator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 48px 0;
+}
+.gold-separator::before,
+.gold-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-border));
+}
+.gold-separator::after {
+  background: linear-gradient(90deg, var(--gold-border), transparent);
+}
+.sep-diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* CALLOUT BOX */
+.callout {
+  border: 1px solid var(--gold-border);
+  background: rgba(201,168,76,0.04);
+  padding: 28px 32px;
+  margin: 36px 0;
+  position: relative;
+  overflow: hidden;
+}
+.callout::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dim));
+}
+.callout-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.callout-title::before {
+  content: '◆';
+  font-size: 8px;
+}
+.callout p, .callout li {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  font-family: 'Inter', sans-serif;
+}
+.callout ul {
+  padding-left: 0;
+  list-style: none;
+}
+.callout ul li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 8px;
+}
+.callout ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 12px;
+}
+
+/* ACTION BOX */
+.action-box {
+  border: 1px solid var(--gold);
+  background: rgba(201,168,76,0.06);
+  padding: 32px 36px;
+  margin-top: 56px;
+  position: relative;
+}
+.action-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+.action-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.action-title::before {
+  content: '⚡';
+  font-size: 16px;
+}
+.action-box p, .action-box li {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.8;
+  font-family: 'Inter', sans-serif;
+}
+.action-box ol {
+  padding-left: 20px;
+}
+.action-box ol li {
+  margin-bottom: 10px;
+  padding-left: 6px;
+}
+.action-box ol li::marker {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* INLINE QUOTE */
+.inline-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--text2);
+  text-align: center;
+  padding: 32px 40px;
+  margin: 40px 0;
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  line-height: 1.6;
+}
+.inline-quote span {
+  color: var(--gold);
+}
+
+/* LIST STYLED */
+.styled-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 28px;
+}
+.styled-list li {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+  padding: 12px 0 12px 28px;
+  position: relative;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  font-family: 'Inter', sans-serif;
+}
+.styled-list li:last-child { border-bottom: none; }
+.styled-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 14px;
+  top: 14px;
+}
+.styled-list li strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* CHAPTER FINAL — 10 LAWS */
+.laws-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.law-item {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  align-items: flex-start;
+}
+.law-item:last-child { border-bottom: none; }
+.law-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: rgba(201,168,76,0.15);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 60px;
+  text-align: right;
+}
+.law-body {}
+.law-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.law-text {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.75;
+  font-family: 'Inter', sans-serif;
+}
+
+/* TABLE OF CONTENTS */
+.toc-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 100px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.toc-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: var(--text);
+  letter-spacing: 3px;
+  margin-bottom: 60px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--gold-border);
+}
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.07);
+  position: relative;
+  overflow: hidden;
+}
+.toc-item:last-child { border-bottom: none; }
+.toc-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  flex-shrink: 0;
+  width: 80px;
+}
+.toc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--text);
+  font-weight: 500;
+  flex: 1;
+}
+.toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(201,168,76,0.2);
+  margin: 0 16px;
+  position: relative;
+  bottom: 5px;
+  min-width: 40px;
+}
+.toc-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 4px;
+  display: block;
+}
+
+/* FINAL MANIFESTE LAWS LARGE */
+.law-large {
+  padding: 36px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.law-large:last-child { border-bottom: none; }
+.law-large-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(201,168,76,0.1);
+  line-height: 1;
+  margin-bottom: -10px;
+}
+.law-large-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.law-large-text {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+  font-family: 'Inter', sans-serif;
+  max-width: 700px;
+}
+
+/* SIGNATURE FINALE */
+.final-signature {
+  text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(180deg, var(--bg) 0%, #0c0b08 100%);
+  position: relative;
+}
+.final-sig-line {
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+  margin: 0 auto 30px;
+}
+.final-sig-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.final-sig-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE DE COUVERTURE
+     ============================================================ -->
+<div class="cover-page">
+  <div class="cover-line-top"></div>
+  <div class="cover-line-bottom"></div>
+
+  <!-- Corner ornaments -->
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.6"/>
+    <path d="M0 0 L20 0 L20 1 L1 1 L1 20 L0 20 Z" fill="#C9A84C" opacity="0.3"/>
+    <circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/>
+  </svg>
+  <svg class="corner-ornament tr" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.6"/>
+    <path d="M0 0 L20 0 L20 1 L1 1 L1 20 L0 20 Z" fill="#C9A84C" opacity="0.3"/>
+    <circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/>
+  </svg>
+  <svg class="corner-ornament bl" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.6"/>
+    <path d="M0 0 L20 0 L20 1 L1 1 L1 20 L0 20 Z" fill="#C9A84C" opacity="0.3"/>
+    <circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/>
+  </svg>
+  <svg class="corner-ornament br" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.6"/>
+    <path d="M0 0 L20 0 L20 1 L1 1 L1 20 L0 20 Z" fill="#C9A84C" opacity="0.3"/>
+    <circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/>
+  </svg>
+
+  <div class="cover-bg-text">CODE</div>
+
+  <div class="cover-content">
+    <div class="cover-edition-tag">Édition Définitive</div>
+
+    <h1 class="cover-title">
+      Le Code de<br>
+      <span>l'Homme</span>
+      Inarrêtable
+    </h1>
+
+    <div class="cover-divider"></div>
+
+    <div class="cover-badge">
+      <span>8 Principes · Système Complet · Résultats Réels</span>
+    </div>
+
+    <p class="cover-subtitle">
+      Le manuel sans compromis pour construire une identité solide,<br>
+      une discipline en acier, et une vie que tu as choisie — pas subie.
+    </p>
+
+    <div class="cover-author">— Édition Premium —</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TABLE DES MATIÈRES
+     ============================================================ -->
+<div class="toc-page">
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.4"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.4"/></svg>
+  <svg class="corner-ornament tr" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.4"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.4"/></svg>
+
+  <div class="toc-title">Table des<br>Matières</div>
+
+  <div class="toc-item">
+    <span class="toc-num">MANIFESTE</span>
+    <div>
+      <span class="toc-name">Pourquoi Tu Lis Ce Livre</span>
+      <span class="toc-sub">Une déclaration d'intention — pas une introduction</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">01</span>
+    <div>
+      <span class="toc-name">L'Identité Avant Tout</span>
+      <span class="toc-sub">Qui tu choisis d'être détermine absolument tout</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">02</span>
+    <div>
+      <span class="toc-name">La Discipline Comme Religion</span>
+      <span class="toc-sub">Système vs motivation — le combat final</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">03</span>
+    <div>
+      <span class="toc-name">Reprogramme Ton Cerveau</span>
+      <span class="toc-sub">Croyances limitantes, identité mentale, reconditionnement</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">04</span>
+    <div>
+      <span class="toc-name">Les Habitudes des Hommes Qui Gagnent</span>
+      <span class="toc-sub">Routine, rituels, architecture du temps</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">05</span>
+    <div>
+      <span class="toc-name">L'Énergie est Ta Monnaie</span>
+      <span class="toc-sub">Sommeil, sport, alimentation — optimiser la machine</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">06</span>
+    <div>
+      <span class="toc-name">L'Argent et l'Indépendance</span>
+      <span class="toc-sub">Mindset financier, construction de richesse réelle</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">07</span>
+    <div>
+      <span class="toc-name">Ton Cercle Décide de Ton Destin</span>
+      <span class="toc-sub">Relations, élimination des parasites, construction d'alliances</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">08</span>
+    <div>
+      <span class="toc-name">Le Manifeste Final</span>
+      <span class="toc-sub">Les 10 lois de l'homme inarrêtable</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MANIFESTE
+     ============================================================ -->
+<div class="manifeste-page">
+  <div class="manifeste-inner">
+    <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.4"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.4"/></svg>
+
+    <div class="manifeste-tag">Manifeste</div>
+    <h2 class="manifeste-title">Pourquoi Tu<br>Lis Ce Livre</h2>
+
+    <div class="manifeste-body">
+      <p>Tu n'as pas acheté ce livre par hasard. <strong>Il y a quelque chose en toi qui sait.</strong> Quelque chose qui sait que tu n'es pas à ta place actuelle. Quelque chose qui sait que la version que tu présentes au monde chaque jour n'est pas la version finale. Pas encore.</p>
+
+      <p>Peut-être que tu te lèves le matin avec une vague insatisfaction que tu n'arrives pas à nommer. Peut-être que tu travailles dur, mais que les résultats ne suivent pas. Peut-être que tu regardes certains hommes — ceux qui avancent avec une clarté, une assurance, une <em>gravité</em> particulière — et tu te demandes ce qu'ils ont compris que tu n'as pas encore compris.</p>
+
+      <p>Ce livre n'est pas là pour te motiver. <strong>La motivation est de la vapeur — elle se dissipe dès que la chaleur retombe.</strong> Ce livre est là pour te donner quelque chose de plus solide : un code. Un système d'opération interne que tu installes une fois, et qui tourne en permanence, même quand tu es fatigué, même quand tu doutes, même quand le monde t'oppose une résistance maximale.</p>
+
+      <p>L'homme inarrêtable n'est pas un surhomme. Il ne dort pas quatre heures par nuit, il ne souffre pas en permanence, et il n'a pas une volonté de fer héritée à la naissance. <strong>Il a simplement compris des choses que la majorité des hommes n'a jamais pris le temps de comprendre.</strong> Des choses sur l'identité. Sur la discipline. Sur l'énergie. Sur l'argent. Sur les gens qui t'entourent.</p>
+
+      <p>Ce que tu tiens entre les mains, c'est la synthèse de ces choses. Pas de théorie creuse. Pas de citations Instagram recyclées. Chaque chapitre est un principe opérationnel — quelque chose que tu peux appliquer dès aujourd'hui, qui change quelque chose dans ta réalité dès demain.</p>
+
+      <p>Une seule condition : <strong>lire activement.</strong> Pas comme un roman. Comme un ingénieur lit un manuel technique. Stylo à la main. Prêt à t'arrêter, à réfléchir, à écrire. Les exercices à la fin de chaque chapitre ne sont pas optionnels. Ce sont les maillons de la chaîne. Saute un maillon, la chaîne cède.</p>
+
+      <p><strong>Tu es au bon endroit. Maintenant, tu entres.</strong></p>
+    </div>
+
+    <div class="manifeste-signature">
+      <div>
+        <div class="manifeste-signature-line">— Commence. Ne t'arrête plus jamais.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TRANSITION 01
+     ============================================================ -->
+<div class="transition-page">
+  <div class="transition-line"></div>
+  <div class="transition-line-b"></div>
+  <div class="transition-num">01</div>
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament tr" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament bl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament br" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <div class="transition-content">
+    <div class="transition-chapter-label">Chapitre Premier</div>
+    <div class="transition-title">L'Identité<br>Avant Tout</div>
+    <div class="transition-subtitle">Qui tu choisis d'être détermine<br>absolument tout ce qui suit</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHAPITRE 1 — L'IDENTITÉ AVANT TOUT
+     ============================================================ -->
+<div class="chapter">
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.3"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.3"/></svg>
+
+  <div class="chapter-header">
+    <div class="chapter-num">01</div>
+    <div class="chapter-label">Chapitre 01</div>
+    <h2 class="chapter-title">L'Identité<br>Avant Tout</h2>
+  </div>
+
+  <blockquote class="chapter-intro-quote">
+    "Tu n'agis pas en accord avec tes objectifs. Tu agis en accord avec ta vision de toi-même."
+    <span class="quote-author">— James Clear, Atomic Habits</span>
+  </blockquote>
+
+  <div class="section">
+    <h3 class="section-title">Le Problème que Personne ne Nomme</h3>
+    <p>La plupart des hommes cherchent à changer leurs habitudes. Ils veulent se lever à 5h, aller à la salle, lire trente pages par jour, arrêter de procrastiner. Ils achètent des planners, téléchargent des apps, créent des "challenge 30 jours". Et six semaines plus tard, ils sont au point de départ — frustrés, convaincus d'un manque de volonté congénital.</p>
+    <p>Le problème n'est pas la méthode. Le problème est plus profond. <strong>Ils essaient de changer ce qu'ils font sans changer ce qu'ils sont.</strong> Et ce qu'ils font est une conséquence directe de ce qu'ils sont — ou plutôt, de ce qu'ils croient être.</p>
+    <p>Si au fond de toi tu te vois comme "quelqu'un qui a du mal à être discipliné", toutes tes stratégies de productivité vont se heurter à ce mur invisible. Parce que ton cerveau est programmé pour l'cohérence. Il va tout faire pour aligner tes comportements sur ton identité — même si cette identité te détruit.</p>
+  </div>
+
+  <div class="gold-separator"><div class="sep-diamond"></div></div>
+
+  <div class="section">
+    <h3 class="section-title">L'Identité comme Point de Départ</h3>
+    <p>James Clear l'a formulé avec précision : il y a trois niveaux de changement. Les résultats (ce que tu obtiens). Les processus (ce que tu fais). L'identité (ce que tu crois être). La majorité des gens travaillent de l'extérieur vers l'intérieur — résultats d'abord. Les hommes qui réussissent durablement travaillent de l'intérieur vers l'extérieur — identité d'abord.</p>
+    <p>Concrètement : au lieu de te dire "je veux courir un marathon", tu te dis "je suis un coureur". Au lieu de "je veux épargner plus", tu te dis "je suis quelqu'un de financièrement discipliné". Ce n'est pas de l'autosuggestion New Age. C'est de la neurologie appliquée. <strong>Chaque action que tu poses est soit un vote pour, soit un vote contre l'identité que tu veux construire.</strong></p>
+    <p>L'identité n'est pas un état fixe reçu à la naissance. C'est une construction permanente, un choix renouvelé chaque jour par tes actes. La question n'est pas "qui suis-je ?". La question est : <strong>"Qui est-ce que je choisis d'être aujourd'hui ?"</strong></p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">À Retenir</div>
+    <ul>
+      <li>Tes comportements sont le miroir de ton identité — change l'identité d'abord</li>
+      <li>Chaque petite action cohérente avec ta nouvelle identité est une preuve que tu enregistres</li>
+      <li>L'identité se construit par accumulation de preuves, pas par déclaration</li>
+      <li>Tu n'as pas besoin de croire à 100% — commence avec 1%. L'action crée la conviction</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3 class="section-title">Construire Son Identité Délibérément</h3>
+    <p>La plupart des hommes ont une identité par défaut — héritée de leur famille, de leurs échecs passés, du regard des autres. Cette identité par défaut est rarement alignée avec qui ils veulent devenir. La bonne nouvelle : on peut la réécrire. Délibérément. Méthodiquement.</p>
+    <p>Première étape : <strong>définis l'homme que tu veux être</strong> avec une précision chirurgicale. Pas "je veux être plus discipliné". Mais : "Je suis un homme qui honore ses engagements envers lui-même avant tout le monde. Un homme qui agit sous pression sans attendre d'être inspiré. Un homme dont la parole vaut quelque chose."</p>
+    <p>Deuxième étape : <strong>pose des actes qui correspondent</strong> à cet homme-là, dès aujourd'hui, même à petite échelle. Tu veux être quelqu'un de discipliné ? Fais ton lit. Range ta chambre. Honore le réveil que tu avais fixé. Ces micro-victoires ne sont pas triviales — elles sont les premières briques de la preuve interne.</p>
+    <p>Troisième étape : <strong>parle de toi en conséquence.</strong> Le langage façonne la réalité mentale. "J'essaie de me lever tôt" installe la possibilité de l'échec. "Je me lève tôt" installe une vérité. Les mots que tu utilises pour te décrire sont des programmes que tu exécutes en permanence.</p>
+  </div>
+
+  <div class="inline-quote">
+    <span>"Tu n'es pas ce que tu ressens.</span> Tu es ce que tu fais,<br>répété assez longtemps pour devenir automatique."
+  </div>
+
+  <div class="section">
+    <h3 class="section-title">L'Homme que Tu Refuses d'Être</h3>
+    <p>Définir qui tu veux être implique aussi de définir clairement qui tu refuses d'être. Cet exercice est souvent plus puissant que le premier. Parce qu'il active le dégoût — et le dégoût est un moteur plus fiable que l'aspiration.</p>
+    <p>Refuse d'être l'homme qui remet à demain. Refuse d'être l'homme qui se plaint sans agir. Refuse d'être l'homme qui se raconte des histoires pour justifier sa médiocrité. Refuse d'être l'homme que ses propres enfants ne respecteront pas. <strong>Mets des mots sur ce refus. Écris-le. C'est un contrat avec toi-même.</strong></p>
+    <p>L'identité a deux faces : ce que tu construis activement, et ce que tu rejettes activement. Les deux sont nécessaires. L'une attire, l'autre repousse. Ensemble, elles créent une force directionnelle que la motivation seule ne peut pas produire.</p>
+  </div>
+
+  <div class="action-box">
+    <div class="action-title">Action Immédiate</div>
+    <p style="margin-bottom:16px;">Prends une feuille blanche. En haut, écris : <strong>"Je suis..."</strong></p>
+    <ol>
+      <li>Décris l'homme que tu choisis d'être en 5 traits d'identité précis et non négociables. Pas des objectifs — des déclarations d'être.</li>
+      <li>En dessous, écris : <strong>"Je refuse d'être..."</strong> — liste 5 comportements, attitudes ou états que tu rejettes définitivement.</li>
+      <li>Identifie une seule action que tu peux poser dans les 24 prochaines heures qui est cohérente avec ta nouvelle identité. Une seule. Pas dix.</li>
+      <li>Colle cette feuille là où tu la verras chaque matin. Relis-la. Relis-la encore. Jusqu'à ce qu'elle soit gravée.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================
+     TRANSITION 02
+     ============================================================ -->
+<div class="transition-page">
+  <div class="transition-line"></div>
+  <div class="transition-line-b"></div>
+  <div class="transition-num">02</div>
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament tr" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament bl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <svg class="corner-ornament br" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.5"/></svg>
+  <div class="transition-content">
+    <div class="transition-chapter-label">Chapitre Deux</div>
+    <div class="transition-title">La Discipline<br>Comme Religion</div>
+    <div class="transition-subtitle">Système contre motivation —<br>le seul combat qui compte</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHAPITRE 2 — LA DISCIPLINE COMME RELIGION
+     ============================================================ -->
+<div class="chapter">
+  <svg class="corner-ornament tl" viewBox="0 0 60 60" fill="none"><path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="#C9A84C" opacity="0.3"/><circle cx="4" cy="4" r="2" fill="#C9A84C" opacity="0.3"/></svg>
+
+  <div class="chapter-header">
+    <div class="chapter-num">02</div>
+    <div class="chapter-label">Chapitre 02</div>
+    <h2 class="chapter-title">La Discipline<br>Comme Religion</h2>
+  </div>
+
+  <blockquote class="chapter-intro-quote">
+    "La discipline est la liberté la plus pure qui soit. La liberté de devenir ce que tu as décidé d'être."
+    <span class="quote-author">— Jocko Willink</span>
+  </blockquote>
+
+  <div class="section">
+    <h3 class="section-title">Le Mensonge de la Motivation</h3>
+    <p>Le monde du développement personnel t'a vendu une idée toxique : que tu as besoin d'être motivé pour agir. Que si tu trouves le bon "why", si tu te connectes à ta vision, si tu écoutes la bonne playlist, tu auras envie d'agir. Et que cette envie sera suffisante pour construire la vie que tu veux.</p>
+    <p>C'est faux. Fondamentalement, biologiquement faux. <strong>La motivation est un état émotionnel — elle fluctue comme la météo.</strong> Elle est haute le dimanche soir quand tu planifies ta semaine. Elle est inexistante le mercredi matin quand il pleut, que tu as mal dormi, et que ton projet n'avance pas comme prévu. Si tu attends la motivation pour agir, tu vas passer ta vie à attendre.</p>
+    <p>Les hommes qui construisent des choses durables ne se posent pas la question de savoir s'ils en ont envie. Ils se lèvent. Ils font ce qui était prévu. Ils rentrent. Ils recommencent demain. <strong>L'action précède le sentiment — pas l'inverse.</strong></p>
+  </div>
+
+  <div class="gold-separator"><div class="sep-diamond"></div></div>
+
+  <div class="section">
+    <h3 class="section-title">Construire un Système, Pas un Objectif</h3>
+    <p>Un objectif te dit où tu veux aller. Un système te dit comment tu vas y aller — chaque jour, indépendamment de comment tu te sens. La différence entre les deux est la différence entre rêver et construire.</p>
+    <p>Exemple concret : "perdre 15 kilos" est un objectif. "Faire 45 minutes de sport chaque matin avant de regarder mon téléphone, sans exception" est un système. L'objectif peut être atteint puis abandonné. Le système, s'il est respecté assez longtemps, devient une partie de qui tu es — il n'a plus besoin d'être forcé.</p>
+    <p>Un bon système a trois caractéristiques. <strong>Il est précis</strong> — pas "faire du sport souvent" mais "45 minutes, 6h30, salle ou course, peu importe la météo". <strong>Il est non-négociable</strong> — il n'y a pas de "sauf si". Il y a "quoi qu'il arrive". <strong>Il est atteignable au minimum</strong> — même les jours de catastrophe, tu peux faire une version réduite. Zéro doit être impossible.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">À Retenir</div>
+    <ul>
+      <li>La motivation est une émotion — elle monte et descend, tu n'as aucun contrôle dessus</li>
+      <li>La discipline est une compétence — elle se développe par la répétition, comme un muscle</li>
+      <li>Les systèmes éliminent la décision — et moins tu décides, moins tu t'épuises</li>
+      <li>La régularité imparfaite bat l'excellence sporadique. Chaque fois, sans exception</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3 class="section-title">La Religion de la Régularité</h3>
+    <p>Le mot "religion" n'est pas choisi au hasard. Une religion a des rituels — des actes répétés à heures fixes, indépendamment de l'état d'âme du pratiquant. Le moine ne prie pas quand il en a envie. Il prie parce que c'est l'heure. Le soldat ne s'entraîne pas quand il se sent d'humeur sportive. Il s'entraîne parce que c'est ce que font les soldats.</p>
+    <p>Ta discipline doit avoir cette qualité sacrée. Pas parce que c'est beau philosophiquement — mais parce que c'est la seule structure qui résiste au chaos de la vie réelle. Quand tu traverses une période difficile, quand tu perds un client, quand une relation se termine, quand tu doutes de tout : <strong>tes rituels sont ce qui te maintient debout.</strong> Ils sont ton ancre.</p>
+    <p>La discipline n'est pas une punition. C'est une structure de libération. Quand tu n'as pas à décider si tu vas t'entraîner, si tu vas travailler sur ton projet, si tu vas honorer ta routine matinale — parce que c'est déjà décidé, une fois pour toutes — tu libères une quantité massive d'énergie mentale pour les choses qui comptent vraiment. <strong>La discipline n'est pas la prison. L'absence de discipline est la prison.</strong></p>
+  </div>
+
+  <div class="section">
+    <h3 class="section-title">Gérer les Rechutes</h3>
+    <p>Tu vas louper un jour. Puis peut-être deux. C'est inévitable — la vie est imprévisible et tu es humain. La question n'est pas de ne jamais tomber. La question est : <strong>combien de temps restes-tu à terre ?</strong></p>
+    <p>La règle absolue : ne jamais louper deux fois de suite. Un jour raté est un accident. Deux jours ratés consécutifs est le début d'une nouvelle habitude — une habitude d'abandon. La chaîne se brise entre le deuxième et le troisième jour. Protège le deuxième jour comme si ta vie en dépendait. Parce que d'une certaine façon, c'est le cas.</p>
+    <p>Quand tu reprends après une interruption, ne culpabilise pas. La culpabilité est de l'énergie gaspillée — elle ne reconstruit rien. Reprends. Simplement. Sans discours, sans drama intérieur. L'homme inarrêtable ne s'apitoie pas sur lui-même. Il se remet en mouvement.</p>
+  </div>
+
+  <div class="action-box">
+    <div class="action-title">Action Immédiate</div>
+    <p style="margin-bottom:16px;">Conçois ton système personnel en trois niveaux :</p>
+    <ol>
+      <li><strong>Niveau Standard :</strong> ta routine idéale sur une journée normale — heure par heure, du réveil au coucher. Écris-la en détail.</li>
+      <li><strong>Niveau Minimum :</strong> la version réduite qui s'applique même les pires jours — le strict nécessaire pour ne pas briser la chaîne.</li>
+      <li><strong>Niveau Urgence :</strong> si tu as 30 minutes et rien de plus — qu'est-ce que tu fais absolument, sans excuses ?</li>
+    </ol>
+    <p style="margin-top:16px;">Affiche ces trois niveaux. Le choix entre eux dépend du jour. L'option zéro n'existe pas.</p>
+  </div>
+</div>
