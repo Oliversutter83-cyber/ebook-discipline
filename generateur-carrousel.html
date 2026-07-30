@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Générateur de Carrousel — Menshift Code</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:#141414;color:#eee;font-family:'Inter',sans-serif;
+  padding:20px 12px 90px;display:flex;flex-direction:column;
+  align-items:center;gap:18px;
+}
+
+h1{
+  font-family:'Anton',sans-serif;font-size:26px;letter-spacing:1px;
+  color:#C9A84C;text-transform:uppercase;text-align:center;
+}
+
+.help{
+  color:#999;font-size:13px;line-height:1.7;max-width:460px;text-align:center;
+  border:1px solid #303030;border-radius:10px;padding:16px;
+}
+.help b{color:#C9A84C;}
+.help ol{text-align:left;margin:10px 0 0 18px;}
+.help li{margin-bottom:6px;}
+
+.tag{
+  color:#C9A84C;font-size:12px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;margin-top:14px;
+}
+
+.controls{
+  width:100%;max-width:460px;display:flex;flex-direction:column;gap:8px;
+  background:#1d1d1d;border:1px solid #303030;border-radius:10px;padding:14px;
+}
+.controls label{font-size:12px;color:#999;letter-spacing:1px;text-transform:uppercase;}
+.controls input[type=file]{
+  font-size:13px;color:#ccc;background:#111;border:1px solid #3a3a3a;
+  border-radius:8px;padding:10px;width:100%;
+}
+.controls textarea{
+  width:100%;background:#111;color:#fff;border:1px solid #3a3a3a;border-radius:8px;
+  padding:11px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;resize:vertical;
+}
+.controls textarea:focus{outline:none;border-color:#C9A84C;}
+
+/* ---------- SLIDE 1080 x 1350 ---------- */
+.slide{
+  width:1080px;height:1350px;flex:none;
+  transform-origin:top center;
+  background:#050505;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+
+.photo{
+  width:100%;height:830px;position:relative;overflow:hidden;background:#0d0d0d;
+  display:flex;align-items:center;justify-content:center;
+}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo .placeholder{
+  color:#3d3d3d;font-family:'Anton',sans-serif;font-size:42px;
+  letter-spacing:2px;text-transform:uppercase;text-align:center;padding:0 60px;
+}
+/* fondu vers le bandeau noir */
+.photo::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:190px;
+  background:linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.92) 78%,#050505 100%);
+}
+
+.divider{
+  position:relative;z-index:3;height:2px;margin:0 90px;
+  background:linear-gradient(90deg,rgba(201,168,76,0),rgba(201,168,76,.75),rgba(201,168,76,0));
+}
+
+.band{
+  flex:1;background:#050505;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:34px 62px 40px;position:relative;
+}
+
+.band-txt{
+  font-family:'Anton',sans-serif;
+  font-size:66px;line-height:1.13;
+  color:#fff;text-align:center;text-transform:uppercase;
+  letter-spacing:.5px;
+  text-shadow:0 3px 18px rgba(0,0,0,.9);
+  outline:none;width:100%;
+}
+.band-txt:focus{background:rgba(201,168,76,.07);border-radius:8px;}
+
+.swipe{
+  margin-top:26px;font-family:'Inter',sans-serif;font-weight:700;
+  font-size:23px;letter-spacing:7px;text-transform:uppercase;color:#8e8e8e;
+}
+
+.brand{
+  position:absolute;bottom:20px;left:0;right:0;text-align:center;
+  font-size:16px;letter-spacing:6px;text-transform:uppercase;color:#4a4a4a;
+}
+
+/* grain */
+.grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:9;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+
+/* ---- dernière slide : full noir ---- */
+.slide.final .photo{height:640px;}
+.slide.final .band-txt{font-size:60px;}
+
+@media print{
+  body{background:#fff;padding:0;gap:0;}
+  .help,.tag,.controls,h1{display:none;}
+  .slide{transform:none !important;page-break-after:always;margin-bottom:0 !important;}
+}
+</style>
+</head>
+<body>
+
+<h1>Générateur de Carrousel</h1>
+
+<div class="help">
+  <b>Mode d'emploi</b>
+  <ol>
+    <li>Génère tes images avec l'IA (prompts fournis par Claude)</li>
+    <li>Charge une image sous chaque slide</li>
+    <li>Le texte est déjà écrit — <b>touche-le pour le modifier</b></li>
+    <li>Capture d'écran de chaque slide → poste les 5 dans l'ordre</li>
+  </ol>
+  Format <b>1080 × 1350</b>. Réutilisable pour tous tes futurs carrousels.
+</div>
+
+<!-- ============ SLIDE 1 ============ -->
+<div class="tag">Slide 1 / 5</div>
+<div class="controls">
+  <label>Image slide 1 — bananes</label>
+  <input type="file" accept="image/*" data-target="img1">
+</div>
+<div class="slide">
+  <div class="grain"></div>
+  <div class="photo"><div class="placeholder" id="ph1">Charge<br>une image</div><img id="img1" style="display:none"></div>
+  <div class="divider"></div>
+  <div class="band">
+    <div class="band-txt" contenteditable="true">Si tu manges une banane avant d'aller dormir, le magnésium aide à détendre tes muscles et favorise un sommeil plus profond.</div>
+    <div class="swipe">Fais défiler</div>
+    <div class="brand">Menshift Code</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2 ============ -->
+<div class="tag">Slide 2 / 5</div>
+<div class="controls">
+  <label>Image slide 2 — cerises</label>
+  <input type="file" accept="image/*" data-target="img2">
+</div>
+<div class="slide">
+  <div class="grain"></div>
+  <div class="photo"><div class="placeholder" id="ph2">Charge<br>une image</div><img id="img2" style="display:none"></div>
+  <div class="divider"></div>
+  <div class="band">
+    <div class="band-txt" contenteditable="true">Si tu manges des cerises avant d'aller dormir, elles peuvent favoriser la mélatonine et t'aider à profiter d'un sommeil plus profond.</div>
+    <div class="swipe">Fais défiler</div>
+    <div class="brand">Menshift Code</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3 ============ -->
+<div class="tag">Slide 3 / 5</div>
+<div class="controls">
+  <label>Image slide 3 — pastèque</label>
+  <input type="file" accept="image/*" data-target="img3">
+</div>
+<div class="slide">
+  <div class="grain"></div>
+  <div class="photo"><div class="placeholder" id="ph3">Charge<br>une image</div><img id="img3" style="display:none"></div>
+  <div class="divider"></div>
+  <div class="band">
+    <div class="band-txt" contenteditable="true">Si tu manges de la pastèque avant d'aller dormir, tu aides ton corps à rester hydraté pendant toute la nuit.</div>
+    <div class="swipe">Fais défiler</div>
+    <div class="brand">Menshift Code</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4 ============ -->
+<div class="tag">Slide 4 / 5</div>
+<div class="controls">
+  <label>Image slide 4 — kiwi</label>
+  <input type="file" accept="image/*" data-target="img4">
+</div>
+<div class="slide">
+  <div class="grain"></div>
+  <div class="photo"><div class="placeholder" id="ph4">Charge<br>une image</div><img id="img4" style="display:none"></div>
+  <div class="divider"></div>
+  <div class="band">
+    <div class="band-txt" contenteditable="true">Si tu manges un kiwi avant d'aller dormir, tu peux t'endormir plus vite et te réveiller plus reposé le lendemain.</div>
+    <div class="swipe">Fais défiler</div>
+    <div class="brand">Menshift Code</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5 — CTA ============ -->
+<div class="tag">Slide 5 / 5 — le slide qui convertit</div>
+<div class="controls">
+  <label>Image slide 5 — les 4 fruits ensemble</label>
+  <input type="file" accept="image/*" data-target="img5">
+</div>
+<div class="slide final">
+  <div class="grain"></div>
+  <div class="photo"><div class="placeholder" id="ph5">Charge<br>une image</div><img id="img5" style="display:none"></div>
+  <div class="divider"></div>
+  <div class="band">
+    <div class="band-txt" contenteditable="true">Si tu ne me suis pas, tu ne me reverras plus jamais. Si tu me suis, alors bravo ! Tu apprends chaque jour 🤍</div>
+    <div class="brand">Menshift Code</div>
+  </div>
+</div>
+
+<script>
+// chargement des images
+document.querySelectorAll('input[type=file]').forEach(function(input){
+  input.addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    var id  = input.dataset.target;
+    var img = document.getElementById(id);
+    var ph  = document.getElementById('ph' + id.replace('img',''));
+    var url = URL.createObjectURL(file);
+    img.src = url;
+    img.style.display = 'block';
+    if(ph) ph.style.display = 'none';
+  });
+});
+
+// mise à l'échelle pour l'écran
+function fit(){
+  var w = Math.min(document.body.clientWidth - 24, 1080);
+  var s = w / 1080;
+  document.querySelectorAll('.slide').forEach(function(el){
+    el.style.transform = 'scale(' + s + ')';
+    el.style.marginBottom = (1350 * s - 1350) + 'px';
+  });
+}
+fit();
+window.addEventListener('resize', fit);
+</script>
+
+</body>
+</html>
