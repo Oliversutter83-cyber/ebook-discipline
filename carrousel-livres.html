@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carrousel — 5 Livres</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#1a1a1a;
+  font-family:'Inter',sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  padding:24px 12px 80px;
+}
+
+.help {
+  color:#888; font-size:13px; text-align:center; max-width:420px;
+  line-height:1.6; padding:16px; border:1px solid #333; border-radius:10px;
+}
+.help b { color:#C9A84C; }
+
+/* ---- SLIDE : format 1080x1350 (4:5) ---- */
+.slide {
+  width:1080px; height:1350px;
+  transform-origin: top center;
+  background:#080808;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:110px 90px;
+  flex:none;
+}
+
+/* grain */
+.slide::after{
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+/* halo doré */
+.slide::before{
+  content:''; position:absolute; top:-25%; left:50%; transform:translateX(-50%);
+  width:1200px; height:1200px; border-radius:50%;
+  background:radial-gradient(circle, rgba(201,168,76,.13) 0%, rgba(201,168,76,0) 62%);
+  pointer-events:none;
+}
+
+.corner{ position:absolute; width:78px; height:78px; opacity:.5; }
+.corner.tl{ top:52px; left:52px; border-top:2px solid #C9A84C; border-left:2px solid #C9A84C; }
+.corner.br{ bottom:52px; right:52px; border-bottom:2px solid #C9A84C; border-right:2px solid #C9A84C; }
+
+.inner{ position:relative; z-index:3; width:100%; text-align:center; }
+
+/* ---------- SLIDE 1 : HOOK ---------- */
+.kicker{
+  font-family:'Inter',sans-serif; font-size:24px; font-weight:700;
+  letter-spacing:8px; color:#C9A84C; text-transform:uppercase; margin-bottom:44px;
+}
+.hook{
+  font-family:'Bebas Neue',sans-serif; font-size:150px; line-height:.95;
+  color:#fff; letter-spacing:2px;
+}
+.hook em{ color:#C9A84C; font-style:normal; }
+.hook-sub{
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-size:52px;
+  color:#c9c9c9; margin-top:56px;
+}
+.rule{ width:150px; height:2px; background:#C9A84C; margin:56px auto; opacity:.85; }
+
+/* ---------- SLIDES LIVRES ---------- */
+.num{
+  font-family:'Bebas Neue',sans-serif; font-size:280px; line-height:.8;
+  color:rgba(201,168,76,.13); position:absolute; top:120px; left:50%;
+  transform:translateX(-50%); z-index:1; letter-spacing:4px;
+}
+.book-title{
+  font-family:'Bebas Neue',sans-serif; font-size:96px; line-height:1.02;
+  color:#fff; letter-spacing:2px; margin-bottom:14px;
+}
+.book-author{
+  font-family:'Inter',sans-serif; font-size:24px; font-weight:500;
+  letter-spacing:5px; text-transform:uppercase; color:#C9A84C; margin-bottom:60px;
+}
+.quote{
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300;
+  font-size:60px; line-height:1.38; color:#ededed;
+}
+.quote-mark{
+  font-family:'Cormorant Garamond',serif; font-size:170px; color:#C9A84C;
+  opacity:.32; line-height:.5; display:block; margin-bottom:26px;
+}
+.why{
+  margin-top:64px; font-family:'Inter',sans-serif; font-size:27px; line-height:1.6;
+  color:#8f8f8f; max-width:760px; margin-left:auto; margin-right:auto;
+}
+
+/* ---------- SLIDE FINAL ---------- */
+.cta-big{
+  font-family:'Bebas Neue',sans-serif; font-size:140px; line-height:.98;
+  color:#fff; letter-spacing:2px;
+}
+.cta-big span{ color:#C9A84C; }
+.cta-sub{
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-size:54px;
+  color:#c9c9c9; margin-top:44px; line-height:1.4;
+}
+.cta-follow{
+  margin-top:80px; display:inline-block; border:2px solid #C9A84C;
+  padding:26px 54px; border-radius:80px;
+  font-family:'Inter',sans-serif; font-weight:700; font-size:28px;
+  letter-spacing:3px; text-transform:uppercase; color:#C9A84C;
+}
+.brand{
+  position:absolute; bottom:64px; left:0; right:0; text-align:center; z-index:3;
+  font-family:'Inter',sans-serif; font-size:20px; letter-spacing:7px;
+  text-transform:uppercase; color:#5a5a5a;
+}
+
+.tag{
+  color:#C9A84C; font-family:'Inter',sans-serif; font-size:13px;
+  letter-spacing:3px; text-transform:uppercase;
+}
+
+@media print{
+  body{ background:#fff; padding:0; gap:0; }
+  .help,.tag{ display:none; }
+  .slide{ transform:none !important; page-break-after:always; }
+}
+</style>
+</head>
+<body>
+
+<div class="help">
+  <b>Comment l'utiliser</b><br>
+  Chaque bloc ci-dessous est une slide au format <b>1080 × 1350</b> (carrousel Instagram).<br>
+  Fais une <b>capture d'écran</b> de chaque slide, recadre, et poste les 7 dans l'ordre.<br>
+  Sur ordinateur : clic droit → <b>Imprimer → Enregistrer en PDF</b> pour tout exporter d'un coup.
+</div>
+
+<!-- ============ SLIDE 1 ============ -->
+<div class="tag">Slide 1 / 7 — Hook</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="inner">
+    <div class="kicker">Lecture</div>
+    <div class="hook">5 livres<br>qui vont<br>changer<br><em>ta vie</em></div>
+    <div class="rule"></div>
+    <div class="hook-sub">Le n°4 va te faire mal.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 2 ============ -->
+<div class="tag">Slide 2 / 7 — Atomic Habits</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="num">01</div>
+  <div class="inner">
+    <div class="book-title">Atomic Habits</div>
+    <div class="book-author">James Clear</div>
+    <span class="quote-mark">"</span>
+    <div class="quote">Tu ne montes pas au niveau<br>de tes objectifs.<br>Tu tombes au niveau<br>de tes systèmes.</div>
+    <div class="why">Arrête de viser gros. Construis un système si simple que tu ne peux pas le rater.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 3 ============ -->
+<div class="tag">Slide 3 / 7 — Can't Hurt Me</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="num">02</div>
+  <div class="inner">
+    <div class="book-title">Can't Hurt Me</div>
+    <div class="book-author">David Goggins</div>
+    <span class="quote-mark">"</span>
+    <div class="quote">Quand ton cerveau te dit stop,<br>tu n'es qu'à 40%<br>de tes capacités.</div>
+    <div class="why">La douleur n'est pas le signal d'arrêt. C'est le signal que tu entres enfin dans la zone où les autres abandonnent.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 4 ============ -->
+<div class="tag">Slide 4 / 7 — Deep Work</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="num">03</div>
+  <div class="inner">
+    <div class="book-title">Deep Work</div>
+    <div class="book-author">Cal Newport</div>
+    <span class="quote-mark">"</span>
+    <div class="quote">La concentration profonde<br>est devenue la compétence<br>la plus rare — donc<br>la plus précieuse.</div>
+    <div class="why">Pendant qu'ils scrollent 4h par jour, tu peux construire un empire avec 2h de vrai focus.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 5 ============ -->
+<div class="tag">Slide 5 / 7 — Père riche, père pauvre</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="num">04</div>
+  <div class="inner">
+    <div class="book-title">Père Riche<br>Père Pauvre</div>
+    <div class="book-author">Robert Kiyosaki</div>
+    <span class="quote-mark">"</span>
+    <div class="quote">Les pauvres travaillent<br>pour l'argent.<br>Les riches font travailler<br>l'argent pour eux.</div>
+    <div class="why">Personne ne t'a appris ça à l'école. Et ce n'était pas un oubli.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 6 ============ -->
+<div class="tag">Slide 6 / 7 — Les 48 Lois du Pouvoir</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="num">05</div>
+  <div class="inner">
+    <div class="book-title">Les 48 Lois<br>du Pouvoir</div>
+    <div class="book-author">Robert Greene</div>
+    <span class="quote-mark">"</span>
+    <div class="quote">Ne dis jamais<br>ce que tu vas faire.<br>Fais-le.</div>
+    <div class="why">Le silence est une arme. Travaille dans l'ombre, laisse les résultats parler.</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<!-- ============ SLIDE 7 ============ -->
+<div class="tag">Slide 7 / 7 — CTA</div>
+<div class="slide">
+  <div class="corner tl"></div><div class="corner br"></div>
+  <div class="inner">
+    <div class="cta-big">Sauvegarde<br><span>ce post.</span></div>
+    <div class="rule"></div>
+    <div class="cta-sub">Tu vas en avoir besoin<br>le jour où tu décideras<br>d'arrêter de subir.</div>
+    <div class="cta-follow">Suis-moi — je poste ça chaque jour</div>
+  </div>
+  <div class="brand">Menshift Code</div>
+</div>
+
+<script>
+// adapte l'échelle des slides à la largeur de l'écran (pour screenshot mobile)
+function fit(){
+  var w = Math.min(document.body.clientWidth - 24, 1080);
+  var s = w / 1080;
+  document.querySelectorAll('.slide').forEach(function(el){
+    el.style.transform = 'scale(' + s + ')';
+    el.style.marginBottom = (1350 * s - 1350) + 'px';
+  });
+}
+fit(); window.addEventListener('resize', fit);
+</script>
+
+</body>
+</html>
